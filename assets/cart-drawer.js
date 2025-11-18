@@ -7,26 +7,22 @@ class CartDrawer extends HTMLElement {
     this.setHeaderCartIconAccessibility();
   }
 
- setHeaderCartIconAccessibility() {
-    const cartLinks = document.querySelectorAll('#cart-icon-bubble');
-    // KT updates - start
-    cartLinks.forEach((cartLink) => {
-      if (!cartLink) return;
-  
-      cartLink.setAttribute('role', 'button');
-      cartLink.setAttribute('aria-haspopup', 'dialog');
-      cartLink.addEventListener('click', (event) => {
+  setHeaderCartIconAccessibility() {
+    const cartLink = document.querySelector('#cart-icon-bubble');
+    if (!cartLink) return;
+
+    cartLink.setAttribute('role', 'button');
+    cartLink.setAttribute('aria-haspopup', 'dialog');
+    cartLink.addEventListener('click', (event) => {
+      event.preventDefault();
+      this.open(cartLink);
+    });
+    cartLink.addEventListener('keydown', (event) => {
+      if (event.code.toUpperCase() === 'SPACE') {
         event.preventDefault();
         this.open(cartLink);
-      });
-      cartLink.addEventListener('keydown', (event) => {
-        if (event.code.toUpperCase() === 'SPACE') {
-          event.preventDefault();
-          this.open(cartLink);
-        }
-      });
+      }
     });
-    // KT updates - end
   }
 
   open(triggeredBy) {
