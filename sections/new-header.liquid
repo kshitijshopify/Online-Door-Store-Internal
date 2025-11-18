@@ -1,0 +1,1379 @@
+
+{% assign section_id = section.id | handle %}
+
+{% comment %} Style for Desktop Header {% endcomment %}
+{% style %}
+  header.cst-header {
+    position: sticky;
+    top: 0;
+  }
+  #{{ section_id }} {
+    background-color: #fff;
+  }
+  #{{ section_id }} .cst-container {}
+  #{{ section_id }} .cst-header-desk {
+    position: relative;
+    z-index: 10;
+  }
+  #{{ section_id }} .cst-header-desk .cst-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    padding-inline: 228px;
+  }
+  #{{ section_id }} .cst-header-desk .cst-logo-search-row {
+    padding-block: 16px 8px;
+    position: relative;
+  }
+  #{{ section_id }} .cst-header-desk .cst-logo-container {
+    flex: 1;
+    max-width: 316px;
+    display: flex;
+  }
+  #{{ section_id }} .cst-header-desk.cst-logo-link {
+    display: flex;
+    text-decoration: none;
+  }
+  #{{ section_id }} .cst-header-desk .cst-logo-img {
+    width: 100%;
+    height: 55px;
+    object-fit: cover;
+  }
+  #{{ section_id }} .cst-header-desk .cst-search-container {
+    flex: 1;
+    max-width: 546px;
+    min-width: 340px;
+    display: flex;
+    position: relative;
+  }
+  #{{ section_id }} .cst-header-desk .cst-search-form {
+    display: flex;
+    width: 100%;
+  }
+  #{{ section_id }} .cst-header-desk .cst-search-box {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    border-bottom: 1px solid #212133;
+  }
+  #{{ section_id }} .cst-header-desk .cst-search-input {
+    display: flex;
+    height: 100%;
+    flex: 1;
+    padding: 0;
+    padding-left: 12px;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #{{ section_id }} .cst-header-desk .cst-search-input::placeholder {
+    display: block;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+  #{{ section_id }} .cst-header-desk .cst-search-input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+  }
+  #{{ section_id }} .cst-header-desk .cst-search-btn {
+    display: flex;
+    width: 32px;
+    height: 32px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    cursor: pointer;
+  }
+  #{{ section_id }} .cst-header-desk .cst-user-info {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    max-width: 316px;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 0%;
+  }
+  #{{ section_id }} .cst-header-desk .cst-number {
+    white-space: nowrap;
+    text-decoration: none;
+    color: inherit;
+  }
+  #{{ section_id }} .cst-header-desk .cst-conact-link-text {
+    font-weight: 400;
+  }
+  #{{ section_id }} .cst-header-desk .cst-conact-link {
+    color: inherit;
+  }
+  #{{ section_id }} .cst-header-desk .cst-account-info {
+    width: 20px;
+    height: 20px;
+    display: flex;
+  }
+  #{{ section_id }} .cst-header-desk .cst-account-link {
+    display: flex;
+    text-decoration: none;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    color: inherit;
+  }
+  #{{ section_id }} .cst-header-desk .cst-cart-info {
+    display: flex;
+  }
+  #{{ section_id }} .cst-header-desk .cst-cart-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+  }
+  #{{ section_id }} .cst-header-desk .cst-cart-icon {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    width: 20px;
+    height: 20px;
+    position: relative;
+  }
+  #{{ section_id }} .cst-header-desk .cst-cart-badge {
+    position: absolute;
+    top: -3px;
+    right: -2px;
+    left: auto;
+    bottom: auto;
+    background-color: #F22E62;
+    min-width: 8px;
+    min-height: 8px;
+    border-radius: 50%;
+    font-size: 11px;
+    line-height: 100%;
+    height: fit-content;
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+  }
+  #{{ section_id }} .cst-header-desk .cst-cart-total {
+    line-height: 15px;
+  }
+
+  /* Navbar */
+  #{{ section_id }} .cst-header-desk .cst-navigation-row {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding-block: 12px;
+    height: 72px;
+    overflow-x: clip;
+  }
+  #{{ section_id }} .cst-header-desk .cst-menu-container {
+    flex: 1;
+    min-width: 200px;
+    overflow-x: clip;
+  }
+  #{{ section_id }} .cst-header-desk .cst-navbar {
+    position: relative;
+    overflow: visible;
+  }
+  #{{ section_id }} .cst-header-desk .cst-menu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  #{{ section_id }} .cst-header-desk .cst-menu-item {
+    position: relative;
+    width: fit-content;
+  }
+  #{{ section_id }} .cst-header-desk .cst-menu-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: #212133;
+    text-decoration: none;
+    font-size: 15px;
+    line-height: 20px;
+    letter-spacing: 5%;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  #{{ section_id }} .cst-header-desk .cst-menu-link:hover {
+    color: #30309F;
+  }
+
+  /* Dropdown */
+  #{{ section_id }} .cst-header-desk .cst-dropdown,
+  #{{ section_id }} .cst-header-desk .cst-submenu {
+    list-style: none;
+    padding: 10px 0 0 0;
+    margin: 0;
+    position: absolute;
+    background: #fff;
+    min-width: 160px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    display: none;
+    z-index: 99;
+  }
+
+  #{{ section_id }} .cst-header-desk .cst-dropdown-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    color: #212133;
+    text-decoration: none;
+    font-size: 15px;
+    line-height: 20px;
+    letter-spacing: 5%;
+    font-weight: 600;
+    text-transform: uppercase;
+    padding-inline: 10px;
+    padding-block: 10px;
+  }
+
+  #{{ section_id }} .cst-header-desk .cst-dropdown-link:hover {
+    background: #f5f5f5;
+    color: #30309F;
+  }
+  #{{ section_id }} .cst-header-desk .cst-dropdown-icon {
+    display: flex;
+    width: 11px;
+    height: 11px;
+    justify-content: center;
+    align-items: center;
+  }
+  #{{ section_id }} .cst-header-desk .cst-dropdown-icon svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+
+  /* Hover for desktop */
+  @media (hover: hover) {
+    #{{ section_id }} .cst-header-desk .cst-menu-item:hover > .cst-dropdown {
+      display: block;
+    }
+
+    #{{ section_id }} .cst-header-desk  .cst-dropdown-item:hover > .cst-submenu {
+      display: block;
+      left: 100%;
+      top: 0;
+    }
+  }
+
+  #{{ section_id }} .cst-header-desk .cst-link-btn {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-inline: 16px;
+    height: 48px;
+    text-wrap: nowrap;
+    white-space: nowrap;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 18px;
+    text-transform: uppercase;
+    letter-spacing: 5%;
+    transition: all 0.4s;
+    box-sizing: border-box;
+  }
+  #{{ section_id }} .cst-header-desk .cst-link-btn-outline,
+  #{{ section_id }} .cst-header-desk .cst-link-btn-fill:hover {
+    color: #212133;
+    background: transparent;
+    border: 1px solid #212133;
+  }
+  #{{ section_id }} .cst-header-desk .cst-link-btn-fill,
+  #{{ section_id }} .cst-header-desk .cst-link-btn-outline:hover {
+    color: #fff;
+    background-color: #30309F;
+    border: 1px solid #30309F;
+  }
+
+  @media(max-width: 1440px) {
+    #{{ section_id }} .cst-header-desk .cst-row {
+      padding-inline: 32px;
+    }
+    #{{ section_id }} .cst-header-desk .cst-user-info {
+      gap: 24px;
+    }
+  }
+  @media(max-width: 1024px) {
+    #{{ section_id }} .cst-header-desk .cst-search-container {
+      min-width: 220px;
+    }
+    #{{ section_id }} .cst-header-desk .cst-cart-link {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+  @media(max-width: 768px) {
+    #{{ section_id }} .cst-header-desk {
+      display: none;
+    }
+  }
+{% endstyle %}
+
+{% comment %} Style for Mobile Header {% endcomment %}
+{%style %}
+  #{{ section_id }} .cst-header-mobile {
+    display: none;
+    background-color: #fff;
+    position: relative;
+    z-index: 99999999999999;
+  }
+  #{{ section_id }} .cst-header-mobile .cst-logo-menu-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 16px;
+    padding-block: 8px;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.15);
+    position: sticky;
+    top: 0;
+  }
+  #{{ section_id }} .cst-header-mobile .cst-box .cst-icon-text,
+  #{{ section_id }} .cst-header-mobile .cst-box .cst-cart-link {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: 48px;
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #212133;
+  }
+  #{{ section_id }} .cst-header-mobile .cst-icon-text .cst-icon,
+  #{{ section_id }} .cst-header-mobile .cst-cart-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+    height: 20px;
+    position: relative;
+  }
+  #{{ section_id }} .cst-header-mobile .cst-cart-icon .cst-cart-badge {
+    position: absolute;
+    top: -3px;
+    right: -4px;
+    left: auto;
+    bottom: auto;
+    background-color: #F22E62;
+    min-width: 8px;
+    min-height: 8px;
+    border-radius: 50%;
+    font-size: 10px;
+    line-height: 100%;
+    height: 15px;
+    width: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #{{ section_id }} .cst-header-mobile .cst-icon-text .cst-text,
+  #{{ section_id }} .cst-header-mobile .cst-cart-total {
+    font-size: 11px;
+    line-height: 18px;
+    font-weight: 500;
+    letter-spacing: 0%;
+    text-align: center;
+  }
+  #{{ section_id }} .cst-header-mobile .cst-logo-link {
+    text-decoration: none;
+    display: flex;
+    box-sizing: border-box;
+  }
+ 
+  /* ============ Drawer Base ============ */
+  #{{ section_id }} .cst-header-mobile .cst-menu-container {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    background: #fff;
+    width: 80%;
+    max-width: 320px;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1001;
+    transition: left 0.35s ease;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.15);
+    padding: 60px 20px 20px;
+  }
+  #{{ section_id }}.drawer-open .cst-header-mobile .cst-menu-container {
+    left: 0;
+  }
+  #{{ section_id }} .cst-header-mobile .cst-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s ease;
+  }
+  #{{ section_id }}.drawer-open .cst-header-mobile .cst-overlay {
+    opacity: 1;
+    visibility: visible;
+  }
+  body.drawer-open { overflow: hidden; }
+
+  /* ============ Close Button ============ */
+  #{{ section_id }} .cst-header-mobile .cst-close-btn {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 32px;
+    line-height: 1;
+    cursor: pointer;
+    color: #222;
+    transition: transform 0.2s ease;
+  }
+  #{{ section_id }} .cst-header-mobile .cst-close-btn:hover {
+    transform: rotate(90deg);
+  }
+
+  /* ============ Menu ============ */
+  #{{ section_id }} .cst-header-mobile .cst-menu,
+  #{{ section_id }} .cst-header-mobile .cst-dropdown,
+  #{{ section_id }} .cst-header-mobile .cst-submenu {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Top-level links */
+  #{{ section_id }} .cst-header-mobile .cst-menu-link,
+  #{{ section_id }} .cst-header-mobile .cst-dropdown-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-decoration: none;
+    color: #222;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 14px 0;
+    border-bottom: 1px solid #f3f3f3;
+    transition: color 0.3s ease;
+  }
+  #{{ section_id }} .cst-header-mobile .cst-menu-link:hover,
+  #{{ section_id }} .cst-header-mobile .cst-dropdown-link:hover {
+    color: #30309f;
+  }
+
+  /* Dropdown icon */
+  #{{ section_id }} .cst-header-mobile .cst-dropdown-icon {
+    font-size: 18px;
+    color: #555;
+    transition: transform 0.3s ease;
+  }
+  #{{ section_id }} .cst-header-mobile .cst-menu-item.active > .cst-menu-link .cst-dropdown-icon,
+  #{{ section_id }} .cst-header-mobile .cst-menu-item.active > .cst-dropdown-link .cst-dropdown-icon {
+    transform: rotate(45deg);
+  }
+
+  /* Dropdown container */
+  #{{ section_id }} .cst-header-mobile .cst-dropdown,
+  #{{ section_id }} .cst-header-mobile .cst-submenu {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.35s ease;
+    padding-left: 15px;
+  }
+  #{{ section_id }} .cst-header-mobile .cst-menu-item.active > .cst-dropdown,
+  #{{ section_id }} .cst-header-mobile .cst-menu-item.active > .cst-submenu {
+    max-height: 800px;
+    opacity: 1;
+  }
+
+  /* Second-level dropdown links */
+  #{{ section_id }} .cst-header-mobile .cst-dropdown-link {
+    font-size: 14px;
+    color: #444;
+    padding: 12px 0;
+    border-bottom: none;
+  }
+  #{{ section_id }} .cst-header-mobile .cst-submenu .cst-dropdown-link {
+    font-size: 13.5px;
+    color: #555;
+    padding: 10px 0;
+  }
+
+  /* Indentation for levels */
+  #{{ section_id }} .cst-header-mobile .cst-dropdown { border-left: 2px solid #eee; }
+  #{{ section_id }} .cst-header-mobile .cst-submenu { border-left: 2px dashed #eee; }
+
+  /* Desktop disable drawer */
+  @media (min-width: 769px) {
+    #{{ section_id }} .cst-header-mobile .cst-mobile-toggle { display: none; }
+    #{{ section_id }} .cst-header-mobile .cst-menu-container { position: static; width: auto; height: auto; overflow: visible; box-shadow: none; padding: 0; }
+    #{{ section_id }} .cst-header-mobile .cst-overlay { display: none; }
+  }
+
+  /* ============ VAT Toggle ============ */
+  #{{ section_id }} .cst-header-mobile .cst-vat-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  #{{ section_id }} .cst-header-mobile .cst-vat-toggler {
+    position: relative;
+    display: inline-block;
+    width: 28px;
+    height: 15px;
+  }
+
+  #{{ section_id }} .cst-header-mobile .cst-vat-toggler input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  #{{ section_id }} .cst-header-mobile .cst-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #30309F;
+    border-radius: 50px;
+    transition: 0.3s ease;
+  }
+
+  #{{ section_id }} .cst-header-mobile .cst-slider::before {
+    position: absolute;
+    content: "";
+    height: 13px;
+    width: 13px;
+    left: 1px;
+    top: 1px;
+    background-color: #FFF;
+    border-radius: 50%;
+    transition: 0.3s ease;
+  }
+
+  #{{ section_id }} .cst-header-mobile .cst-vat-toggler input:checked + .cst-slider::before {
+    transform: translateX(13px);
+  }
+  #{{ section_id }} .cst-header-mobile .cst-search-container {
+    display: flex;
+    padding-inline: 16px;
+    padding-bottom: 8px;
+  }
+  #{{ section_id }} .cst-header-mobile .cst-search-form {
+    width: 100%;
+  }
+  #{{ section_id }} .cst-header-mobile .cst-search-box {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    width: 100%;
+    border-bottom: 1px solid #212133;
+  }
+  #{{ section_id }} .cst-header-mobile .cst-search-input {
+    display: flex;
+    height: 100%;
+    flex: 1;
+    padding: 0;
+    padding-left: 12px;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0%;
+  }
+  #{{ section_id }} .cst-header-mobile .cst-search-input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
+  }
+  #{{ section_id }} .cst-header-mobile .cst-search-btn {
+    display: flex;
+    width: 32px;
+    height: 32px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  @media(max-width: 768px) {
+    #{{ section_id }} .cst-header-mobile {
+      display: block;
+    }
+  }
+
+  /* Last bottom Row - Shop Features */
+  #{{ section_id }} .cst-row-bottom {
+    display: flex;
+    align-items: center;
+    padding-inline: 228px;
+    padding-block: 12px;
+    background-color: #F1F1F9;
+  }
+  #{{ section_id }} .cst-row-bottom .swiper-wrapper {
+    align-items: center;
+  }
+  #{{ section_id }} .cst-row-bottom .swiper-wrapper .swiper-slide {
+    width: fit-content;
+  }
+
+  #{{ section_id }} .cst-features-swiper .cst-box {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: fit-content;
+  }
+  #{{ section_id }} .cst-features-swiper .cst-divider {
+    display: block;
+    width: 1px;
+    height: 25px;
+    background-color: #D5D5E5;
+  }
+  #{{ section_id }} .cst-features-swiper .cst-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 16px;
+  }
+  #{{ section_id }} .cst-features-swiper .cst-text {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+    text-transform: capitalize;
+  }
+  .cst-review-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  @media(max-width: 1440px) {
+    #{{ section_id }} .cst-row-bottom  {
+      padding-inline: 32px;
+    }
+  }
+  @media(max-width: 768px) {
+    #{{ section_id }} .cst-row-bottom  {
+      padding-inline: 16px;
+    }
+    #{{ section_id }} .cst-row-bottom .swiper-slide:has(.cst-divider) {
+      display: none;
+    }
+  }
+
+  /* ------------------------------
+   MAIN CONTAINER
+--------------------------------*/
+#{{ section_id }} .cst-search-container {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ------------------------------
+   PREDICTIVE SEARCH DROPDOWN
+--------------------------------*/
+#{{ section_id }} .cst-search-results {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+  background: #FFFFFF;
+  border: 1px solid #30309F;
+  border-radius: 10px;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: 
+    max-height 0.35s ease,
+    opacity 0.25s ease,
+    visibility 0.25s ease;
+  z-index: 9999;
+}
+
+/* Active dropdown */
+#{{ section_id }} .cst-search-results.active {
+  max-height: 400px;
+  opacity: 1;
+  visibility: visible;
+  overflow-y: auto;
+}
+
+/* Scrollbar */
+#{{ section_id }} .cst-search-results::-webkit-scrollbar {
+  width: 6px;
+}
+#{{ section_id }} .cst-search-results::-webkit-scrollbar-thumb {
+  background: #30309F;
+  border-radius: 3px;
+}
+
+/* ------------------------------
+   GROUP TITLES
+--------------------------------*/
+#{{ section_id }} .cst-search-group {
+  padding: 12px 16px 6px 16px;
+}
+
+#{{ section_id }} .cst-search-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #30309F;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+/* ------------------------------
+   RESULT ROWS
+--------------------------------*/
+#{{ section_id }} .cst-search-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  text-decoration: none;
+  color: #212133;
+  background: white;
+  transition: background 0.2s ease, padding-left 0.2s ease;
+}
+
+#{{ section_id }} .cst-search-item:hover {
+  background: rgba(48, 48, 159, 0.10);
+  padding-left: 20px;
+}
+
+#{{ section_id }} .cst-search-item img {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+/* ------------------------------
+   VIEW ALL BUTTON
+--------------------------------*/
+#{{ section_id }} .cst-search-view-all {
+  display: block;
+  margin: 12px 16px;
+  padding: 12px 0;
+  text-align: center;
+  font-weight: 600;
+  text-decoration: none;
+  background: #30309F;
+  color: #FFFFFF;
+  border-radius: 6px;
+  transition: background 0.25s ease;
+}
+
+#{{ section_id }} .cst-search-view-all:hover {
+  background: #212133;
+}
+
+/* ------------------------------
+   NO RESULTS
+--------------------------------*/
+#{{ section_id }} .cst-search-no-results {
+  padding: 18px;
+  text-align: center;
+  color: #212133;
+  opacity: 0.7;
+  font-size: 15px;
+}
+
+
+{% endstyle %}
+
+<section id="{{ section_id }}">
+    <div class="cst-container">
+        {% comment %} Desktop Header {% endcomment %}
+        <div class="cst-header-desk">
+            <div class="cst-row cst-logo-search-row">
+                {% if section.settings.logo != blank %}
+                    <div class="cst-logo-container">
+                      <a href="{{ routes.root_url }}" class="cst-logo-link">
+                        <img
+                            src="{{ section.settings.logo | img_url: 'original' }}"
+                            alt=""
+                            loading="lazy"
+                            decoding="async"
+                            width="100%"
+                            height="100%"
+                            class="cst-logo-desk"
+                        />
+                      </a>
+                    </div>
+                {% endif %}
+                <div class="cst-search-container">
+                  <form action="{{ routes.search_url }}" method="get" role="search" class="cst-search-form">
+                    <div class="cst-search-box">
+                        <input type="search" name="q" class="cst-search-input" placeholder="Search thousands of door designs..." autocomplete="off" data-cst-search-input>
+                        <button type="submit" class="cst-search-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="currentColor">
+                                <path d="M20.5 15.0625C20.5 12.8828 19.3047 10.8438 17.4062 9.71875C15.4727 8.62891 13.1172 8.62891 11.2188 9.71875C9.28516 10.8438 8.125 12.8828 8.125 15.0625C8.125 17.2773 9.28516 19.3164 11.2188 20.4414C13.1172 21.5312 15.4727 21.5312 17.4062 20.4414C19.3047 19.3164 20.5 17.2773 20.5 15.0625ZM19.0586 20.6172C17.793 21.7422 16.1055 22.375 14.3125 22.375C10.2695 22.375 7 19.1055 7 15.0625C7 11.0547 10.2695 7.75 14.3125 7.75C18.3203 7.75 21.625 11.0547 21.625 15.0625C21.625 16.8906 20.957 18.543 19.8672 19.8438L24.8242 24.8008C25.0352 25.0117 25.0352 25.3984 24.8242 25.6094C24.6133 25.8203 24.2266 25.8203 24.0156 25.6094L19.0586 20.6172Z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                    </div>
+                  </form>
+                  <div class="cst-search-results" data-cst-search-results></div>
+                </div>
+                <div class="cst-user-info">
+                    <div class="cst-contact-info">
+                        <a href="tel:0208 158 6700" class="cst-number">Call: 0208 158 6700</a>
+                        <div class="cst-conact-link-text">or <a href="tel:0208 158 6700" class="cst-conact-link" aria-label="contanct us">Contact Us</a></div>
+                    </div>
+                    <div class="cst-account-info">
+                        <a href="{{ routes.account_profile_url }}" class="cst-account-link">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="19" viewBox="0 0 16 19" fill="currentColor">
+                                <path d="M11.25 4.67578C11.25 3.48047 10.582 2.39062 9.5625 1.75781C8.50781 1.16016 7.20703 1.16016 6.1875 1.75781C5.13281 2.39062 4.5 3.48047 4.5 4.67578C4.5 5.90625 5.13281 6.99609 6.1875 7.62891C7.20703 8.22656 8.50781 8.22656 9.5625 7.62891C10.582 6.99609 11.25 5.90625 11.25 4.67578ZM3.375 4.67578C3.375 3.09375 4.21875 1.61719 5.625 0.808594C6.99609 0 8.71875 0 10.125 0.808594C11.4961 1.61719 12.375 3.09375 12.375 4.67578C12.375 6.29297 11.4961 7.76953 10.125 8.57812C8.71875 9.38672 6.99609 9.38672 5.625 8.57812C4.21875 7.76953 3.375 6.29297 3.375 4.67578ZM1.125 17.0508H14.625C14.5547 14.2734 12.2695 11.9883 9.45703 11.9883H6.25781C3.44531 11.9883 1.16016 14.2734 1.125 17.0508ZM0 17.1562C0 13.6758 2.77734 10.8633 6.25781 10.8633H9.45703C12.9375 10.8633 15.75 13.6758 15.75 17.1562C15.75 17.7188 15.2578 18.1758 14.6953 18.1758H1.01953C0.457031 18.1758 0 17.7188 0 17.1562Z" fill="currentColor"/>
+                            </svg>
+                        </a>
+                    </div>
+                    <div class="cst-cart-info">
+                        <a href="{{ routes.cart_url }}" class="cst-cart-link" id="cart-icon-bubble">
+                            <span class="cst-cart-icon">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="21" height="19" viewBox="0 0 21 19" fill="currentColor">
+                                  <path d="M0.5625 0H1.86328C2.60156 0 3.23438 0.457031 3.48047 1.125H18.9492C19.6875 1.125 20.2148 1.82812 20.0391 2.53125L18.5625 8.4375C18.3164 9.42188 17.4375 10.125 16.3828 10.125H5.34375L5.58984 11.4961C5.69531 12.0234 6.1875 12.375 6.71484 12.375H17.4375C17.7188 12.375 18 12.6562 18 12.9375C18 13.2539 17.7188 13.5 17.4375 13.5H6.71484C5.625 13.5 4.71094 12.7617 4.5 11.707L2.42578 1.58203C2.39062 1.33594 2.14453 1.125 1.86328 1.125H0.5625C0.246094 1.125 0 0.878906 0 0.5625C0 0.28125 0.246094 0 0.5625 0ZM3.72656 2.25L5.09766 9H16.3828C16.9102 9 17.3672 8.64844 17.4727 8.15625L18.9492 2.25H3.72656ZM5.90625 16.0312C5.90625 16.5234 6.25781 16.875 6.75 16.875C7.20703 16.875 7.59375 16.5234 7.59375 16.0312C7.59375 15.5742 7.20703 15.1875 6.75 15.1875C6.25781 15.1875 5.90625 15.5742 5.90625 16.0312ZM8.71875 16.0312C8.71875 16.7695 8.33203 17.4023 7.73438 17.7539C7.10156 18.1055 6.36328 18.1055 5.76562 17.7539C5.13281 17.4023 4.78125 16.7695 4.78125 16.0312C4.78125 15.3281 5.13281 14.6953 5.76562 14.3438C6.36328 13.9922 7.10156 13.9922 7.73438 14.3438C8.33203 14.6953 8.71875 15.3281 8.71875 16.0312ZM15.75 15.1875C15.2578 15.1875 14.9062 15.5742 14.9062 16.0312C14.9062 16.5234 15.2578 16.875 15.75 16.875C16.207 16.875 16.5938 16.5234 16.5938 16.0312C16.5938 15.5742 16.207 15.1875 15.75 15.1875ZM15.75 18C15.0117 18 14.3789 17.6484 14.0273 17.0156C13.6758 16.418 13.6758 15.6797 14.0273 15.0469C14.3789 14.4492 15.0117 14.0625 15.75 14.0625C16.4531 14.0625 17.0859 14.4492 17.4375 15.0469C17.7891 15.6797 17.7891 16.418 17.4375 17.0156C17.0859 17.6484 16.4531 18 15.75 18Z" fill="currentColor"/>
+                              </svg>
+                              {% comment %} <div class="cart-count-bubble cst-cart-badge">
+                                {%- if cart.item_count < 100 -%}
+                                  <span aria-hidden="true" class="">
+                                    {% if cart.item_count > 0 %} {{ cart.item_count }} {% endif %}
+                                  </span>
+                                {%- endif -%}
+                                <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+                              </div> {% endcomment %}
+                            </span>
+                            <span class="cst-cart-total">
+                              {% if cart.original_total_price > 0 %}
+                                {{ cart.original_total_price | money }}
+                              {% else %}
+                                {{ 00 | money }}
+                              {% endif %}
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% if section.settings.menu != blank %}
+              <div class="cst-row cst-navigation-row">
+                <div class="cst-menu-container">
+                  <nav class="cst-navbar swiper">
+                    <ul class="cst-menu swiper-wrapper">
+                      {% for link in section.settings.menu.links %}
+                        <li class="cst-menu-item swiper-slide {% if link.links.size > 0 %}has-dropdown{% endif %}">
+                          <a href="{{ link.url }}" class="cst-menu-link">
+                            <span>{{ link.title }}</span>
+                            {% if link.links.size > 0 %}
+                              <span class="cst-dropdown-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" fill="currentColor">
+                                  <path d="M4.4043 5.37109L0.279297 1.24609C0 0.988281 0 0.537109 0.279297 0.279297C0.537109 0 0.988281 0 1.24609 0.279297L4.89844 3.91016L8.5293 0.279297C8.78711 0 9.23828 0 9.49609 0.279297C9.77539 0.537109 9.77539 0.988281 9.49609 1.24609L5.37109 5.37109C5.11328 5.65039 4.66211 5.65039 4.4043 5.37109Z" fill="currentColor"/>
+                                </svg>
+                              </span>
+                            {% endif %}
+                          </a>
+
+                          {% if link.links.size > 0 %}
+                            <ul class="cst-dropdown">
+                              {% for sub_link in link.links %}
+                                <li class="cst-dropdown-item {% if sub_link.links.size > 0 %}has-submenu{% endif %}">
+                                  <a href="{{ sub_link.url }}" class="cst-dropdown-link">
+                                    <span>{{ sub_link.title }}</span>
+                                    {% if sub_link.links.size > 0 %}
+                                      <span class="cst-dropdown-icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" fill="currentColor">
+                                          <path d="M4.4043 5.37109L0.279297 1.24609C0 0.988281 0 0.537109 0.279297 0.279297C0.537109 0 0.988281 0 1.24609 0.279297L4.89844 3.91016L8.5293 0.279297C8.78711 0 9.23828 0 9.49609 0.279297C9.77539 0.537109 9.77539 0.988281 9.49609 1.24609L5.37109 5.37109C5.11328 5.65039 4.66211 5.65039 4.4043 5.37109Z" fill="currentColor"/>
+                                        </svg>
+                                      </span>
+                                    {% endif %}
+                                  </a>
+
+                                  {% if sub_link.links.size > 0 %}
+                                    <ul class="cst-submenu">
+                                      {% for third_link in sub_link.links %}
+                                        <li><a href="{{ third_link.url }}" class="cst-dropdown-link">{{ third_link.title }}</a></li>
+                                      {% endfor %}
+                                    </ul>
+                                  {% endif %}
+                                </li>
+                              {% endfor %}
+                            </ul>
+                          {% endif %}
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  </nav>
+                </div>
+                <div class="cst-link-container">
+                  <a class="cst-link-btn cst-link-btn-fill">Find the perfect door</a>
+                </div>
+              </div>
+            {% endif %}
+        </div>
+        {% comment %} Mobile Header {% endcomment %}
+        <div class="cst-header-mobile">
+          <div class="cst-row cst-logo-menu-row">
+            <div class="cst-box">
+
+              <!-- Mobile Toggle -->
+              <div class="cst-icon-text cst-mobile-toggle" role="button" tabindex="0">
+                <span class="cst-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 18 14" fill="currentColor">
+                    <path d="M0 0.625C0 0.3125 0.273438 0 0.625 0H16.875C17.1875 0 17.5 0.3125 17.5 0.625C17.5 0.976562 17.1875 1.25 16.875 1.25H0.625C0.273438 1.25 0 0.976562 0 0.625ZM0 6.875C0 6.5625 0.273438 6.25 0.625 6.25H16.875C17.1875 6.25 17.5 6.5625 17.5 6.875C17.5 7.22656 17.1875 7.5 16.875 7.5H0.625C0.273438 7.5 0 7.22656 0 6.875ZM17.5 13.125C17.5 13.4766 17.1875 13.75 16.875 13.75H0.625C0.273438 13.75 0 13.4766 0 13.125C0 12.8125 0.273438 12.5 0.625 12.5H16.875C17.1875 12.5 17.5 12.8125 17.5 13.125Z"/>
+                  </svg>
+                </span>
+                <span class="cst-text">Menu</span>
+              </div>
+
+              <!-- Overlay -->
+              <div class="cst-overlay"></div>
+
+              <!-- Drawer -->
+              <div class="cst-menu-container">
+                <button class="cst-close-btn" aria-label="Close Menu">&times;</button>
+                <nav class="cst-navbar">
+                  <ul class="cst-menu">
+                    {% for link in section.settings.menu.links %}
+                      <li class="cst-menu-item {% if link.links.size > 0 %}has-dropdown{% endif %}">
+                        <a href="{{ link.url }}" class="cst-menu-link">
+                          {{ link.title }}
+                          {% if link.links.size > 0 %}
+                            <span class="cst-dropdown-icon">+</span>
+                          {% endif %}
+                        </a>
+
+                        {% if link.links.size > 0 %}
+                          <ul class="cst-dropdown">
+                            {% for sub_link in link.links %}
+                              <li class="cst-menu-item {% if sub_link.links.size > 0 %}has-dropdown{% endif %}">
+                                <a href="{{ sub_link.url }}" class="cst-dropdown-link">
+                                  {{ sub_link.title }}
+                                  {% if sub_link.links.size > 0 %}
+                                    <span class="cst-dropdown-icon">+</span>
+                                  {% endif %}
+                                </a>
+
+                                {% if sub_link.links.size > 0 %}
+                                  <ul class="cst-submenu">
+                                    {% for third_link in sub_link.links %}
+                                      <li><a href="{{ third_link.url }}" class="cst-dropdown-link">{{ third_link.title }}</a></li>
+                                    {% endfor %}
+                                  </ul>
+                                {% endif %}
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        {% endif %}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </nav>
+              </div>
+            </div>
+            <div class="cst-box">
+              <a href="{{ routes.account_profile_url }}" class="cst-icon-text">
+                <span class="cst-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="21" viewBox="0 0 18 21" fill="currentColor">
+                    <path d="M12.5 5.19531C12.5 3.86719 11.7578 2.65625 10.625 1.95312C9.45312 1.28906 8.00781 1.28906 6.875 1.95312C5.70312 2.65625 5 3.86719 5 5.19531C5 6.5625 5.70312 7.77344 6.875 8.47656C8.00781 9.14062 9.45312 9.14062 10.625 8.47656C11.7578 7.77344 12.5 6.5625 12.5 5.19531ZM3.75 5.19531C3.75 3.4375 4.6875 1.79688 6.25 0.898438C7.77344 0 9.6875 0 11.25 0.898438C12.7734 1.79688 13.75 3.4375 13.75 5.19531C13.75 6.99219 12.7734 8.63281 11.25 9.53125C9.6875 10.4297 7.77344 10.4297 6.25 9.53125C4.6875 8.63281 3.75 6.99219 3.75 5.19531ZM1.25 18.9453H16.25C16.1719 15.8594 13.6328 13.3203 10.5078 13.3203H6.95312C3.82812 13.3203 1.28906 15.8594 1.25 18.9453ZM0 19.0625C0 15.1953 3.08594 12.0703 6.95312 12.0703H10.5078C14.375 12.0703 17.5 15.1953 17.5 19.0625C17.5 19.6875 16.9531 20.1953 16.3281 20.1953H1.13281C0.507812 20.1953 0 19.6875 0 19.0625Z" fill="currentColor"/>
+                  </svg>
+                </span>
+                <span class="cst-text">Account</span>
+              </a>
+            </div>
+            <div class="cst-box">
+              <a href="{{ routes.root_url }}" class="cst-logo-link">
+                <img
+                  src="{{ section.settings.logo_mobile | default:section.settings.logo | img_url: 'original' }}"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  width="100%"
+                  height="100%"
+                  class="cst-logo-desk"
+                />
+              </a>
+            </div>
+
+            <div class="cst-box">
+              <div class="cst-icon-text cst-vat-container">
+                <label class="cst-vat-toggler">
+                  <input type="checkbox" id="vatToggle">
+                  <span class="cst-slider"></span>
+                </label>
+                <span class="cst-text">Inc. VAT</span>
+              </div>
+            </div>
+
+            <div class="cst-box">
+              <a href="{{ routes.cart_url }}" class="cst-cart-link" id="cart-icon-bubble">
+                  <span class="cst-cart-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="21" height="19" viewBox="0 0 21 19" fill="currentColor">
+                        <path d="M0.5625 0H1.86328C2.60156 0 3.23438 0.457031 3.48047 1.125H18.9492C19.6875 1.125 20.2148 1.82812 20.0391 2.53125L18.5625 8.4375C18.3164 9.42188 17.4375 10.125 16.3828 10.125H5.34375L5.58984 11.4961C5.69531 12.0234 6.1875 12.375 6.71484 12.375H17.4375C17.7188 12.375 18 12.6562 18 12.9375C18 13.2539 17.7188 13.5 17.4375 13.5H6.71484C5.625 13.5 4.71094 12.7617 4.5 11.707L2.42578 1.58203C2.39062 1.33594 2.14453 1.125 1.86328 1.125H0.5625C0.246094 1.125 0 0.878906 0 0.5625C0 0.28125 0.246094 0 0.5625 0ZM3.72656 2.25L5.09766 9H16.3828C16.9102 9 17.3672 8.64844 17.4727 8.15625L18.9492 2.25H3.72656ZM5.90625 16.0312C5.90625 16.5234 6.25781 16.875 6.75 16.875C7.20703 16.875 7.59375 16.5234 7.59375 16.0312C7.59375 15.5742 7.20703 15.1875 6.75 15.1875C6.25781 15.1875 5.90625 15.5742 5.90625 16.0312ZM8.71875 16.0312C8.71875 16.7695 8.33203 17.4023 7.73438 17.7539C7.10156 18.1055 6.36328 18.1055 5.76562 17.7539C5.13281 17.4023 4.78125 16.7695 4.78125 16.0312C4.78125 15.3281 5.13281 14.6953 5.76562 14.3438C6.36328 13.9922 7.10156 13.9922 7.73438 14.3438C8.33203 14.6953 8.71875 15.3281 8.71875 16.0312ZM15.75 15.1875C15.2578 15.1875 14.9062 15.5742 14.9062 16.0312C14.9062 16.5234 15.2578 16.875 15.75 16.875C16.207 16.875 16.5938 16.5234 16.5938 16.0312C16.5938 15.5742 16.207 15.1875 15.75 15.1875ZM15.75 18C15.0117 18 14.3789 17.6484 14.0273 17.0156C13.6758 16.418 13.6758 15.6797 14.0273 15.0469C14.3789 14.4492 15.0117 14.0625 15.75 14.0625C16.4531 14.0625 17.0859 14.4492 17.4375 15.0469C17.7891 15.6797 17.7891 16.418 17.4375 17.0156C17.0859 17.6484 16.4531 18 15.75 18Z" fill="currentColor"/>
+                    </svg>
+                    {% comment %} <div class="cart-count-bubble cst-cart-badge">
+                      {%- if cart.item_count < 100 -%}
+                        <span aria-hidden="true" class="">
+                          {% if cart.item_count > 0 %} {{ cart.item_count }} {% endif %}
+                        </span>
+                      {%- endif -%}
+                      <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+                    </div> {% endcomment %}
+                  </span>
+                  <span class="cst-cart-total">
+                    {% if cart.original_total_price > 0 %}
+                      {{ cart.original_total_price | money }}
+                    {% else %}
+                      {{ 00 | money }}
+                    {% endif %}
+                  </span>
+              </a>
+            </div>
+          </div>
+          <div class="cst-row cst-search-row">
+            <div class="cst-search-container">
+              <form action="{{ routes.search_url }}" method="get" role="search" class="cst-search-form">
+                <div class="cst-search-box">
+                    <input type="search" name="q" class="cst-search-input" placeholder="Search thousands of door designs..." autocomplete="off" data-cst-search-input>
+                    <button type="submit" class="cst-search-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="currentColor">
+                            <path d="M20.5 15.0625C20.5 12.8828 19.3047 10.8438 17.4062 9.71875C15.4727 8.62891 13.1172 8.62891 11.2188 9.71875C9.28516 10.8438 8.125 12.8828 8.125 15.0625C8.125 17.2773 9.28516 19.3164 11.2188 20.4414C13.1172 21.5312 15.4727 21.5312 17.4062 20.4414C19.3047 19.3164 20.5 17.2773 20.5 15.0625ZM19.0586 20.6172C17.793 21.7422 16.1055 22.375 14.3125 22.375C10.2695 22.375 7 19.1055 7 15.0625C7 11.0547 10.2695 7.75 14.3125 7.75C18.3203 7.75 21.625 11.0547 21.625 15.0625C21.625 16.8906 20.957 18.543 19.8672 19.8438L24.8242 24.8008C25.0352 25.0117 25.0352 25.3984 24.8242 25.6094C24.6133 25.8203 24.2266 25.8203 24.0156 25.6094L19.0586 20.6172Z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
+              </form>
+              <div class="cst-search-results" data-cst-search-results></div>
+            </div>
+          </div>
+        </div>
+        {% comment %} last bottom row {% endcomment %}
+        <div class="cst-row-bottom">
+          <div class="swiper cst-features-swiper">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <div class="cst-box">
+                  <span class="cst-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 20 16" fill="none">
+                      <path d="M10.1875 1.0625C10.0625 1.03125 9.90625 1.03125 9.78125 1.0625L1.59375 4.53125C1.21875 4.6875 1 5.03125 1 5.4375V15.4375C1 15.7188 0.75 15.9375 0.5 15.9375C0.21875 15.9375 0 15.7188 0 15.4375V5.4375C0 4.65625 0.46875 3.90625 1.21875 3.59375L9.40625 0.15625C9.78125 0 10.1875 0 10.5625 0.15625L18.75 3.59375C19.5 3.90625 20 4.65625 20 5.4375V15.4375C20 15.7188 19.75 15.9375 19.5 15.9375C19.2188 15.9375 19 15.7188 19 15.4375V5.4375C19 5.03125 18.75 4.6875 18.375 4.53125L10.1875 1.0625ZM3 6.9375C3 6.40625 3.4375 5.9375 4 5.9375H16C16.5312 5.9375 17 6.40625 17 6.9375V15.4375C17 15.7188 16.75 15.9375 16.5 15.9375C16.2188 15.9375 16 15.7188 16 15.4375V6.9375H4V15.4375C4 15.7188 3.75 15.9375 3.5 15.9375C3.21875 15.9375 3 15.7188 3 15.4375V6.9375ZM11 12.4375V14.9375H13.5C13.75 14.9375 14 14.7188 14 14.4375V12.9375C14 12.6875 13.75 12.4375 13.5 12.4375H11ZM10 14.9375V12.4375H6V14.4375C6 14.7188 6.21875 14.9375 6.5 14.9375H10ZM10 9.4375C10 9.1875 9.75 8.9375 9.5 8.9375H6.5C6.21875 8.9375 6 9.1875 6 9.4375V11.4375H10V9.4375ZM13.5 11.4375C14.3125 11.4375 15 12.125 15 12.9375V14.4375C15 15.2812 14.3125 15.9375 13.5 15.9375H6.5C5.65625 15.9375 5 15.2812 5 14.4375V9.4375C5 8.625 5.65625 7.9375 6.5 7.9375H9.5C10.3125 7.9375 11 8.625 11 9.4375V10.4375V11.4375H12H13.5Z" fill="#212133"/>
+                    </svg>
+                  </span>
+                  <span class="cst-text">Largest Range in the UK</span>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <span class="cst-divider"></span>
+              </div>
+              <div class="swiper-slide">
+                <div class="cst-box">
+                  <span class="cst-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 20 16" fill="none">
+                      <path d="M4 1C3.4375 1 3 1.46875 3 2V3H7.5C7.75 3 8 3.25 8 3.5C8 3.78125 7.75 4 7.5 4H0.5C0.21875 4 0 3.78125 0 3.5C0 3.25 0.21875 3 0.5 3H2V2C2 0.90625 2.875 0 4 0H11C12.0938 0 13 0.90625 13 2V3H15.0312C15.4688 3 15.875 3.21875 16.1562 3.53125L18.625 6.40625C18.8438 6.6875 19 7.03125 19 7.375V12H19.5C19.75 12 20 12.25 20 12.5C20 12.7812 19.75 13 19.5 13H18C18 14.6562 16.6562 16 15 16C13.3438 16 12 14.6562 12 13H8C8 14.6562 6.65625 16 5 16C3.34375 16 2 14.6562 2 13V12V9H3V10.7812C3.53125 10.3125 4.21875 10 5 10C6.28125 10 7.40625 10.8438 7.8125 12H12V2C12 1.46875 11.5312 1 11 1H4ZM17.8125 7L15.4062 4.1875C15.3125 4.0625 15.1875 4 15.0312 4H13V7H17.8125ZM13 8V10.7812C13.5312 10.3125 14.2188 10 15 10C16.2812 10 17.4062 10.8438 17.8125 12H18V8H13ZM3 13C3 13.7188 3.375 14.375 4 14.75C4.59375 15.0938 5.375 15.0938 6 14.75C6.59375 14.375 7 13.7188 7 13C7 12.3125 6.59375 11.6562 6 11.2812C5.375 10.9375 4.59375 10.9375 4 11.2812C3.375 11.6562 3 12.3125 3 13ZM15 11C14.2812 11 13.625 11.4062 13.25 12C12.9062 12.625 12.9062 13.4062 13.25 14C13.625 14.625 14.2812 15 15 15C15.6875 15 16.3438 14.625 16.7188 14C17.0625 13.4062 17.0625 12.625 16.7188 12C16.3438 11.4062 15.6875 11 15 11ZM1.5 5H8.5C8.75 5 9 5.25 9 5.5C9 5.78125 8.75 6 8.5 6H1.5C1.21875 6 1 5.78125 1 5.5C1 5.25 1.21875 5 1.5 5ZM0.5 7H7.5C7.75 7 8 7.25 8 7.5C8 7.78125 7.75 8 7.5 8H0.5C0.21875 8 0 7.78125 0 7.5C0 7.25 0.21875 7 0.5 7Z" fill="#212133"/>
+                    </svg>
+                  </span>
+                  <span class="cst-text">Thousands of Doors for Immediate Delivery</span>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <span class="cst-divider"></span>
+              </div>
+              <div class="swiper-slide">
+                <div class="cst-box">
+                  <span class="cst-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="16" viewBox="0 0 18 16" fill="none">
+                      <path d="M9 15V1.375C9 1.15625 8.84375 1 8.625 1C8.625 1 8.59375 1.03125 8.5625 1.03125L3.375 2.21875C3.15625 2.28125 3 2.46875 3 2.71875V15H9ZM10 15V16H9H3H2.5H2H0.5C0.21875 16 0 15.7812 0 15.5C0 15.25 0.21875 15 0.5 15H2V2.71875C2 2 2.46875 1.40625 3.15625 1.25L8.34375 0.0625C8.4375 0.03125 8.53125 0 8.625 0C9.375 0 10 0.625 10 1.375V15ZM7.25 9C6.8125 9 6.5 8.5625 6.5 8C6.5 7.46875 6.8125 7 7.25 7C7.65625 7 8 7.46875 8 8C8 8.5625 7.65625 9 7.25 9ZM14.5 2C15.3125 2 16 2.6875 16 3.5V15H17.5C17.75 15 18 15.25 18 15.5C18 15.7812 17.75 16 17.5 16H15.5C15.2188 16 15 15.7812 15 15.5V3.5C15 3.25 14.75 3 14.5 3H11V2H14.5Z" fill="#212133"/>
+                    </svg>
+                  </span>
+                  <span class="cst-text">Free Delivery Over £750</span>
+                </div>
+              </div>
+              <div class="swiper-slide">
+                <span class="cst-divider"></span>
+              </div>
+              <div class="swiper-slide">
+                <div class="cst-box">
+                  <div class="cst-review-container">
+                    <span>Rated 4.2/5</span>
+                    <span class="cst-review-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="108" height="20" viewBox="0 0 108 20" fill="none">
+                        <rect width="20" height="20" fill="#02B67A"/>
+                        <path d="M10 13.6761L13.0417 12.8616L14.3125 17L10 13.6761ZM17 8.32704H11.6458L10 3L8.35417 8.32704H3L7.33334 11.6289L5.6875 16.956L10.0208 13.6541L12.6875 11.6289L17 8.32704Z" fill="white"/>
+                        <rect width="20" height="20" transform="translate(22)" fill="#02B67A"/>
+                        <path d="M32 13.6761L35.0417 12.8616L36.3125 17L32 13.6761ZM39 8.32704H33.6458L32 3L30.3542 8.32704H25L29.3333 11.6289L27.6875 16.956L32.0208 13.6541L34.6875 11.6289L39 8.32704Z" fill="white"/>
+                        <rect width="20" height="20" transform="translate(44)" fill="#02B67A"/>
+                        <path d="M54 13.6761L57.0417 12.8616L58.3125 17L54 13.6761ZM61 8.32704H55.6458L54 3L52.3542 8.32704H47L51.3333 11.6289L49.6875 16.956L54.0208 13.6541L56.6875 11.6289L61 8.32704Z" fill="white"/>
+                        <rect width="20" height="20" transform="translate(66)" fill="#02B67A"/>
+                        <path d="M76 13.6761L79.0417 12.8616L80.3125 17L76 13.6761ZM83 8.32704H77.6458L76 3L74.3542 8.32704H69L73.3333 11.6289L71.6875 16.956L76.0208 13.6541L78.6875 11.6289L83 8.32704Z" fill="white"/>
+                        <rect width="20" height="20" transform="translate(88)" fill="url(#paint0_linear_85_2652)"/>
+                        <path d="M98 13.6761L101.042 12.8616L102.313 17L98 13.6761ZM105 8.32704H99.6458L98 3L96.3542 8.32704H91L95.3333 11.6289L93.6875 16.956L98.0208 13.6541L100.687 11.6289L105 8.32704Z" fill="white"/>
+                        <defs>
+                        <linearGradient id="paint0_linear_85_2652" x1="0" y1="10" x2="20" y2="10" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#02B67A"/>
+                        <stop offset="0.5" stop-color="#02B67A"/>
+                        <stop offset="0.5001" stop-color="#02B67A" stop-opacity="0"/>
+                        <stop offset="0.5002" stop-color="#D9D9D9"/>
+                        <stop offset="0.9998" stop-color="#D9D9D9"/>
+                        <stop offset="0.9999" stop-color="#219653" stop-opacity="0"/>
+                        <stop offset="1" stop-color="#D9D9D9"/>
+                        </linearGradient>
+                        </defs>
+                      </svg>
+                    </span>
+                    <span class="cst-review-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="99" height="25" viewBox="0 0 99 25" fill="none">
+                        <path d="M36.0349 8.53334V10.3854H32.0942V20.7968H29.9272V10.3854H26.0039V8.53334H36.0349ZM37.4592 11.9173V13.6308H37.4942C37.5553 13.3885 37.6689 13.1548 37.8349 12.9298C38.001 12.7048 38.2019 12.4885 38.4379 12.3067C38.6738 12.1163 38.9359 11.9692 39.2243 11.848C39.5126 11.7355 39.8097 11.6749 40.1068 11.6749C40.334 11.6749 40.5 11.6836 40.5874 11.6922C40.6748 11.7009 40.7621 11.7182 40.8582 11.7269V13.6135C40.7184 13.5876 40.5786 13.5703 40.4301 13.553C40.2816 13.5356 40.1417 13.527 40.0019 13.527C39.6699 13.527 39.3553 13.5962 39.0583 13.726C38.7612 13.8559 38.5078 14.0549 38.2893 14.3059C38.0709 14.5655 37.8961 14.8771 37.765 15.2579C37.634 15.6387 37.5728 16.0714 37.5728 16.5647V20.7881H35.5981V11.9173H37.4592ZM49.9369 20.7968H47.9971V19.5592H47.9621C47.7175 20.0092 47.3592 20.364 46.8786 20.6323C46.3981 20.9006 45.9087 21.0391 45.4107 21.0391C44.2311 21.0391 43.3748 20.7535 42.8505 20.1737C42.3262 19.5938 42.0641 18.7197 42.0641 17.5513V11.9173H44.0388V17.3609C44.0388 18.1398 44.1874 18.6937 44.4932 19.0139C44.7903 19.3342 45.2184 19.4986 45.7602 19.4986C46.1796 19.4986 46.5204 19.438 46.8 19.3082C47.0796 19.1784 47.3068 19.0139 47.4728 18.7976C47.6476 18.5899 47.7699 18.3302 47.8485 18.036C47.9272 17.7417 47.9621 17.4215 47.9621 17.0753V11.9259H49.9369V20.7968ZM53.301 17.9494C53.3621 18.5206 53.5806 18.9187 53.9563 19.1524C54.3408 19.3774 54.7951 19.4986 55.3282 19.4986C55.5117 19.4986 55.7214 19.4813 55.9573 19.4553C56.1932 19.4294 56.4204 19.3688 56.6214 19.2909C56.8311 19.213 56.9971 19.0918 57.1369 18.9361C57.268 18.7803 57.3291 18.5812 57.3204 18.3302C57.3116 18.0793 57.2155 17.8716 57.0408 17.7158C56.866 17.5513 56.6476 17.4302 56.3767 17.3263C56.1058 17.2311 55.8 17.1446 55.4505 17.0753C55.101 17.0061 54.7515 16.9282 54.3932 16.8503C54.0262 16.7724 53.668 16.6686 53.3272 16.5561C52.9864 16.4436 52.6806 16.2878 52.4097 16.0887C52.1388 15.8983 51.9204 15.6473 51.7631 15.3444C51.5971 15.0415 51.5184 14.6694 51.5184 14.2194C51.5184 13.7347 51.6408 13.3366 51.8767 13.0077C52.1126 12.6789 52.4184 12.4192 52.7767 12.2202C53.1437 12.0211 53.5456 11.8826 53.9913 11.7961C54.4369 11.7182 54.865 11.6749 55.267 11.6749C55.7301 11.6749 56.1757 11.7269 56.5951 11.8221C57.0146 11.9173 57.399 12.073 57.7398 12.2981C58.0806 12.5144 58.3602 12.8 58.5874 13.1462C58.8146 13.4924 58.9544 13.9164 59.0155 14.4098H56.9534C56.8573 13.9424 56.6476 13.6222 56.3068 13.4664C55.966 13.302 55.5728 13.2241 55.1359 13.2241C54.9961 13.2241 54.8301 13.2327 54.6379 13.2587C54.4456 13.2847 54.2709 13.3279 54.0961 13.3885C53.9301 13.4491 53.7903 13.5443 53.668 13.6655C53.5544 13.7866 53.4932 13.9424 53.4932 14.1415C53.4932 14.3838 53.5806 14.5742 53.7466 14.7213C53.9126 14.8684 54.1311 14.9896 54.4019 15.0935C54.6728 15.1887 54.9786 15.2752 55.3282 15.3444C55.6777 15.4137 56.0359 15.4916 56.4029 15.5695C56.7612 15.6473 57.1107 15.7512 57.4602 15.8637C57.8097 15.9762 58.1155 16.132 58.3864 16.3311C58.6573 16.5301 58.8757 16.7724 59.0417 17.0667C59.2078 17.3609 59.2951 17.7331 59.2951 18.1658C59.2951 18.6937 59.1728 19.1351 58.9282 19.5073C58.6835 19.8707 58.3689 20.1737 57.9845 20.3987C57.6 20.6237 57.1631 20.7968 56.6913 20.9006C56.2194 21.0045 55.7476 21.0564 55.2845 21.0564C54.7165 21.0564 54.1922 20.9958 53.7116 20.866C53.2311 20.7362 52.8116 20.5458 52.4621 20.2948C52.1126 20.0352 51.833 19.715 51.632 19.3342C51.4311 18.9534 51.3262 18.4947 51.3087 17.9668H53.301V17.9494ZM59.8194 11.9173H61.3136V9.25167H63.2883V11.9173H65.0709V13.3799H63.2883V18.1225C63.2883 18.3302 63.2971 18.5033 63.3146 18.6591C63.332 18.8062 63.3757 18.9361 63.4369 19.0399C63.4981 19.1438 63.5942 19.2217 63.7252 19.2736C63.8563 19.3255 64.0223 19.3515 64.2495 19.3515C64.3893 19.3515 64.5291 19.3515 64.6689 19.3428C64.8087 19.3342 64.9485 19.3169 65.0883 19.2822V20.7968C64.8699 20.8227 64.6515 20.84 64.4505 20.866C64.2408 20.892 64.0311 20.9006 63.8126 20.9006C63.2883 20.9006 62.8689 20.8487 62.5544 20.7535C62.2398 20.6583 61.9864 20.5112 61.8116 20.3208C61.6282 20.1304 61.5146 19.8967 61.4447 19.6111C61.3835 19.3255 61.3398 18.9966 61.3311 18.6332V13.3972H59.8369V11.9173H59.8194ZM66.4689 11.9173H68.3388V13.1202H68.3738C68.6534 12.601 69.0379 12.2375 69.5359 12.0125C70.034 11.7874 70.567 11.6749 71.1524 11.6749C71.8602 11.6749 72.4718 11.7961 72.9961 12.0471C73.5204 12.2894 73.9573 12.6269 74.3068 13.0596C74.6563 13.4924 74.9097 13.9943 75.0845 14.5655C75.2592 15.1367 75.3466 15.7512 75.3466 16.4003C75.3466 16.9974 75.268 17.5773 75.1107 18.1312C74.9534 18.6937 74.7175 19.187 74.4029 19.6198C74.0883 20.0525 73.6864 20.39 73.1971 20.6496C72.7078 20.9093 72.1398 21.0391 71.4757 21.0391C71.1874 21.0391 70.899 21.0131 70.6107 20.9612C70.3223 20.9093 70.0427 20.8227 69.7806 20.7102C69.5184 20.5977 69.265 20.4506 69.0466 20.2689C68.8194 20.0871 68.6359 19.8794 68.4786 19.6457H68.4437V24.0768H66.4689V11.9173ZM73.3718 16.3657C73.3718 15.9676 73.3194 15.5781 73.2146 15.1973C73.1097 14.8165 72.9524 14.4876 72.7427 14.1934C72.533 13.8991 72.2709 13.6655 71.965 13.4924C71.6505 13.3193 71.2922 13.2241 70.8903 13.2241C70.0602 13.2241 69.4311 13.5097 69.0116 14.0809C68.5922 14.6521 68.3825 15.4137 68.3825 16.3657C68.3825 16.8157 68.4349 17.2311 68.5485 17.6119C68.6621 17.9927 68.8194 18.3216 69.0466 18.5985C69.265 18.8755 69.5272 19.0918 69.833 19.2476C70.1388 19.4121 70.4971 19.4899 70.899 19.4899C71.3534 19.4899 71.7291 19.3947 72.0437 19.213C72.3583 19.0313 72.6116 18.7889 72.8126 18.5033C73.0136 18.2091 73.1621 17.8802 73.2495 17.5081C73.3281 17.1359 73.3718 16.7551 73.3718 16.3657ZM76.8583 8.53334H78.833V10.3854H76.8583V8.53334ZM76.8583 11.9173H78.833V20.7968H76.8583V11.9173ZM80.5981 8.53334H82.5728V20.7968H80.5981V8.53334ZM88.6281 21.0391C87.9116 21.0391 87.2738 20.9179 86.7146 20.6843C86.1553 20.4506 85.6835 20.1217 85.2903 19.715C84.9058 19.2995 84.6087 18.8062 84.4078 18.235C84.2068 17.6638 84.1019 17.0321 84.1019 16.3484C84.1019 15.6733 84.2068 15.0502 84.4078 14.479C84.6087 13.9078 84.9058 13.4145 85.2903 12.9991C85.6748 12.5837 86.1553 12.2634 86.7146 12.0298C87.2738 11.7961 87.9116 11.6749 88.6281 11.6749C89.3447 11.6749 89.9825 11.7961 90.5417 12.0298C91.101 12.2634 91.5728 12.5923 91.966 12.9991C92.3505 13.4145 92.6476 13.9078 92.8485 14.479C93.0495 15.0502 93.1544 15.6733 93.1544 16.3484C93.1544 17.0321 93.0495 17.6638 92.8485 18.235C92.6476 18.8062 92.3505 19.2995 91.966 19.715C91.5816 20.1304 91.101 20.4506 90.5417 20.6843C89.9825 20.9179 89.3447 21.0391 88.6281 21.0391ZM88.6281 19.4899C89.065 19.4899 89.4495 19.3947 89.7728 19.213C90.0961 19.0313 90.3583 18.7889 90.568 18.4947C90.7777 18.2004 90.9262 17.8629 91.0311 17.4908C91.1272 17.1186 91.1796 16.7378 91.1796 16.3484C91.1796 15.9676 91.1272 15.5954 91.0311 15.2146C90.935 14.8338 90.7777 14.505 90.568 14.2107C90.3583 13.9164 90.0961 13.6828 89.7728 13.501C89.4495 13.3193 89.065 13.2241 88.6281 13.2241C88.1913 13.2241 87.8068 13.3193 87.4835 13.501C87.1602 13.6828 86.8981 13.9251 86.6883 14.2107C86.4786 14.505 86.3301 14.8338 86.2252 15.2146C86.1291 15.5954 86.0767 15.9676 86.0767 16.3484C86.0767 16.7378 86.1291 17.1186 86.2252 17.4908C86.3214 17.8629 86.4786 18.2004 86.6883 18.4947C86.8981 18.7889 87.1602 19.0313 87.4835 19.213C87.8068 19.4034 88.1913 19.4899 88.6281 19.4899ZM93.7311 11.9173H95.2252V9.25167H97.2V11.9173H98.9825V13.3799H97.2V18.1225C97.2 18.3302 97.2087 18.5033 97.2262 18.6591C97.2437 18.8062 97.2874 18.9361 97.3485 19.0399C97.4097 19.1438 97.5058 19.2217 97.6369 19.2736C97.768 19.3255 97.934 19.3515 98.1612 19.3515C98.301 19.3515 98.4408 19.3515 98.5806 19.3428C98.7204 19.3342 98.8602 19.3169 99 19.2822V20.7968C98.7816 20.8227 98.5631 20.84 98.3621 20.866C98.1524 20.892 97.9427 20.9006 97.7243 20.9006C97.2 20.9006 96.7806 20.8487 96.466 20.7535C96.1515 20.6583 95.8981 20.5112 95.7233 20.3208C95.5398 20.1304 95.4262 19.8967 95.3563 19.6111C95.2951 19.3255 95.2515 18.9966 95.2427 18.6332V13.3972H93.7485V11.9173H93.7311Z" fill="#212133"/>
+                        <path d="M23.7058 8.53334H14.6534L11.8573 0L9.05243 8.53334L0 8.52469L7.33107 13.8039L4.52621 22.3286L11.8573 17.058L19.1796 22.3286L16.3835 13.8039L23.7058 8.53334Z" fill="#00B67A"/>
+                        <path d="M17.0126 15.7339L16.3835 13.8039L11.8573 17.058L17.0126 15.7339Z" fill="#005128"/>
+                      </svg>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    {% comment %} Header Menu Swiper {% endcomment %}
+    const swiperEl = document.querySelector("#{{ section_id }} .cst-navbar.swiper");
+
+    if (swiperEl) {
+      new Swiper(swiperEl, {
+        slidesPerView: "auto",
+        spaceBetween: 28,
+        mousewheel:{
+          enabled: true,
+          forceToAxis: true,
+          sensitivity: 1,
+          releaseOnEdges: true,
+        }
+      });
+    }
+
+    {% comment %} Shop Features Swiper {% endcomment %}
+    const swiperFeature = document.querySelector("#{{ section_id }} .cst-features-swiper.swiper");
+
+    if (swiperFeature) {
+      new Swiper(swiperFeature, {
+        slidesPerView: "auto",
+        spaceBetween: 63.29,
+        enterInsufficientSlides: true,
+        mousewheel:{
+          enabled: true,
+          forceToAxis: true,
+          sensitivity: 1,
+          releaseOnEdges: true,
+        },
+        breakpoints: {
+          0 : {
+            spaceBetween: 24
+          },
+          768 : {
+            spaceBetween: 63.29
+          }
+        }
+      });
+    }
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const headerSection = document.querySelector("#{{ section_id }}");
+    const toggleBtn = headerSection.querySelector(".cst-mobile-toggle");
+    const overlay = headerSection.querySelector(".cst-overlay");
+    const closeBtn = headerSection.querySelector(".cst-close-btn");
+    const dropdownLinks = headerSection.querySelectorAll(".has-dropdown > a");
+
+    // Drawer toggle
+    const openDrawer = () => { headerSection.classList.add("drawer-open"); document.body.classList.add("drawer-open"); };
+    const closeDrawer = () => { headerSection.classList.remove("drawer-open"); document.body.classList.remove("drawer-open"); };
+
+    toggleBtn.addEventListener("click", openDrawer);
+    closeBtn.addEventListener("click", closeDrawer);
+    overlay.addEventListener("click", closeDrawer);
+    document.addEventListener("keydown", (e) => e.key === "Escape" && closeDrawer());
+
+    // Accordion dropdown toggle
+    dropdownLinks.forEach(link => {
+      link.addEventListener("click", function(e) {
+        const parent = this.closest(".has-dropdown");
+
+        // prevent link navigation on first click
+        e.preventDefault();
+
+        const isActive = parent.classList.contains("active");
+        const siblingItems = parent.parentElement.querySelectorAll(".has-dropdown");
+
+        // close siblings (accordion behavior)
+        siblingItems.forEach(item => {
+          if (item !== parent) item.classList.remove("active");
+        });
+
+        // toggle current one
+        parent.classList.toggle("active", !isActive);
+      });
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const headerSection = document.querySelector("#{{ section_id }}");
+    const toggleInput = headerSection.querySelector("#vatToggle");
+    const vatText = headerSection.querySelector(".cst-vat-container .cst-text");
+
+    toggleInput.addEventListener("change", function() {
+      if (this.checked) {
+        vatText.textContent = "Exc. VAT";
+      } else {
+        vatText.textContent = "Inc. VAT";
+      }
+    });
+  });
+</script>
+
+{% comment %} make header and announcement bar sticky on top one after other {% endcomment %}
+<script>
+  function adjustHeaderTop() {
+    const announcementBar = document.querySelector('section.cst-announcement-bar-section');
+    const header = document.querySelector('header.cst-header');
+
+    if (!announcementBar || !header) return;
+
+    const barHeight = announcementBar.offsetHeight;
+    header.style.top = barHeight + 'px';
+  }
+
+  // run on load
+  window.addEventListener('load', adjustHeaderTop);
+
+  // run on resize
+  window.addEventListener('resize', adjustHeaderTop);
+
+  // optional: run when fonts load or content shifts
+  document.addEventListener('DOMContentLoaded', adjustHeaderTop);
+
+</script>
+
+{% comment %} Predictive search result JS {% endcomment %}
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const searchInputs = document.querySelectorAll("[data-cst-search-input]");
+
+    searchInputs.forEach((input) => {
+      const container = input.closest(".cst-search-container");
+      const resultsBox = container.querySelector("[data-cst-search-results]");
+
+      let debounce;
+
+      function fetchSSR(query) {
+        const sectionId = "cst-predictive-search";
+        const url = `/search/suggest?q=${encodeURIComponent(query)}&section_id=${sectionId}`;
+
+        fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            resultsBox.innerHTML = html;
+            resultsBox.classList.add("active");
+          })
+          .catch(() => {
+            resultsBox.innerHTML = `<div class="cst-search-no-results">Error loading results.</div>`;
+            resultsBox.classList.add("active");
+          });
+      }
+
+      input.addEventListener("input", () => {
+        const value = input.value.trim();
+
+        clearTimeout(debounce);
+
+        if (value.length < 2) {
+          resultsBox.classList.remove("active");
+          return;
+        }
+
+        debounce = setTimeout(() => fetchSSR(value), 250);
+      });
+
+      // Close on outside click
+      document.addEventListener("click", (e) => {
+        if (!e.target.closest(".cst-search-container")) {
+          resultsBox.classList.remove("active");
+        }
+      });
+    });
+  });
+</script>
+
+
+{% schema %}
+{
+    "name": "new header",
+    "class": "cst-header",
+    "tag": "header",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Logo Settings"
+        },
+        {
+            "type":"image_picker",
+            "label": "Logo - desktop",
+            "id": "logo"
+        },
+        {
+            "type":"image_picker",
+            "label": "Logo - mobile",
+            "id": "logo_mobile"
+        },
+        {
+            "type": "header",
+            "content": "Menu Settings"
+        },
+        {
+          "type":"link_list",
+          "label": "Menu",
+          "id": "menu"
+        }
+    ],
+    "blocks": [],
+    "presets": [
+        {
+            "name": "New Header"
+        }
+    ]
+}
+{% endschema %}

@@ -1,0 +1,276 @@
+
+{% assign section_id = section.id | handle %}
+
+{% style %}
+  #{{ section_id }} .cst-container {
+    background-color: {{ section.settings.bg_color }};
+    color: {{ section.settings.text_color }};
+  }
+  #{{ section_id }} .cst-grid-row {
+    display: grid;
+    grid-template-columns: repeat({{ section.settings.cols }}, 1fr);
+    gap: {{section.settings.grid_gap | append: "px"}};
+  }
+  #{{ section_id }} .cst-grid-col {
+    position: relative;
+    display: block;
+  }
+  #{{ section_id }} .cst-box {
+    width: 100%;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  #{{ section_id }} .cst-box::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, .3));
+    z-index: 1;
+    pointer-events: none;
+  }
+  #{{ section_id }} .cst-card-img {
+    display: flex;
+    position: absolute;
+    inset: 0;
+    object-fit: cover;
+    box-sizing: border-box;
+    border: none;
+    outline: none;
+  }
+  #{{ section_id }} .cst-card-info {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 64px;
+  }
+  #{{ section_id }} .cst-card-img-logo {
+    display: flex;
+    max-height: 72px;
+    width: fit-content;
+    object-fit: cover;
+  }
+  #{{ section_id }} .cst-card-title {
+    display: flex;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 28px;
+    letter-spacing: 5%;
+    text-transform: uppercase;
+    color: inherit;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  #{{ section_id }} .cst-card-description {
+    margin: 0;
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 400;
+    color: inherit;
+    box-sizing: border-box;
+  }
+  #{{ section_id }} .cst-card-link {
+    text-decoration: none;
+    display: flex;
+    width: fit-content;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 18px;
+    letter-spacing: 5%;
+    text-transform: uppercase;
+    color: inherit;
+    box-sizing: border-box;
+  }
+
+  @media(max-width: 1024px) {
+    #{{ section_id }} .cst-grid-row {
+        grid-template-columns: repeat({{ section.settings.cols_tablet }}, 1fr);
+    }
+  }
+
+  @media(max-width: 768px) {
+    #{{ section_id }} .cst-grid-row {
+        grid-template-columns: repeat({{ section.settings.cols_mobile }}, 1fr);
+        gap: {{section.settings.grid_gap_mobile | append: "px"}};
+    }
+    #{{ section_id }} .cst-box {
+        height: auto;
+        width: 100%;
+        aspect-ratio: 1/1;
+    }
+    #{{ section_id }} .cst-card-info {
+        gap: 24px;
+        padding: 24px;
+    }
+    #{{ section_id }} .cst-card-img-logo {
+        max-height: 56px;
+    }
+  }
+{% endstyle %}
+
+<section id="{{ section_id }}">
+    <div class="cst-container">
+        <div class="cst-grid-row">
+            {% for block in section.blocks %}
+                <div class="cst-grid-col">
+                    <div class="cst-box">
+                        {% comment %} Background Image {% endcomment %}
+                        {% if block.settings.img != empty %}
+                            <img
+                                src="{{ block.settings.img | image_url: width: 1000, height: 1000 }}"
+                                alt="{{ block.settings.img.alt | escape }}"
+                                loading="lazy"
+                                decoding="async"
+                                width="100%"
+                                height="100%"
+                                class="cst-card-img"
+                            />
+                        {% endif %}
+                        <div class="cst-card-info">
+                            {% comment %} Logo Image {% endcomment %}
+                            {% if block.settings.img_logo != blank %}
+                                <img
+                                    src="{{ block.settings.img_logo | image_url: width: 635, height: 750 }}"
+                                    alt="{{ block.settings.img_logo.alt | escape }}"
+                                    loading="lazy"
+                                    decoding="async"
+                                    width="100%"
+                                    height="auto"
+                                    class="cst-card-img-logo"
+                                />
+                            {% endif %}
+                            {% comment %} Title {% endcomment %}
+                            {% if block.settings.title != blank %}
+                                <h4 class="cst-card-title">{{ block.settings.title }}</h4>
+                            {% endif %}
+                            {% comment %} Description {% endcomment %}
+                            {% if block.settings.description != empty %}
+                                <p class="cst-card-description">{{ block.settings.desciption }}</p>
+                            {% endif %}
+                            {% comment %} Link {% endcomment %}
+                            {% if block.settings.link_label != blank %}
+                                <a href="{{ block.settings.link_url | default: "#" }}" class="cst-card-link">
+                                    <span>{{ block.settings.link_label }}</span>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% schema %}
+{
+    "name": "Big Card Grid",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Color Settings"
+        },
+        {
+            "type":"color",
+            "label": "Background Color",
+            "id": "bg_color"
+        },
+        {
+            "type":"color",
+            "label": "Text Color",
+            "id": "text_color",
+            "default": "#fff"
+        },
+        {
+            "type": "header",
+            "content": "Colum Settings"
+        },
+        {
+            "type": "number",
+            "label": "columns - desktop",
+            "id": "cols",
+            "default": 3
+        },
+        {
+            "type": "number",
+            "label": "columns - tablet",
+            "id": "cols_tablet",
+            "default": 2
+        },
+        {
+            "type": "number",
+            "label": "columns - mobile",
+            "id": "cols_mobile",
+            "default": 1
+        },
+        {
+            "type": "header",
+            "content": "Gap Settings"
+        },
+        {
+            "type": "range",
+            "id": "grid_gap",
+            "label": "desktop",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "px",
+            "default": 4
+        },
+        {
+            "type": "range",
+            "id": "grid_gap_mobile",
+            "label": "mobile",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "px",
+            "default": 4
+        },
+    ],
+    "blocks": [
+        {
+            "type": "card",
+            "name": "Card",
+            "settings": [
+                {
+                    "type":"image_picker",
+                    "label": "Image",
+                    "id": "img",
+                },
+                {
+                    "type":"image_picker",
+                    "label": "Logo Image",
+                    "id": "img_logo",
+                },
+                {
+                    "type": "text",
+                    "label": "Title",
+                    "id": "title",
+                },
+                {
+                    "type":"textarea",
+                    "label": "Description",
+                    "id": "desciption",
+                },
+                {
+                    "type": "text",
+                    "label": "Link Label",
+                    "id": "link_label",
+                },
+                {
+                    "type": "url",
+                    "label": "Link URL",
+                    "id": "link_url",
+                },
+            ]
+        }
+    ],
+    "presets": [
+        {
+            "name": "Card Grid"
+        }
+    ]
+}
+{% endschema %}

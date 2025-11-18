@@ -1,0 +1,351 @@
+
+{% assign section_id = section.id | handle %}
+
+{% style %}
+    /* Main section styles */
+    #{{ section_id }}.main-section {
+        background-color: #FFFFFF;
+        width: 100%;
+        padding-block: 96px;
+        padding-inline: 56px;
+    }
+
+    /* Container styles */
+    #{{ section_id }} .container {
+        max-width: 1464px;
+        margin: 0 auto;
+        display: grid;
+        gap: 8px;
+    }
+
+    /* Accordion list styles */
+    #{{ section_id }} .accordion-list {
+        list-style: none;
+        display: grid;
+        gap: 8px;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Accordion item styles */
+    #{{ section_id }} .accordion-item {
+        border: 1px solid #D5D5E5;
+        border-radius: 2px;
+        overflow: hidden;
+        transition: border-color 0.3s ease;
+    }
+
+    #{{ section_id }} .accordion-item:hover {
+        border-color: #b5b5d5;
+    }
+
+    /* Accordion header styles */
+    #{{ section_id }} .accordion-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 24px;
+        background-color: #EBEBFF;
+        border-radius: 2px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    #{{ section_id }} .accordion-item.active .accordion-header {
+        background-color: transparent;
+    }
+
+    #{{ section_id }} .accordion-title {
+        text-transform: uppercase;
+        font-weight: bold;
+        transition: color 0.2s ease;
+        margin: 0;
+        font-size: 20px;
+        line-height: 24px;
+        font-weight: 600;
+        letter-spacing: 5%;
+    }
+
+    #{{ section_id }} .accordion-item.active .accordion-title,
+    #{{ section_id }} .accordion-item.active .accordion-icon {
+        color: #30309F;
+    }
+
+    #{{ section_id }} .accordion-icon {
+        transition: transform 0.2s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 18px;
+        width: 18px;
+    }
+
+    /* Accordion content styles */
+    #{{ section_id }} .accordion-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease;
+        background-color: transparent;
+    }
+
+    #{{ section_id }} .accordion-content-inner {
+        padding-inline: 24px;
+        padding-bottom: 24px;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+        display: flex;
+        gap: 10px;
+    }
+
+    #{{ section_id }} .accordion-item.active .accordion-content-inner {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    #{{ section_id }} .accordion-content-inner .content-col {
+        flex: 1;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    #{{ section_id }} .accordion-content-inner .content-col * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        text-decoration: none;
+        color: #212133;
+    }
+    #{{ section_id }} .accordion-content-inner .content-col br,
+    #{{ section_id }} .accordion-content-inner .content-col p:has(.metafield-multi_line_text_field) {
+        display: none;
+    }
+    #{{ section_id }} .accordion-content-inner .content-col p,
+    #{{ section_id }} .accordion-content-inner .content-col li,
+    #{{ section_id }} .accordion-content-inner .content-col span {
+        font-size: 13.3px;
+        line-height: 19.2px;
+        letter-spacing: 0%;
+        font-weight: 400;
+    }
+    #{{ section_id }} .accordion-content-inner .content-col h3 {
+        font-size: 15.6px;
+        line-height: 19.2px;
+        font-weight: 700;
+        margin: 0;
+        padding: 0;
+    }
+    #{{ section_id }} .accordion-content-inner .content-col ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+    }
+    #{{ section_id }} .accordion-content-inner .content-col li::before {
+        content: "•";
+        margin-right: 3px;
+    }
+    #{{ section_id }} .accordion-content-inner .content-col table {
+        table-layout: fixed;
+        border-collapse: collapse;
+        max-width: 99%;
+        margin-inline: auto;
+        width: 100%;
+        border: 1px solid #212133;
+        box-shadow: none;
+        font-size: 13.2px;
+        line-height: 19.2px;
+    }
+    #{{ section_id }} .accordion-content-inner .content-col table th,
+    #{{ section_id }} .accordion-content-inner .content-col table td {
+        border: 1px solid #212133;
+    }
+    #{{ section_id }} .accordion-content-inner .content-col table th {
+        padding: 0 1px 0.7px 1px;
+    }
+    #{{ section_id }} .accordion-content-inner .content-col table td {
+        padding: 3.5px 5px 4.7px 5px;
+    }
+    #{{ section_id }} .accordion-content-inner .content-col {}
+    #{{ section_id }} .accordion-content-inner .content-col {}
+
+    /* Mobile styles */
+    @media (max-width: 768px) {
+        #{{ section_id }}.main-section {
+            padding-block: 56px;
+            padding-inline: 16px;
+        }
+        
+        #{{ section_id }} .accordion-header {
+            padding: 16px;
+        }
+        #{{ section_id }} .accordion-title {
+            font-size: 15px;
+            line-height: 18px;
+        }
+        
+        #{{ section_id }} .accordion-content-inner {
+            padding-inline: 16px;
+            padding-bottom: 16px;
+            flex-direction: column;
+        }
+        #{{ section_id }} .accordion-content-inner .content-col {
+
+        }
+    }
+{% endstyle %}
+
+<section id="{{ section_id }}" class="main-section">
+    <div class="container">
+        <ul class="accordion-list">
+            {% for block in section.blocks %}
+                <li class="accordion-item">
+                    <div class="accordion-header">
+                        <h5 class="accordion-title">{{ block.settings.title }}</h5>
+                        <span class="accordion-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                                <path d="M8.75 0.625V7.5H15.625C15.9375 7.5 16.25 7.8125 16.25 8.125C16.25 8.47656 15.9375 8.75 15.625 8.75H8.75V15.625C8.75 15.9766 8.4375 16.25 8.125 16.25C7.77344 16.25 7.5 15.9766 7.5 15.625V8.75H0.625C0.273438 8.75 0 8.47656 0 8.125C0 7.8125 0.273438 7.5 0.625 7.5H7.5V0.625C7.5 0.3125 7.77344 0 8.125 0C8.4375 0 8.75 0.3125 8.75 0.625Z" fill="currentColor"/>
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="accordion-content-inner">
+                            {% if block.settings.content != blank %}
+                              <div class="content-col">{{ block.settings.content | replace: '&lt;', '<' | replace: '&gt;', '>' | replace: '&amp;', '&'}}</div>
+                            {% endif %}
+                            {% if block.settings.content_other != blank %}
+                              <div class="content-col">{{ block.settings.content_other | replace: '&lt;', '<' | replace: '&gt;', '>' | replace: '&amp;', '&'}}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const accordionItems = document.querySelectorAll('#{{ section_id }} .accordion-item');
+
+        function updateOpenAccordionHeights() {
+            accordionItems.forEach(item => {
+                if (item.classList.contains('active')) {
+                    const content = item.querySelector('.accordion-content');
+                    // Reset height then set correct height based on new screen size
+                    content.style.maxHeight = null;
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        }
+        
+        accordionItems.forEach(item => {
+            const header = item.querySelector('.accordion-header');
+            const content = item.querySelector('.accordion-content');
+            const icon = item.querySelector('.accordion-icon');
+            
+            header.addEventListener('click', function() {
+                const isActive = item.classList.contains('active');
+                
+                // Close all accordions
+                accordionItems.forEach(otherItem => {
+                    otherItem.classList.remove('active');
+                    const otherContent = otherItem.querySelector('.accordion-content');
+                    const otherIcon = otherItem.querySelector('.accordion-icon');
+                    
+                    // Reset height and icon for closed accordions
+                    otherContent.style.maxHeight = null;
+                    otherIcon.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                            <path d="M8.75 0.625V7.5H15.625C15.9375 7.5 16.25 7.8125 16.25 8.125C16.25 8.47656 15.9375 8.75 15.625 8.75H8.75V15.625C8.75 15.9766 8.4375 16.25 8.125 16.25C7.77344 16.25 7.5 15.9766 7.5 15.625V8.75H0.625C0.273438 8.75 0 8.47656 0 8.125C0 7.8125 0.273438 7.5 0.625 7.5H7.5V0.625C7.5 0.3125 7.77344 0 8.125 0C8.4375 0 8.75 0.3125 8.75 0.625Z" fill="currentColor"/>
+                        </svg>
+                    `;
+                });
+                
+                // If the clicked accordion wasn't active, open it
+                if (!isActive) {
+                    item.classList.add('active');
+                    content.style.maxHeight = content.scrollHeight + "px";
+                    icon.innerHTML = `
+                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="2" viewBox="0 0 17 2" fill="none">
+                            <path d="M16.25 0.625C16.25 0.976562 15.9375 1.25 15.625 1.25H0.625C0.273438 1.25 0 0.976562 0 0.625C0 0.3125 0.273438 0 0.625 0H15.625C15.9375 0 16.25 0.3125 16.25 0.625Z" fill="currentColor"/>
+                        </svg>
+                    `;
+                }
+            });
+        });
+
+        // Recalculate accordion heights on window resize
+        window.addEventListener('resize', function() {
+            updateOpenAccordionHeights();
+        });
+    });
+</script>
+
+{% schema %}
+{
+    "name": "Product Accordions",
+    "settings": [],
+    "blocks": [
+        {
+            "type": "accordion_item",
+            "name": "Accordion Item",
+            "settings": [
+                {
+                    "type": "text",
+                    "id": "title",
+                    "label": "Title"
+                },
+                {
+                    "type":"richtext",
+                    "id": "content",
+                    "label": "Description Content 1"
+                },
+                {
+                    "type":"richtext",
+                    "id": "content_other",
+                    "label": "Description Content 2"
+                },
+            ]
+        }
+    ],
+    "presets": [
+        {
+            "name": "Product Accordions",
+            "blocks": [
+                {
+                    "type": "accordion_item",
+                    "settings": {
+                        "title": "Product Description"
+                    }
+                },
+                {
+                    "type": "accordion_item",
+                    "settings": {
+                        "title": "Product Specification"
+                    }
+                },
+                {
+                    "type": "accordion_item",
+                    "settings": {
+                        "title": "Delivery & Returns"
+                    }
+                },
+                {
+                    "type": "accordion_item",
+                    "settings": {
+                        "title": "Stock Reservation & Preordering"
+                    }
+                },
+                {
+                    "type": "accordion_item",
+                    "settings": {
+                        "title": "Product Reviews"
+                    }
+                }
+            ]
+        }
+    ]
+}
+{% endschema %}
