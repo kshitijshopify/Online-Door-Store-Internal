@@ -1330,3 +1330,90 @@ class CartPerformance {
     );
   }
 }
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  if (window.innerWidth < 749) {
+    document.querySelectorAll('.product').forEach(function(product) {
+      var title = product.querySelector('.product__title');
+      var price = product.querySelector('.nx-from-price');
+      if (price) product.insertBefore(price, product.firstChild);
+      if (title) product.insertBefore(title, product.firstChild);
+    });
+  }
+
+  var customSpan = document.querySelector('.custom_sze_variant');
+  var variantSelect = document.querySelector('[data-product-select]') || 
+                      document.querySelector('select[name="id"]');
+
+  if (!customSpan || !variantSelect) return;
+
+  function updateLabel() {
+    var selectedOption = variantSelect.options[variantSelect.selectedIndex];
+    if (selectedOption) {
+      customSpan.textContent = selectedOption.textContent.trim();
+    }
+  }
+
+  variantSelect.addEventListener('change', updateLabel);
+  updateLabel();
+
+});
+
+// Move quantity according to screen size
+  const moveQuantity = () => {
+    const qtyEl = document.querySelector('.product-form__quantity');
+    const buttonsEl = document.querySelector('.product-form__buttons');
+    const priceEl = document.querySelector('.price_pdp_main_wr');
+
+    if (!qtyEl) return; // stop if quantity not found
+
+    // Desktop view: 990px and above
+    if (window.innerWidth >= 990) {
+      if (buttonsEl && !buttonsEl.contains(qtyEl)) {
+        buttonsEl.prepend(qtyEl);
+      }
+    } 
+    
+    // Mobile view: below 990px
+    else {
+      if (priceEl && !priceEl.contains(qtyEl)) {
+        priceEl.appendChild(qtyEl);
+      }
+    }
+  };
+
+  // Move once on page load
+  moveQuantity();
+
+  // Move again on resize
+  window.addEventListener("resize", function () {
+    moveQuantity();
+  });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+  const selectorList = [
+    "variant-selects.wrap_in_div",
+    ".product__inventory.wrap_in_div",
+    ".price_pdp_main_wr.wrap_in_div",
+    ".wrap_in_div.installment_div",
+    ".wrap_in_div.main_buy_btn",
+    ".nx-delivery-banner.wrap_in_div"
+  ];
+
+  const elements = selectorList
+    .map(sel => document.querySelector(sel))
+    .filter(Boolean);
+
+  if (elements.length === 0) return;
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "wrap_in_div_main";
+
+  // Insert wrapper before the first element
+  elements[0].before(wrapper);
+
+  // Move all elements inside wrapper
+  elements.forEach(el => wrapper.appendChild(el));
+});
