@@ -1,3 +1,8 @@
+
+{% comment %}
+  ==/  KT CST
+{% endcomment %}
+
 {{ 'template-collection.css' | asset_url | stylesheet_tag }}
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
 {{ 'component-price.css' | asset_url | stylesheet_tag }}
@@ -186,15 +191,22 @@
             <div class="product-count-vertical light" role="status">
               <h2 class="product-count__text text-body">
                 <span id="ProductCountDesktop">
-                  {%- if search.results_count -%}
-                    {{ 'templates.search.results_with_count' | t: terms: search.terms, count: search.results_count }}
-                  {%- elsif search.products_count == search.all_products_count -%}
-                    {{ 'products.facets.product_count_simple' | t: count: search.products_count }}
-                  {%- else -%}
-                    {{
-                      'products.facets.product_count'
-                      | t: product_count: search.products_count, count: search.all_products_count
-                    }}
+                  {% if routes.collections_url %}
+                    <span class="cst-product-count">
+                      <b> {{ collection.all_products_count }} Items </b>
+                      <span> In This section |<a href="#"> View All</a> </span>
+                    </span>
+                  {% else %}
+                    {%- if search.results_count -%}
+                      {{ 'templates.search.results_with_count' | t: terms: search.terms, count: search.results_count }}
+                    {%- elsif search.products_count == search.all_products_count -%}
+                      {{ 'products.facets.product_count_simple' | t: count: search.products_count }}
+                    {%- else -%}
+                      {{
+                        'products.facets.product_count'
+                        | t: product_count: search.products_count, count: search.all_products_count
+                      }}
+                    {%- endif -%}
                   {%- endif -%}
                 </span>
               </h2>
@@ -363,7 +375,7 @@
           "label": "t:sections.main-search.settings.columns_mobile.options__2.label"
         }
       ]
-    },    
+    },
     {
       "type": "header",
       "content": "t:sections.main-search.settings.header__1.content"

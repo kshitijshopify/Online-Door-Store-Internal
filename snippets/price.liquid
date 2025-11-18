@@ -36,7 +36,7 @@
   endif
 
   if target == product and product.price_varies
-    assign money_price = 'products.product.price.from_price_html' | t: price: money_price | prepend: '<span class="from_text">From</span>'
+    assign money_price = 'products.product.price.from_price_html' | t: price: money_price
   endif
 -%}
 
@@ -68,12 +68,11 @@
               <span>
                 <s class="price-item price-item--regular variant-item__old-price">
                   {% if settings.currency_code_enabled %}
-                    {{ compare_at_price | money_with_currency }} 
+                    {{ compare_at_price | money_with_currency }}
                   {% else %}
                     {{ compare_at_price | money }}
                   {% endif %}
                 </s>
-                <span class="include-vat-text">{{ settings.vat_text }}</span>
               </span>
             {%- endunless -%}
           {%- endif -%}
@@ -86,30 +85,28 @@
           </span>
         {%- else -%}
           <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
-          <span class="price-item price-item--regular test">
-            {{ money_price }} <span class="include-vat-text">{{ settings.vat_text }}</span>
+          <span class="price-item price-item--regular">
+            {{ money_price }}
           </span>
         {%- endif -%}
       </div>
       <div class="price__sale">
-        
-        <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.sale_price' | t }}</span>
-        <span class="price-item price-item--sale price-item--last">
-          {{ money_price }}
-        </span>
         {%- unless product.price_varies == false and product.compare_at_price_varies %}
           <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
           <span>
             <s class="price-item price-item--regular">
               {% if settings.currency_code_enabled %}
-                {{ compare_at_price | money_with_currency }} 
+                {{ compare_at_price | money_with_currency }}
               {% else %}
-                {{ compare_at_price | money }} 
+                {{ compare_at_price | money }}
               {% endif %}
             </s>
-            <span class="include-vat-text">{{ settings.vat_text }}</span>
           </span>
         {%- endunless -%}
+        <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.sale_price' | t }}</span>
+        <span class="price-item price-item--sale price-item--last">
+          {{ money_price }}
+        </span>
       </div>
       {%- if product.selected_or_first_available_variant.unit_price_measurement -%}
         {% render 'unit-price', price: product.selected_or_first_available_variant.unit_price, measurement: product.selected_or_first_available_variant.unit_price_measurement %}

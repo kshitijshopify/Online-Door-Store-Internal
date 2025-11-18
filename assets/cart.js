@@ -181,12 +181,22 @@ class CartItems extends HTMLElement {
           if (cartDrawerWrapper) cartDrawerWrapper.classList.toggle('is-empty', parsedState.item_count === 0);
 
           this.getSectionsToRender().forEach((section) => {
-            const elementToReplace =
-              document.getElementById(section.id).querySelector(section.selector) || document.getElementById(section.id);
-            elementToReplace.innerHTML = this.getSectionInnerHTML(
-              parsedState.sections[section.section],
-              section.selector
-            );
+            // KT updates - start
+            const elementsToChange = document.querySelectorAll(`#${section.id}`);
+            elementsToChange.forEach((el) => {
+              const elementToReplace = el.querySelector(`${section.selector}`) || el;
+              elementToReplace.innerHTML = this.getSectionInnerHTML(
+                parsedState.sections[section.section],
+                section.selector
+              );
+            });
+            // KT updates - end
+
+            // const elementToReplace = document.getElementById(section.id).querySelector(section.selector) || document.getElementById(section.id);
+            // elementToReplace.innerHTML = this.getSectionInnerHTML(
+            //   parsedState.sections[section.section],
+            //   section.selector
+            // );
           });
           const updatedValue = parsedState.items[line - 1] ? parsedState.items[line - 1].quantity : undefined;
           let message = '';

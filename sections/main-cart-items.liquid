@@ -5,6 +5,8 @@
 {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
 {{ 'quantity-popover.css' | asset_url | stylesheet_tag }}
 
+{% assign section_id = section.id | handle %}
+
 {%- style -%}
   .section-{{ section.id }}-padding {
     padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
@@ -24,438 +26,903 @@
 {%- endunless -%}
 
 <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
+<style>
+  .title-wrapper-with-link h1{
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 36px;
+    text-transform: uppercase;
+    color: #30309f;
+  }
+  .title-wrapper-with-link span{
+    font-size: 13px;
+    color: #0D223F;
+    text-transform: lowercase;
+    font-weight: 400;
+  }
+  .title-wrapper-with-link {
+    margin: 4rem 0 3rem;
+  }
+  .cart-item{
+    display: flex;
+    background: #F5F5F5;
+    padding: 16px;
+    margin-bottom: 8px;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .cart-items td{
+    padding-top:0px;
+  }
+  .cart-item__name{
+    font-size: 14px;
+    line-height: 20px;
+    color: #071739;
+    max-width: 373px;
+    font-weight: 700;
+  }
+  .product-option-variant{
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 20px;
+    vertical-align: middle;
+    text-transform: capitalize;
+  }
+  .product-card__availability-instock{
+    font-weight:700;
+  }
+  .product-card__availability{
+    font-size:13px;
+    line-height:18px;
+    color:#212133;
+  }
+  .product-card__availability{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 5px;
+  }
+  .cart-item__price-wrapper .price--end{
+    font-size: 20px;
+    line-height: 24px;
+    color: #30309F;
+    font-weight: 600;
+  }
+  .cart-item__totals .compare_at_price{
+    font-size: 16px;
+    font-weight: 400;
+    text-decoration: line-through;
+    color: #212133;
+    line-height: 22px;
+  }
+  .quantity
+  {
+    font-size: 14px;
+    color: #212133;
+    border: 1px solid #212133;
+  }
+  .cart__items{
+    border-bottom:none;
+  }
+  .continue_shopping_btn{
+    padding: 20px 32px;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 18px;
+    text-decoration: none;
+    text-align: center;
+    text-transform: uppercase;
+    border: 1px solid #212133;
+  }
 
-<cart-items class="gradient color-{{ section.settings.color_scheme }} isolate{% if cart == empty %} is-empty{% else %} section-{{ section.id }}-padding{% endif %}">
-  <div class="page-width">
-    <div class="title-wrapper-with-link">
-      <h1 class="title title--primary">{{ 'sections.cart.title' | t }}</h1>
-      <a href="{{ routes.all_products_collection_url }}" class="underlined-link">
-        {{- 'general.continue_shopping' | t -}}
-      </a>
-    </div>
+  
+</style>
 
-    <div class="cart__warnings">
-      <h1 class="cart__empty-text">{{ 'sections.cart.empty' | t }}</h1>
-      <a href="{{ routes.all_products_collection_url }}" class="button">
-        {{ 'general.continue_shopping' | t }}
-      </a>
+{% style %}
+  #{{ section_id }} .cst-container {
+    max-width: 1602px;
+    margin-inline: auto;
+    padding-inline: 56px;
+    padding-top: 64px;
+    padding-bottom: 96px;
+    display: flex;
+    gap: 96px;
+  }
+  #{{ section_id }} .cst-col {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  #{{ section_id }} .cst-container .cst-summary-box {
+    background: #212133;
+    color: #fff;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  #{{ section_id }} .cst-container .cst-summary-box h5 {
+    font-size: 20px;
+    font-weight: 600;
+    color: inherit;
+    line-height: 24px;
+    margin: 0;
+    letter-spacing: 5%;
+    text-transform: uppercase;
+  }
+  #{{ section_id }} .cst-container .cst-summary-box hr {
+    background: #fff;
+    margin: 0;
+  }
+  #{{ section_id }} .cst-container .cst-summary-box p {
+    margin: 0;
+    padding: 0;
+  }
+  #{{ section_id }} .cst-container .cst-summary-box .cst-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0%;
+  }
+  #{{ section_id }} .cst-container .cst-summary-box .cst-row > span,
+  #{{ section_id }} .cst-container .cst-summary-box .cst-row > p {
+    margin: 0;
+    padding: 0;
+    max-width: 50%;
+  }
+  #{{ section_id }} .cst-container .cst-big-text {
+    font-size: 20px;
+    font-weight: 600;
+    color: inherit;
+    line-height: 24px;
+    letter-spacing: 5%;
+  }
+  #{{ section_id }} .cst-container .cst-btn {
+    max-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-inline: 24px;
+    height: 50px;
+    background: #30309F;
+    border: 0;
+    outline: 0;
+  }
+  #{{ section_id }} .cst-container .cst-center {
+    display: flex;
+    justify-content: center;
+  }
+  #{{ section_id }} .cst-container .cst-link {
+    text-decoration: underline;
+    color: inherit;
+  }
+  #{{ section_id }} .cst-container .cst-payment-icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 224px;
+    gap: 8px;
+    margin-inline: auto;
+  }
+  #{{ section_id }} .cst-container .cst-payment-icons svg {
+    flex: 1;
+  }
+  #{{ section_id }} .cst-container .cst-review-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+  #{{ section_id }} .cst-container .cst-review-flex span {
+    font-size: 16px;
+    line-height: 22px;
+    font-weight: 400;
+  }
 
-      {%- if shop.customer_accounts_enabled and customer == null -%}
-        <h2 class="cart__login-title">{{ 'sections.cart.login.title' | t }}</h2>
-        <p class="cart__login-paragraph">
-          {{ 'sections.cart.login.paragraph_html' | t: link: routes.account_login_url }}
-        </p>
-      {%- endif -%}
-    </div>
+  #{{ section_id }} .cst-container .cst-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  #{{ section_id }} .cst-container .cst-details p {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: 13px;
+    line-height: 18px;
+  }
+  #{{ section_id }} .cst-container .cst-shipping-details {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+    justify-content: center;
+    padding-inline: 24px;
+    padding-block: 40px 32px;
+    border: 3px solid #30309F;
+    position: relative;
+  }
+  #{{ section_id }} .cst-container .cst-shipping-details .cst-logo-box {
+    display: flex;
+    width: 240px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  #{{ section_id }} .cst-container .cst-details .cst-review-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 24px;
+    background: #EBEBFF;
+  }
+  #{{ section_id }} .cst-container .cst-details .cst-review-icon {
+    display: flex;
+  }
+  #{{ section_id }} .cst-container .cst-details .cst-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
 
-    <form action="{{ routes.cart_url }}" class="cart__contents critical-hidden" method="post" id="cart">
-      <div class="cart__items" id="main-cart-items" data-id="{{ section.id }}">
-        <div class="js-contents">
-          {%- if cart != empty -%}
-            <table class="cart-items">
-              <caption class="visually-hidden">
-                {{ 'sections.cart.title' | t }}
-              </caption>
-              <thead>
-                <tr>
-                  <th class="caption-with-letter-spacing" colspan="2" scope="col">
-                    {{ 'sections.cart.headings.product' | t }}
-                  </th>
-                  <th class="medium-hide large-up-hide right caption-with-letter-spacing" colspan="1" scope="col">
-                    {{ 'sections.cart.headings.total' | t }}
-                  </th>
-                  <th
-                    class="cart-items__heading--wide cart-items__heading--quantity small-hide caption-with-letter-spacing"
-                    colspan="1"
-                    scope="col"
-                  >
-                    {{ 'sections.cart.headings.quantity' | t }}
-                  </th>
-                  <th class="small-hide right caption-with-letter-spacing" colspan="1" scope="col">
-                    {{ 'sections.cart.headings.total' | t }}
-                  </th>
-                </tr>
-              </thead>
+  @media(max-width: 1024px) {
+    #{{ section_id }} .cst-container {
+      padding-inline: 32px;
+      gap: 32px;
+    }
+  }
+  @media(max-width: 768px) {
+    #{{ section_id }} .cst-container {
+      padding-inline:16px;
+      gap: 16px;
+      flex-direction: column;
+    }
+  }
+{% endstyle %}
 
-              <tbody>
-                {%- for item in cart.items -%}
-                  <tr
-                    class="cart-item {% if item.parent_relationship.parent != null %}cart-item__nested-line{% endif %}"
-                    id="CartItem-{{ item.index | plus: 1 }}"
-                    {% if item.parent_relationship.parent != null %}
-                      aria-label="{{- 'products.product.nested_label' | t: title: item.product.title, parent_title: item.parent_relationship.parent.title | escape -}}"
-                    {% endif %}
-                  >
-                    <td class="cart-item__media">
-                      {% if item.image %}
-                        {% comment %} Leave empty space due to a:empty CSS display: none rule {% endcomment %}
-                        <a href="{{ item.url }}" class="cart-item__link" aria-hidden="true" tabindex="-1"> </a>
-                        <div class="cart-item__image-container gradient {% if item.parent_relationship.parent == null %}global-media-settings{% endif %}">
-                          <img
-                            src="{{ item.image | image_url: width: 300 }}"
-                            class="cart-item__image {% if item.parent_relationship.parent != null %}global-media-settings{% endif %}"
-                            alt="{{ item.image.alt | escape }}"
-                            loading="lazy"
-                            width="150"
-                            height="{{ 150 | divided_by: item.image.aspect_ratio | ceil }}"
-                          >
-                        </div>
-                      {% endif %}
-                    </td>
+<section id="{{ section_id }}">
+  <div class="cst-page-width">
+    <div class="cst-container">
+      <div class="cst-col">
+        <cart-items class="gradient color-{{ section.settings.color_scheme }} isolate{% if cart == empty %} is-empty{% else %} section-{{ section.id }}-padding{% endif %}">
+          <div class="title-wrapper-with-link">
+            <h1 class="title title--primary">
+            Basket <span><span>(</span><span id="cart-item-count">{{ cart.item_count }}</span> <span>items)</span></span>
+            </h1>
+          </div>
 
-                    <td class="cart-item__details">
-                      {%- if settings.show_vendor -%}
-                        <p class="caption-with-letter-spacing">{{ item.product.vendor }}</p>
-                      {%- endif -%}
+          <div class="cart__warnings">
+            <h1 class="cart__empty-text">{{ 'sections.cart.empty' | t }}</h1>
+            <a href="{{ routes.all_products_collection_url }}" class="button">
+              {{ 'general.continue_shopping' | t }}
+            </a>
 
-                      <a href="{{ item.url }}" class="cart-item__name h4 break">{{ item.product.title | escape }}</a>
+            {%- if shop.customer_accounts_enabled and customer == null -%}
+              <h2 class="cart__login-title">{{ 'sections.cart.login.title' | t }}</h2>
+              <p class="cart__login-paragraph">
+                {{ 'sections.cart.login.paragraph_html' | t: link: routes.account_login_url }}
+              </p>
+            {%- endif -%}
+          </div>
 
-                      {%- if item.original_price != item.final_price -%}
-                        <div class="cart-item__discounted-prices">
-                          <span class="visually-hidden">
-                            {{ 'products.product.price.regular_price' | t }}
-                          </span>
-                          <s class="cart-item__old-price product-option">
-                            {{- item.original_price | money -}}
-                          </s>
-                          <span class="visually-hidden">
-                            {{ 'products.product.price.sale_price' | t }}
-                          </span>
-                          <strong class="cart-item__final-price product-option">
-                            {{ item.final_price | money }}
-                          </strong>
-                        </div>
-                      {%- else -%}
-                        <div class="product-option">
-                          {{ item.original_price | money }}
-                        </div>
-                      {%- endif -%}
+          <form action="{{ routes.cart_url }}" class="cart__contents critical-hidden" method="post" id="cart">
+            <div class="cart__items" id="main-cart-items" data-id="{{ section.id }}">
+              <div class="js-contents">
+                {%- if cart != empty -%}
+                  <table class="cart-items">
+                    <caption class="visually-hidden">
+                      {{ 'sections.cart.title' | t }}
+                    </caption>
+                    {% comment %} <thead>
+                      <tr>
+                        <th class="caption-with-letter-spacing" colspan="2" scope="col">
+                          {{ 'sections.cart.headings.product' | t }}
+                        </th>
+                        <th class="medium-hide large-up-hide right caption-with-letter-spacing" colspan="1" scope="col">
+                          {{ 'sections.cart.headings.total' | t }}
+                        </th>
+                        <th
+                          class="cart-items__heading--wide cart-items__heading--quantity small-hide caption-with-letter-spacing"
+                          colspan="1"
+                          scope="col"
+                        >
+                          {{ 'sections.cart.headings.quantity' | t }}
+                        </th>
+                        <th class="small-hide right caption-with-letter-spacing" colspan="1" scope="col">
+                          {{ 'sections.cart.headings.total' | t }}
+                        </th>
+                      </tr>
+                    </thead> {% endcomment %}
 
-                      {%- if item.product.has_only_default_variant == false
-                        or item.properties.size != 0
-                        or item.selling_plan_allocation != null
-                      -%}
-                        <dl>
-                          {%- if item.product.has_only_default_variant == false -%}
-                            {%- for option in item.options_with_values -%}
-                              <div class="product-option">
-                                <dt>{{ option.name }}:</dt>
-                                <dd>{{ option.value }}</dd>
+                    <tbody>
+                      {%- for item in cart.items -%}
+                        <tr
+                          class="cart-item {% if item.parent_relationship.parent != null %}cart-item__nested-line{% endif %}"
+                          id="CartItem-{{ item.index | plus: 1 }}"
+                          {% if item.parent_relationship.parent != null %}
+                            aria-label="{{- 'products.product.nested_label' | t: title: item.product.title, parent_title: item.parent_relationship.parent.title | escape -}}"
+                          {% endif %}
+                        >
+                          <td class="cart-item__media">
+                            {% if item.image %}
+                              {% comment %} Leave empty space due to a:empty CSS display: none rule {% endcomment %}
+                              <a href="{{ item.url }}" class="cart-item__link" aria-hidden="true" tabindex="-1"> </a>
+                              <div class="cart-item__image-container gradient {% if item.parent_relationship.parent == null %}global-media-settings{% endif %}">
+                                <img
+                                  src="{{ item.image | image_url: width: 300 }}"
+                                  class="cart-item__image {% if item.parent_relationship.parent != null %}global-media-settings{% endif %}"
+                                  alt="{{ item.image.alt | escape }}"
+                                  loading="lazy"
+                                  width="150"
+                                  height="{{ 150 | divided_by: item.image.aspect_ratio | ceil }}"
+                                >
                               </div>
-                            {%- endfor -%}
-                          {%- endif -%}
-
-                          {%- for property in item.properties -%}
-                            {%- assign property_first_char = property.first | slice: 0 -%}
-                            {%- if property.last != blank and property_first_char != '_' -%}
-                              <div class="product-option">
-                                <dt>{{ property.first }}:</dt>
-                                <dd>
-                                  {%- if property.last contains '/uploads/' -%}
-                                    <a href="{{ property.last }}" class="link" target="_blank">
-                                      {{ property.last | split: '/' | last }}
-                                    </a>
-                                  {%- else -%}
-                                    {{ property.last }}
-                                  {%- endif -%}
-                                </dd>
-                              </div>
-                            {%- endif -%}
-                          {%- endfor -%}
-                        </dl>
-
-                        <p class="product-option">{{ item.selling_plan_allocation.selling_plan.name }}</p>
-                      {%- endif -%}
-
-                      <ul class="discounts list-unstyled" role="list" aria-label="{{ 'customer.order.discount' | t }}">
-                        {%- for discount in item.line_level_discount_allocations -%}
-                          <li class="discounts__discount">
-                            {{- 'icon-discount.svg' | inline_asset_content -}}
-                            {{ discount.discount_application.title | escape }}
-                          </li>
-                        {%- endfor -%}
-                      </ul>
-                    </td>
-
-                    <td class="cart-item__totals right medium-hide large-up-hide">
-                      {%- render 'loading-spinner' -%}
-                      <div class="cart-item__price-wrapper">
-                        {%- if item.original_line_price != item.final_line_price -%}
-                          <dl class="cart-item__discounted-prices">
-                            <dt class="visually-hidden">
-                              {{ 'products.product.price.regular_price' | t }}
-                            </dt>
-                            <dd>
-                              <s class="cart-item__old-price price price--end">
-                                {{ item.original_line_price | money }}
-                              </s>
-                            </dd>
-                            <dt class="visually-hidden">
-                              {{ 'products.product.price.sale_price' | t }}
-                            </dt>
-                            <dd class="price price--end">
-                              {{ item.final_line_price | money }}
-                            </dd>
-                          </dl>
-                        {%- else -%}
-                          <span class="price price--end">
-                            {{ item.original_line_price | money }}
-                          </span>
-                        {%- endif -%}
-
-                        {%- if item.variant.available and item.unit_price_measurement -%}
-                          {% render 'unit-price', price: item.unit_price, measurement: item.unit_price_measurement %}
-                        {%- endif -%}
-                      </div>
-                    </td>
-                    {%- liquid
-                      assign has_qty_rules = false
-                      if item.variant.quantity_rule.increment > 1 or item.variant.quantity_rule.min > 1 or item.variant.quantity_rule.max != null
-                        assign has_qty_rules = true
-                      endif
-
-                      assign has_vol_pricing = false
-                      if item.variant.quantity_price_breaks.size > 0
-                        assign has_vol_pricing = true
-                      endif
-                    -%}
-                    <td class="cart-item__quantity{% if has_qty_rules or has_vol_pricing %} cart-item__quantity--info{% endif %}">
-                      <quantity-popover>
-                        <div class="cart-item__quantity-wrapper quantity-popover-wrapper">
-                          <label class="visually-hidden" for="Quantity-{{ item.index | plus: 1 }}">
-                            {{ 'products.product.quantity.label' | t }}
-                          </label>
-                          <div class="quantity-popover-container{% if has_qty_rules or has_vol_pricing %} quantity-popover-container--hover{% endif %}">
-                            {%- if has_qty_rules or has_vol_pricing -%}
-                              <button
-                                type="button"
-                                aria-expanded="false"
-                                class="quantity-popover__info-button quantity-popover__info-button--icon-only button button--tertiary small-hide medium-hide"
-                              >
-                                {{- 'icon-info.svg' | inline_asset_content -}}
-                              </button>
-                            {%- endif -%}
-                            <quantity-input class="quantity cart-quantity">
-                              {% assign can_update_quantity = item.instructions.can_update_quantity | default: true %}
-                              <button
-                                class="quantity__button"
-                                name="minus"
-                                type="button"
-                                {% if can_update_quantity == false %}
-                                  disabled
-                                {% endif %}
-                              >
-                                <span class="visually-hidden">
-                                  {{- 'products.product.quantity.decrease' | t: product: item.product.title | escape -}}
-                                </span>
-                                <span class="svg-wrapper">
-                                  {{- 'icon-minus.svg' | inline_asset_content -}}
-                                </span>
-                              </button>
-                              <input
-                                class="quantity__input"
-                                data-quantity-variant-id="{{ item.variant.id }}"
-                                type="number"
-                                name="updates[]"
-                                value="{{ item.quantity }}"
-                                {% # theme-check-disable %}
-                                data-cart-quantity="{{ cart | item_count_for_variant: item.variant.id }}"
-                                min="0"
-                                data-min="{{ item.variant.quantity_rule.min }}"
-                                {% if item.variant.quantity_rule.max != null %}
-                                  max="{{ item.variant.quantity_rule.max }}"
-                                {% endif %}
-                                step="{{ item.variant.quantity_rule.increment }}"
-                                {% # theme-check-enable %}
-                                aria-label="{{ 'products.product.quantity.input_label' | t: product: item.product.title | escape }}"
-                                id="Quantity-{{ item.index | plus: 1 }}"
-                                data-index="{{ item.index | plus: 1 }}"
-                                {% if can_update_quantity == false %}
-                                  disabled
-                                {% endif %}
-                              >
-                              <button
-                                class="quantity__button"
-                                name="plus"
-                                type="button"
-                                {% if can_update_quantity == false %}
-                                  disabled
-                                {% endif %}
-                              >
-                                <span class="visually-hidden">
-                                  {{- 'products.product.quantity.increase' | t: product: item.product.title | escape -}}
-                                </span>
-                                <span class="svg-wrapper">
-                                  {{- 'icon-plus.svg' | inline_asset_content -}}
-                                </span>
-                              </button>
-                            </quantity-input>
-                          </div>
-                          <cart-remove-button
-                            id="Remove-{{ item.index | plus: 1 }}"
-                            data-index="{{ item.index | plus: 1 }}"
-                            {% assign can_remove = item.instructions.can_remove | default: true %}
-                            {% if can_remove == false %}
-                              class="hidden"
                             {% endif %}
-                          >
-                            <a
-                              href="{{ item.url_to_remove }}"
-                              class="button button--tertiary"
-                              aria-label="{{ 'sections.cart.remove_title' | t: title: item.title | escape }}"
-                            >
-                              <span class="svg-wrapper">
-                                {{- 'icon-remove.svg' | inline_asset_content -}}
-                              </span>
-                            </a>
-                          </cart-remove-button>
-                        </div>
-                        {%- if has_qty_rules or has_vol_pricing -%}
-                          <button
-                            type="button"
-                            class="quantity-popover__info-button quantity-popover__info-button--icon-with-label button button--tertiary large-up-hide"
-                            aria-expanded="false"
-                          >
-                            {{- 'icon-info.svg' | inline_asset_content -}}
-                            <span>
-                              {%- if has_vol_pricing -%}
-                                {{ 'products.product.volume_pricing.note' | t }}
-                              {%- elsif has_qty_rules -%}
-                                {{ 'products.product.quantity.note' | t }}
-                              {%- endif -%}
-                            </span>
-                          </button>
-                        {%- endif -%}
-                        {%- if has_vol_pricing or has_qty_rules -%}
-                          <div
-                            class="cart-items__info global-settings-popup quantity-popover__info"
-                            tabindex="-1"
-                            hidden
-                          >
-                            {%- if has_qty_rules == false -%}
-                              <span class="volume-pricing-label caption">
-                                {{- 'products.product.volume_pricing.title' | t -}}
-                              </span>
+                          </td>
+
+                          <td class="cart-item__details">
+                            {%- if settings.show_vendor -%}
+                              <p class="caption-with-letter-spacing">{{ item.product.vendor }}</p>
                             {%- endif -%}
-                            <div class="quantity__rules caption">
-                              {%- if item.variant.quantity_rule.increment > 1 -%}
-                                <span class="divider">
-                                  {{-
-                                    'products.product.quantity.multiples_of'
-                                    | t: quantity: item.variant.quantity_rule.increment
-                                  -}}
+
+                            <a href="{{ item.url }}" class="cart-item__name h4 break">{{ item.product.title | escape }}</a>
+
+                            {% comment %} {%- if item.original_price != item.final_price -%}
+                              <div class="cart-item__discounted-prices">
+                                <span class="visually-hidden">
+                                  {{ 'products.product.price.regular_price' | t }}
+                                </span>
+                                <s class="cart-item__old-price product-option">
+                                  {{- item.original_price | money -}}
+                                </s>
+                                <span class="visually-hidden">
+                                  {{ 'products.product.price.sale_price' | t }}
+                                </span>
+                                <strong class="cart-item__final-price product-option">
+                                  {{ item.final_price | money }}
+                                </strong>
+                              </div>
+                            {%- else -%}
+                              <div class="product-option">
+                                {{ item.original_price | money }}
+                              </div>
+                            {%- endif -%} {% endcomment %}
+
+                            {%- if item.product.has_only_default_variant == false
+                              or item.properties.size != 0
+                              or item.selling_plan_allocation != null
+                            -%}
+                              <dl>
+                                {%- if item.product.has_only_default_variant == false -%}
+                                  {%- for option in item.options_with_values -%}
+                                    <div class="product-option product-option-variant">
+                                      <dt>{{ option.name }}:</dt>
+                                      <dd>{{ option.value }}</dd>
+                                    </div>
+                                  {%- endfor -%}
+                                {%- endif -%}
+
+                                {%- for property in item.properties -%}
+                                  {%- assign property_first_char = property.first | slice: 0 -%}
+                                  {%- if property.last != blank and property_first_char != '_' -%}
+                                    <div class="product-option product-option-variant">
+                                      <dt>{{ property.first }}:</dt>
+                                      <dd>
+                                        {%- if property.last contains '/uploads/' -%}
+                                          <a href="{{ property.last }}" class="link" target="_blank">
+                                            {{ property.last | split: '/' | last }}
+                                          </a>
+                                        {%- else -%}
+                                          {{ property.last }}
+                                        {%- endif -%}
+                                      </dd>
+                                    </div>
+                                  {%- endif -%}
+                                {%- endfor -%}
+                              </dl>
+
+                              <p class="product-option">{{ item.selling_plan_allocation.selling_plan.name }}</p>
+                            {%- endif -%}
+
+                            <ul class="discounts list-unstyled" role="list" aria-label="{{ 'customer.order.discount' | t }}">
+                              {%- for discount in item.line_level_discount_allocations -%}
+                                <li class="discounts__discount">
+                                  {{- 'icon-discount.svg' | inline_asset_content -}}
+                                  {{ discount.discount_application.title | escape }}
+                                </li>
+                              {%- endfor -%}
+                            </ul>
+                              {% if item.product.available %}
+                                  <div class="product-card__availability">
+                                  <svg width="15" height="11" viewBox="0 0 15 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13.8125 0.40625C14.2188 0.78125 14.2188 1.4375 13.8125 1.8125L5.8125 9.8125C5.4375 10.2188 4.78125 10.2188 4.40625 9.8125L0.40625 5.8125C0 5.4375 0 4.78125 0.40625 4.40625C0.78125 4 1.4375 4 1.8125 4.40625L5.125 7.6875L12.4062 0.40625C12.7812 0 13.4375 0 13.8125 0.40625Z" fill="#30309F"/>
+                                  </svg>
+                                  <span class="product-card__availability-text">
+                                    <span class="product-card__availability-instock">In Stock</span>
+                                    <span class="product-card__availability-other"> | Despatched within 24 Hrs</span>
+                                  </span>
+                                </div>
+                                {% comment %} {% else %}
+                                  <div class="product-card__availability">
+                                    <span class="product-card__availability-text" style="color: #f44336;">Out of Stock</span>
+                                  </div> {% endcomment %}
+                              {% endif %}
+                          </td>
+
+                          <td class="cart-item__totals right medium-hide large-up-hide">
+                            {%- render 'loading-spinner' -%}
+                            <div class="cart-item__price-wrapper">
+                              {%- if item.original_line_price != item.final_line_price -%}
+                                <dl class="cart-item__discounted-prices">
+                                  <dt class="visually-hidden">
+                                    {{ 'products.product.price.regular_price' | t }}
+                                  </dt>
+                                  <dd>
+                                    <s class="cart-item__old-price price price--end">
+                                      {{ item.original_line_price | money }}
+                                    </s>
+                                  </dd>
+                                  <dt class="visually-hidden">
+                                    {{ 'products.product.price.sale_price' | t }}
+                                  </dt>
+                                  <dd class="price price--end">
+                                    {{ item.final_line_price | money }}
+                                  </dd>
+                                </dl>
+                              {%- else -%}
+                                <span class="price price--end">
+                                  {{ item.original_line_price | money }}
                                 </span>
                               {%- endif -%}
-                              {%- if item.variant.quantity_rule.min > 1 -%}
-                                <span class="divider">
-                                  {{-
-                                    'products.product.quantity.min_of'
-                                    | t: quantity: item.variant.quantity_rule.min
-                                  -}}
+
+                              {%- if item.variant.available and item.unit_price_measurement -%}
+                                {% render 'unit-price', price: item.unit_price, measurement: item.unit_price_measurement %}
+                              {%- endif -%}
+                              
+                            </div>
+                            {% if item.product.compare_at_price != blank %}
+                            <span class="compare_at_price">{{ item.product.compare_at_price | money }}</span><br>
+                          {% endif %}
+                          Inc VAT
+                          </td>
+                          {%- liquid
+                            assign has_qty_rules = false
+                            if item.variant.quantity_rule.increment > 1 or item.variant.quantity_rule.min > 1 or item.variant.quantity_rule.max != null
+                              assign has_qty_rules = true
+                            endif
+
+                            assign has_vol_pricing = false
+                            if item.variant.quantity_price_breaks.size > 0
+                              assign has_vol_pricing = true
+                            endif
+                          -%}
+                          <td class="cart-item__quantity{% if has_qty_rules or has_vol_pricing %} cart-item__quantity--info{% endif %}">
+                            <quantity-popover>
+                              <div class="cart-item__quantity-wrapper quantity-popover-wrapper">
+                                <label class="visually-hidden" for="Quantity-{{ item.index | plus: 1 }}">
+                                  {{ 'products.product.quantity.label' | t }}
+                                </label>
+                                <div class="quantity-popover-container{% if has_qty_rules or has_vol_pricing %} quantity-popover-container--hover{% endif %}">
+                                  {%- if has_qty_rules or has_vol_pricing -%}
+                                    <button
+                                      type="button"
+                                      aria-expanded="false"
+                                      class="quantity-popover__info-button quantity-popover__info-button--icon-only button button--tertiary small-hide medium-hide"
+                                    >
+                                      {{- 'icon-info.svg' | inline_asset_content -}}
+                                    </button>
+                                  {%- endif -%}
+                                  <quantity-input class="quantity cart-quantity">
+                                    {% assign can_update_quantity = item.instructions.can_update_quantity | default: true %}
+                                    <button
+                                      class="quantity__button"
+                                      name="minus"
+                                      type="button"
+                                      {% if can_update_quantity == false %}
+                                        disabled
+                                      {% endif %}
+                                    >
+                                      <span class="visually-hidden">
+                                        {{- 'products.product.quantity.decrease' | t: product: item.product.title | escape -}}
+                                      </span>
+                                      <span class="svg-wrapper">
+                                        {{- 'icon-minus.svg' | inline_asset_content -}}
+                                      </span>
+                                    </button>
+                                    <input
+                                      class="quantity__input"
+                                      data-quantity-variant-id="{{ item.variant.id }}"
+                                      type="number"
+                                      name="updates[]"
+                                      value="{{ item.quantity }}"
+                                      {% # theme-check-disable %}
+                                      data-cart-quantity="{{ cart | item_count_for_variant: item.variant.id }}"
+                                      min="0"
+                                      data-min="{{ item.variant.quantity_rule.min }}"
+                                      {% if item.variant.quantity_rule.max != null %}
+                                        max="{{ item.variant.quantity_rule.max }}"
+                                      {% endif %}
+                                      step="{{ item.variant.quantity_rule.increment }}"
+                                      {% # theme-check-enable %}
+                                      aria-label="{{ 'products.product.quantity.input_label' | t: product: item.product.title | escape }}"
+                                      id="Quantity-{{ item.index | plus: 1 }}"
+                                      data-index="{{ item.index | plus: 1 }}"
+                                      {% if can_update_quantity == false %}
+                                        disabled
+                                      {% endif %}
+                                    >
+                                    <button
+                                      class="quantity__button"
+                                      name="plus"
+                                      type="button"
+                                      {% if can_update_quantity == false %}
+                                        disabled
+                                      {% endif %}
+                                    >
+                                      <span class="visually-hidden">
+                                        {{- 'products.product.quantity.increase' | t: product: item.product.title | escape -}}
+                                      </span>
+                                      <span class="svg-wrapper">
+                                        {{- 'icon-plus.svg' | inline_asset_content -}}
+                                      </span>
+                                    </button>
+                                  </quantity-input>
+                                </div>
+                                <cart-remove-button
+                                  id="Remove-{{ item.index | plus: 1 }}"
+                                  data-index="{{ item.index | plus: 1 }}"
+                                  {% assign can_remove = item.instructions.can_remove | default: true %}
+                                  {% if can_remove == false %}
+                                    class="hidden"
+                                  {% endif %}
+                                >
+                                  <a
+                                    href="{{ item.url_to_remove }}"
+                                    class="button button--tertiary"
+                                    aria-label="{{ 'sections.cart.remove_title' | t: title: item.title | escape }}"
+                                  >
+                                    <span class="svg-wrapper">
+                                      {{- 'icon-remove.svg' | inline_asset_content -}}
+                                    </span>
+                                  </a>
+                                </cart-remove-button>
+                              </div>
+                              {%- if has_qty_rules or has_vol_pricing -%}
+                                <button
+                                  type="button"
+                                  class="quantity-popover__info-button quantity-popover__info-button--icon-with-label button button--tertiary large-up-hide"
+                                  aria-expanded="false"
+                                >
+                                  {{- 'icon-info.svg' | inline_asset_content -}}
+                                  <span>
+                                    {%- if has_vol_pricing -%}
+                                      {{ 'products.product.volume_pricing.note' | t }}
+                                    {%- elsif has_qty_rules -%}
+                                      {{ 'products.product.quantity.note' | t }}
+                                    {%- endif -%}
+                                  </span>
+                                </button>
+                              {%- endif -%}
+                              {%- if has_vol_pricing or has_qty_rules -%}
+                                <div
+                                  class="cart-items__info global-settings-popup quantity-popover__info"
+                                  tabindex="-1"
+                                  hidden
+                                >
+                                  {%- if has_qty_rules == false -%}
+                                    <span class="volume-pricing-label caption">
+                                      {{- 'products.product.volume_pricing.title' | t -}}
+                                    </span>
+                                  {%- endif -%}
+                                  <div class="quantity__rules caption">
+                                    {%- if item.variant.quantity_rule.increment > 1 -%}
+                                      <span class="divider">
+                                        {{-
+                                          'products.product.quantity.multiples_of'
+                                          | t: quantity: item.variant.quantity_rule.increment
+                                        -}}
+                                      </span>
+                                    {%- endif -%}
+                                    {%- if item.variant.quantity_rule.min > 1 -%}
+                                      <span class="divider">
+                                        {{-
+                                          'products.product.quantity.min_of'
+                                          | t: quantity: item.variant.quantity_rule.min
+                                        -}}
+                                      </span>
+                                    {%- endif -%}
+                                    {%- if item.variant.quantity_rule.max != null -%}
+                                      <span class="divider">
+                                        {{-
+                                          'products.product.quantity.max_of'
+                                          | t: quantity: item.variant.quantity_rule.max
+                                        -}}
+                                      </span>
+                                    {%- endif -%}
+                                  </div>
+                                  <button
+                                    class="button-close button button--tertiary large-up-hide"
+                                    type="button"
+                                    aria-label="{{ 'accessibility.close' | t }}"
+                                  >
+                                    <span class="svg-wrapper">
+                                      {{- 'icon-close.svg' | inline_asset_content -}}
+                                    </span>
+                                  </button>
+                                  {%- if item.variant.quantity_price_breaks.size > 0 -%}
+                                    <volume-pricing class="parent-display">
+                                      <ul class="list-unstyled">
+                                        <li>
+                                          <span>{{ item.variant.quantity_rule.min }}+</span>
+                                          {%- assign price = item.variant.price | money_with_currency -%}
+                                          <span> {{ 'sections.quick_order_list.each' | t: money: price }}</span>
+                                        </li>
+                                        {%- for price_break in item.variant.quantity_price_breaks -%}
+                                          <li>
+                                            <span>
+                                              {{- price_break.minimum_quantity -}}
+                                              <span aria-hidden="true">+</span></span
+                                            >
+                                            {%- assign price = price_break.price | money_with_currency -%}
+                                            <span> {{ 'sections.quick_order_list.each' | t: money: price }}</span>
+                                          </li>
+                                        {%- endfor -%}
+                                      </ul>
+                                    </volume-pricing>
+                                  {%- endif -%}
+                                </div>
+                              {%- endif -%}
+                              <div class="cart-item__error" id="Line-item-error-{{ item.index | plus: 1 }}" role="alert">
+                                <small class="cart-item__error-text"></small>
+                                <span class="svg-wrapper">
+                                  {{- 'icon-error.svg' | inline_asset_content -}}
+                                </span>
+                              </div>
+                            </quantity-popover>
+                          </td>
+
+                          <td class="cart-item__totals right small-hide">
+                            {%- render 'loading-spinner' -%}
+                            <div class="cart-item__price-wrapper">
+                              {%- if item.original_line_price != item.final_line_price -%}
+                                <dl class="cart-item__discounted-prices">
+                                  <dt class="visually-hidden">
+                                    {{ 'products.product.price.regular_price' | t }}
+                                  </dt>
+                                  <dd>
+                                    <s class="cart-item__old-price price price--end">
+                                      {{ item.original_line_price | money }}
+                                    </s>
+                                  </dd>
+                                  <dt class="visually-hidden">
+                                    {{ 'products.product.price.sale_price' | t }}
+                                  </dt>
+                                  <dd class="price price--end">
+                                    {{ item.final_line_price | money }}
+                                  </dd>
+                                </dl>
+                              {%- else -%}
+                                <span class="price price--end">
+                                  {{ item.original_line_price | money }}
                                 </span>
                               {%- endif -%}
-                              {%- if item.variant.quantity_rule.max != null -%}
-                                <span class="divider">
-                                  {{-
-                                    'products.product.quantity.max_of'
-                                    | t: quantity: item.variant.quantity_rule.max
-                                  -}}
-                                </span>
+
+                              {%- if item.variant.available and item.unit_price_measurement -%}
+                                {% render 'unit-price', price: item.unit_price, measurement: item.unit_price_measurement %}
                               {%- endif -%}
                             </div>
-                            <button
-                              class="button-close button button--tertiary large-up-hide"
-                              type="button"
-                              aria-label="{{ 'accessibility.close' | t }}"
-                            >
-                              <span class="svg-wrapper">
-                                {{- 'icon-close.svg' | inline_asset_content -}}
-                              </span>
-                            </button>
-                            {%- if item.variant.quantity_price_breaks.size > 0 -%}
-                              <volume-pricing class="parent-display">
-                                <ul class="list-unstyled">
-                                  <li>
-                                    <span>{{ item.variant.quantity_rule.min }}+</span>
-                                    {%- assign price = item.variant.price | money_with_currency -%}
-                                    <span> {{ 'sections.quick_order_list.each' | t: money: price }}</span>
-                                  </li>
-                                  {%- for price_break in item.variant.quantity_price_breaks -%}
-                                    <li>
-                                      <span>
-                                        {{- price_break.minimum_quantity -}}
-                                        <span aria-hidden="true">+</span></span
-                                      >
-                                      {%- assign price = price_break.price | money_with_currency -%}
-                                      <span> {{ 'sections.quick_order_list.each' | t: money: price }}</span>
-                                    </li>
-                                  {%- endfor -%}
-                                </ul>
-                              </volume-pricing>
-                            {%- endif -%}
-                          </div>
-                        {%- endif -%}
-                        <div class="cart-item__error" id="Line-item-error-{{ item.index | plus: 1 }}" role="alert">
-                          <small class="cart-item__error-text"></small>
-                          <span class="svg-wrapper">
-                            {{- 'icon-error.svg' | inline_asset_content -}}
-                          </span>
-                        </div>
-                      </quantity-popover>
-                    </td>
+                            {% if item.product.compare_at_price != blank %}
+                            <span class="compare_at_price">{{ item.product.compare_at_price | money }}</span><br>
+                          {% endif %}
+                          Inc VAT
+                          </td>
+                        </tr>
+                      {%- endfor -%}
+                    </tbody>
+                  </table>
+                {%- endif -%}
+              </div>
+            </div>
 
-                    <td class="cart-item__totals right small-hide">
-                      {%- render 'loading-spinner' -%}
-                      <div class="cart-item__price-wrapper">
-                        {%- if item.original_line_price != item.final_line_price -%}
-                          <dl class="cart-item__discounted-prices">
-                            <dt class="visually-hidden">
-                              {{ 'products.product.price.regular_price' | t }}
-                            </dt>
-                            <dd>
-                              <s class="cart-item__old-price price price--end">
-                                {{ item.original_line_price | money }}
-                              </s>
-                            </dd>
-                            <dt class="visually-hidden">
-                              {{ 'products.product.price.sale_price' | t }}
-                            </dt>
-                            <dd class="price price--end">
-                              {{ item.final_line_price | money }}
-                            </dd>
-                          </dl>
-                        {%- else -%}
-                          <span class="price price--end">
-                            {{ item.original_line_price | money }}
-                          </span>
-                        {%- endif -%}
+            <p class="visually-hidden" id="cart-live-region-text" aria-live="polite" role="status"></p>
+            <p
+              class="visually-hidden"
+              id="shopping-cart-line-item-status"
+              aria-live="polite"
+              aria-hidden="true"
+              role="status"
+            >
+              {{ 'accessibility.loading' | t }}
+            </p>
+          </form>
+          <a href="{{ routes.all_products_collection_url }}" class="continue_shopping_btn underlined-link"> {{- 'general.continue_shopping' | t -}} </a>
+        </cart-items>
+                  {% render 'upsell_products', product: product, section: section, block: block %}
 
-                        {%- if item.variant.available and item.unit_price_measurement -%}
-                          {% render 'unit-price', price: item.unit_price, measurement: item.unit_price_measurement %}
-                        {%- endif -%}
-                      </div>
-                    </td>
-                  </tr>
-                {%- endfor -%}
-              </tbody>
-            </table>
-          {%- endif -%}
+      </div>
+      <div class="cst-col">
+        <div class="cst-summary-box">
+          <h5>Summary</h5>
+          <hr />
+          <div class="cst-row">
+            <span>Delivery (Calculated at Checkout)</span>
+            <span>From £45.00</span>
+          </div>
+          <div class="cst-row">
+            <span>VAT</span>
+            <span>£22.75</span>
+          </div>
+          <div class="cst-row">
+            <p>
+              <span class="cst-big-text">Total</span>
+              <span>(Inc. VAT)</span>
+            </p>
+            <span class="cst-big-text totals__total-value">{{ cart.total_price | money }}</span>
+          </div>
+          <hr />
+          <p class="cst-center">
+            <span>Got a discount code? Enter it at </span>
+            <a href="/" class="cst-link">checkout.</a>
+          </p>
+          <button type="submit" id="checkout" class="cart__checkout-button button cst-btn" name="checkout" form="cart">
+            <span> </span>
+            <span>Secure Checkout</span>
+            <span class="cst-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+                <path d="M13.2129 2.46094C13.7598 2.71484 14.043 3.13477 14.0625 3.7207C14.0039 6.25977 13.5059 8.36914 12.5684 10.0488C11.6113 11.709 10.5859 12.9492 9.49219 13.7695C8.39844 14.5898 7.57812 15 7.03125 15C6.48438 15 5.6543 14.5898 4.54102 13.7695C3.44727 12.9297 2.43164 11.6797 1.49414 10.0195C0.556641 8.33984 0.0585938 6.24023 0 3.7207C0.0195313 3.13477 0.3125 2.71484 0.878906 2.46094L6.50391 0.117188C6.67969 0.0390625 6.85547 0 7.03125 0C7.22656 0 7.41211 0.0390625 7.58789 0.117188L13.2129 2.46094ZM7.03125 13.5938C7.96875 13.2031 8.85742 12.5586 9.69727 11.6602C10.5566 10.7617 11.2598 9.64844 11.8066 8.32031C12.3535 6.97266 12.6367 5.44922 12.6562 3.75L7.03125 1.40625L1.40625 3.75C1.46484 6.25 2.04102 8.35938 3.13477 10.0781C4.24805 11.7969 5.54688 12.9688 7.03125 13.5938ZM5.39062 7.23633L6.29883 8.11523L8.61328 5.36133C8.75 5.20508 8.92578 5.12695 9.14062 5.12695C9.39453 5.14648 9.58008 5.23438 9.69727 5.39062C9.79492 5.56641 9.84375 5.71289 9.84375 5.83008C9.84375 6.00586 9.78516 6.16211 9.66797 6.29883L6.85547 9.58008C6.62109 9.77539 6.44531 9.85352 6.32812 9.81445C6.13281 9.83398 5.9668 9.76562 5.83008 9.60938L4.42383 8.20312C4.28711 8.08594 4.21875 7.91992 4.21875 7.70508C4.25781 7.29492 4.49219 7.06055 4.92188 7.00195C5.11719 7.02148 5.27344 7.09961 5.39062 7.23633Z" fill="white"/>
+              </svg>
+            </span>
+          </button>
+          <div class="cst-payment-icons">
+            <svg width="38" height="24" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M34.3869 0H3.61263C3.48444 0 3.35602 0 3.22805 0.00067947C3.12002 0.00158543 3.01221 0.00271788 2.90417 0.00566225C2.66885 0.012004 2.43149 0.0260463 2.19911 0.0677205C1.96606 0.107648 1.74026 0.182074 1.52915 0.288548C1.10475 0.504411 0.759782 0.849374 0.543919 1.27378C0.437255 1.48497 0.362821 1.71095 0.323092 1.94419C0.280964 2.17679 0.267149 2.41393 0.260807 2.64903C0.258047 2.75697 0.256386 2.86493 0.255824 2.97291C0.255371 3.10065 0.255371 3.22884 0.255371 3.35726V20.6425C0.255371 20.7709 0.255371 20.8989 0.255824 21.0273C0.256504 21.1351 0.257862 21.2432 0.260807 21.3512C0.267149 21.5858 0.281191 21.8232 0.323092 22.0556C0.362739 22.2888 0.437098 22.5148 0.543693 22.726C0.650864 22.9369 0.790755 23.1296 0.958169 23.2967C1.1253 23.4642 1.31794 23.6041 1.52892 23.7112C1.74341 23.8206 1.9631 23.8902 2.19933 23.9325C2.43149 23.974 2.66885 23.988 2.90417 23.9943C3.01221 23.9968 3.12002 23.9982 3.22805 23.9989C3.35602 23.9998 3.48444 23.9998 3.61263 23.9998H34.3869C34.5149 23.9998 34.6433 23.9998 34.7713 23.9989C34.8791 23.9984 34.9869 23.9968 35.0954 23.9943C35.3303 23.988 35.5676 23.974 35.8005 23.9325C36.0336 23.8925 36.2594 23.818 36.4704 23.7112C36.8946 23.4951 37.2395 23.1502 37.4557 22.726C37.565 22.5115 37.6344 22.2918 37.6763 22.0556C37.7184 21.8232 37.732 21.5858 37.7383 21.3512C37.7413 21.2432 37.7428 21.1351 37.7433 21.0273C37.7442 20.8989 37.7442 20.7709 37.7442 20.6425V3.35749C37.7442 3.22907 37.7442 3.10087 37.7433 2.97268C37.7429 2.86478 37.7412 2.75689 37.7383 2.64903C37.732 2.41393 37.7184 2.17679 37.6763 1.94419C37.6368 1.71091 37.5624 1.4849 37.4557 1.27378C37.2397 0.849448 36.8948 0.504513 36.4704 0.288548C36.2593 0.182184 36.0335 0.107836 35.8005 0.067947C35.5676 0.0260463 35.3303 0.0122305 35.0954 0.00588874C34.9874 0.00314533 34.8793 0.00148432 34.7713 0.000905959C34.6433 0 34.5149 0 34.3869 0Z" fill="black"></path>
+              <path d="M34.3873 0.799805L34.766 0.800484C34.8683 0.801164 34.9709 0.802296 35.074 0.805014C35.2536 0.809997 35.4633 0.819736 35.659 0.854842C35.8289 0.885418 35.9716 0.931848 36.1084 1.00161C36.3821 1.1408 36.6045 1.36345 36.7434 1.63736C36.8128 1.77326 36.859 1.91504 36.8895 2.08649C36.9244 2.27992 36.9342 2.49033 36.9389 2.67084C36.9419 2.77276 36.9432 2.87468 36.9434 2.97886C36.9446 3.10502 36.9446 3.23095 36.9446 3.35733V20.6426C36.9446 20.769 36.9446 20.8949 36.9437 21.0235C36.9432 21.1255 36.9418 21.2274 36.9391 21.3293C36.9341 21.5096 36.9244 21.72 36.8891 21.9157C36.8634 22.0713 36.8141 22.2222 36.743 22.363C36.6038 22.637 36.3811 22.8597 36.107 22.9988C35.9711 23.0681 35.8289 23.1145 35.6606 23.1448C35.4611 23.1804 35.2423 23.1901 35.0776 23.1947C34.9741 23.1969 34.8711 23.1985 34.7653 23.199C34.6396 23.1999 34.5132 23.1999 34.3873 23.1999H3.60798C3.48341 23.1999 3.35884 23.1999 3.232 23.199C3.13007 23.1985 3.02815 23.1972 2.92624 23.1949C2.75774 23.1904 2.53895 23.1804 2.34099 23.1451C2.18448 23.119 2.03283 23.0694 1.89119 22.9979C1.75532 22.9288 1.63131 22.8386 1.52382 22.7306C1.41599 22.623 1.32593 22.4989 1.25701 22.363C1.18584 22.2214 1.13651 22.0698 1.1107 21.9134C1.07537 21.718 1.0654 21.5085 1.06087 21.3295C1.05831 21.2272 1.0568 21.1249 1.05634 21.0226L1.05566 20.7221V3.27806L1.05612 2.97796C1.05658 2.8755 1.05809 2.77304 1.06065 2.67061C1.06563 2.49123 1.07537 2.28173 1.11093 2.08468C1.13679 1.9286 1.18612 1.77733 1.25724 1.63601C1.32609 1.50056 1.41578 1.3769 1.5245 1.26841C1.63225 1.16049 1.75639 1.07029 1.89232 1.00115C2.03362 0.930167 2.18479 0.880844 2.34077 0.854842C2.53668 0.819736 2.74664 0.809997 2.92647 0.805014C3.02884 0.802296 3.13144 0.801164 3.23314 0.800484L3.61296 0.799805H34.3873Z" fill="white"></path>
+              <path d="M10.1097 8.10171C10.4277 7.70422 10.6433 7.17039 10.5864 6.625C10.1212 6.6481 9.55363 6.93189 9.22477 7.32984C8.92965 7.67048 8.66851 8.22651 8.73646 8.74902C9.25874 8.79432 9.78058 8.48811 10.1097 8.10171Z" fill="black"></path>
+              <path d="M10.5804 8.8507C9.82162 8.8054 9.17703 9.28103 8.81487 9.28103C8.45249 9.28103 7.89782 8.87335 7.29784 8.88445C6.51713 8.89577 5.79282 9.33742 5.39646 10.0395C4.58155 11.4438 5.1813 13.5275 5.97401 14.6713C6.35882 15.2375 6.82267 15.8603 7.43374 15.8379C8.01129 15.8153 8.23755 15.4642 8.93922 15.4642C9.64066 15.4642 9.8445 15.8379 10.4558 15.8266C11.0895 15.8153 11.4859 15.2604 11.8707 14.6941C12.3123 14.0486 12.4928 13.4258 12.5042 13.3918C12.4928 13.3805 11.282 12.916 11.2707 11.5231C11.2594 10.3566 12.2215 9.80173 12.2668 9.76753C11.7235 8.96394 10.8746 8.87335 10.5801 8.8507" fill="black"></path>
+              <path d="M18.1419 7.27246C19.7903 7.27246 20.9384 8.40876 20.9384 10.063C20.9384 11.7232 19.7668 12.8654 18.1007 12.8654H16.2757V15.7681H14.957V7.27246H18.1419ZM16.2757 11.7585H17.7886C18.9369 11.7585 19.5901 11.1405 19.5901 10.0689C19.5901 8.99763 18.9367 8.38521 17.7945 8.38521H16.2757V11.7585Z" fill="black"></path>
+              <path d="M21.2656 14.0075C21.2656 12.9183 22.0957 12.2944 23.6263 12.2002L25.2688 12.1V11.6289C25.2688 10.9404 24.8156 10.5635 24.0091 10.5635C23.3437 10.5635 22.8608 10.9049 22.7611 11.4287H21.5716C21.6072 10.328 22.6431 9.52734 24.0444 9.52734C25.5515 9.52734 26.5347 10.3162 26.5347 11.5408V15.7678H25.3162V14.7493H25.2867C24.9393 15.4145 24.1738 15.8324 23.3437 15.8324C22.1193 15.8324 21.2656 15.1026 21.2656 14.0075ZM25.2688 13.4601V12.9831L23.803 13.0773C22.9786 13.1303 22.5491 13.4363 22.5491 13.972C22.5491 14.4902 22.9965 14.8258 23.697 14.8258C24.5916 14.8258 25.2688 14.2546 25.2688 13.4601Z" fill="black"></path>
+              <path d="M27.6549 18.0398V17.0215C27.7374 17.0331 27.9373 17.0448 28.0433 17.0448C28.6261 17.0448 28.9559 16.798 29.1561 16.1618L29.2739 15.7851L27.0425 9.60352H28.42L29.9744 14.6194H30.0038L31.558 9.60352H32.9004L30.5866 16.097C30.0566 17.5866 29.4503 18.0754 28.167 18.0754C28.0669 18.0754 27.743 18.0636 27.6549 18.0398Z" fill="black"></path>
+            </svg>
+
+            <svg width="39" height="24" viewBox="0 0 39 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path opacity="0.07" d="M35.2002 0H3.2002C1.5002 0 0.200195 1.3 0.200195 3V21C0.200195 22.7 1.6002 24 3.2002 24H35.2002C36.9002 24 38.2002 22.7 38.2002 21V3C38.2002 1.3 36.8002 0 35.2002 0Z" fill="black"></path>
+              <path d="M35.2002 1C36.3002 1 37.2002 1.9 37.2002 3V21C37.2002 22.1 36.3002 23 35.2002 23H3.2002C2.1002 23 1.2002 22.1 1.2002 21V3C1.2002 1.9 2.1002 1 3.2002 1H35.2002Z" fill="#006FCF"></path>
+              <path d="M22.2119 19.9356V11.5146L37.1999 11.5276V13.8536L35.4679 15.7056L37.1999 17.5726V19.9476H34.4339L32.9639 18.3256L31.5039 19.9536L22.2119 19.9336V19.9356Z" fill="white"></path>
+              <path d="M23.2129 19.0124V12.4424H28.7849V13.9554H25.0169V14.9834H28.6949V16.4714H25.0169V17.4814H28.7849V19.0124H23.2129Z" fill="#006FCF"></path>
+              <path d="M28.7568 19.0124L31.8398 15.7234L28.7568 12.4414H31.1428L33.0268 14.5244L34.9168 12.4424H37.1998V12.4934L34.1828 15.7234L37.1998 18.9204V19.0134H34.8928L32.9758 16.9104L31.0778 19.0144H28.7568V19.0124Z" fill="#006FCF"></path>
+              <path d="M22.9102 4.04004H26.5242L27.7932 6.92104V4.04004H32.2532L33.0232 6.19904L33.7942 4.04004H37.2002V12.461H19.2002L22.9102 4.04004Z" fill="white"></path>
+              <path d="M23.5952 4.95508L20.6792 11.5211H22.6792L23.2292 10.2061H26.2092L26.7592 11.5211H28.8092L25.9052 4.95508H23.5952ZM23.8452 8.73208L24.7202 6.64208L25.5932 8.73208H23.8452Z" fill="#006FCF"></path>
+              <path d="M28.7808 11.5201V4.95312L31.5918 4.96312L33.0398 9.00012L34.4958 4.95412H37.1998V11.5191L35.4598 11.5351V7.02513L33.8158 11.5191H32.2258L30.5498 7.01013V11.5201H28.7818H28.7808Z" fill="#006FCF"></path>
+            </svg>
+
+            <svg width="38" height="24" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path opacity="0.07" d="M35 0H3C1.3 0 0 1.3 0 3V21C0 22.7 1.4 24 3 24H35C36.7 24 38 22.7 38 21V3C38 1.3 36.6 0 35 0Z" fill="black"></path>
+              <path d="M35 1C36.1 1 37 1.9 37 3V21C37 22.1 36.1 23 35 23H3C1.9 23 1 22.1 1 21V3C1 1.9 1.9 1 3 1H35Z" fill="#B2FCE4"></path>
+              <path d="M28.8788 10.3156L26.5974 15.0806H25.6523L26.5045 13.3006L25.1659 10.3156H26.1359L26.9965 12.315L27.9361 10.3156H28.8788ZM20.1978 12.0075C20.1978 11.4603 19.79 11.0389 19.2893 11.0389C18.7886 11.0389 18.3808 11.4464 18.3808 12.0075C18.3808 12.5629 18.7886 12.9758 19.2893 12.9758C19.79 12.9758 20.1978 12.5547 20.1978 12.0075ZM17.5509 15.0806V10.3156H18.3724V10.7543C18.62 10.4439 18.9883 10.253 19.4272 10.253C20.3301 10.253 21.0392 11.0046 21.0392 11.9987C21.0392 12.9928 20.3162 13.7503 19.4073 13.7503C18.9855 13.7503 18.6395 13.5824 18.3979 13.2975V15.0775H17.5509V15.0806ZM24.0039 12.0075C24.0039 11.4376 23.5961 11.0389 23.0954 11.0389C22.5947 11.0389 22.1866 11.4464 22.1866 12.0075C22.1866 12.5629 22.5947 12.9758 23.0954 12.9758C23.5961 12.9758 24.0039 12.5745 24.0039 12.0075ZM24.0095 13.6994V13.2604C23.7619 13.5654 23.3936 13.7532 22.9547 13.7532C22.0375 13.7532 21.3427 13.0101 21.3427 12.0075C21.3427 11.0134 22.0658 10.2558 22.9743 10.2558C23.402 10.2558 23.7619 10.4467 24.0095 10.7429V10.3156H24.831V13.6994H24.0095ZM16.0684 10.6461C16.0684 10.6461 16.2765 10.253 16.7915 10.253C17.0108 10.253 17.1518 10.3297 17.1518 10.3297V11.1927C17.1518 11.1927 16.8421 10.9993 16.5579 11.0389C16.274 11.0788 16.0939 11.3408 16.0939 11.6939V13.6991H15.2444V10.3156H16.0656V10.6458L16.0684 10.6461ZM35.2585 10.1247L34.2854 9.56081L33.2977 8.98846C32.6454 8.6095 31.8295 9.08532 31.8295 9.84856V9.97656C31.8295 10.0479 31.8661 10.1134 31.9279 10.1476L32.3867 10.4124C32.4156 10.4291 32.4484 10.4377 32.4817 10.4375C32.515 10.4373 32.5476 10.4282 32.5764 10.4112C32.6051 10.3942 32.6289 10.3699 32.6455 10.3406C32.662 10.3113 32.6707 10.2782 32.6706 10.2445V9.93945C32.6706 9.7885 32.8308 9.69478 32.9604 9.76868L33.8605 10.2929L34.7578 10.814C34.7874 10.831 34.812 10.8557 34.8291 10.8855C34.8462 10.9152 34.8552 10.9491 34.8552 10.9835C34.8552 11.018 34.8462 11.0518 34.8291 11.0816C34.812 11.1114 34.7874 11.136 34.7578 11.153L33.8605 11.6741L32.9604 12.1981C32.9309 12.2151 32.8975 12.224 32.8635 12.2238C32.8295 12.2237 32.7962 12.2145 32.7669 12.1972C32.7375 12.1799 32.7132 12.1551 32.6963 12.1253C32.6794 12.0955 32.6705 12.0617 32.6706 12.0273V11.8763C32.6706 11.1131 31.8549 10.6345 31.2024 11.0162L30.2147 11.5886L29.2415 12.1525C28.5862 12.5342 28.5862 13.494 29.2415 13.8758L30.215 14.4397L31.2024 15.012C31.8546 15.391 32.6706 14.9152 32.6706 14.1519V14.0239C32.6711 13.9891 32.6622 13.9547 32.6448 13.9245C32.6275 13.8944 32.6023 13.8696 32.5721 13.8529L32.1137 13.5881C32.0847 13.5714 32.0519 13.5627 32.0186 13.5628C31.9852 13.563 31.9525 13.572 31.9237 13.5891C31.8949 13.6061 31.8711 13.6305 31.8545 13.6598C31.838 13.6891 31.8293 13.7222 31.8295 13.756V14.061C31.8295 14.212 31.6692 14.3057 31.5397 14.2318L30.6396 13.7076L29.7422 13.1865C29.7127 13.1694 29.6882 13.1447 29.6712 13.1149C29.6541 13.0852 29.6451 13.0514 29.6451 13.017C29.6451 12.9826 29.6541 12.9488 29.6712 12.919C29.6882 12.8892 29.7127 12.8646 29.7422 12.8475L30.6399 12.3264L31.5397 11.8024C31.5692 11.7854 31.6026 11.7765 31.6365 11.7767C31.6705 11.7768 31.7038 11.786 31.7331 11.8033C31.7625 11.8206 31.7868 11.8454 31.8037 11.8752C31.8206 11.905 31.8295 11.9388 31.8295 11.9732V12.1242C31.8295 12.8874 32.6454 13.366 33.298 12.9843L34.2854 12.4119L35.2585 11.8477C35.9138 11.4634 35.9138 10.5065 35.2585 10.1247ZM5.80091 12.4374C5.62108 13.2151 4.96012 13.7503 4.10504 13.7503C3.11733 13.7503 2.375 12.9987 2.375 12.0047C2.375 11.0106 3.12882 10.253 4.11902 10.253C4.95453 10.253 5.6071 10.7882 5.79563 11.5518H4.92626C4.77159 11.2468 4.46502 11.0449 4.12492 11.0449C3.62951 11.0449 3.2161 11.4578 3.2161 12.0047C3.2161 12.5515 3.62951 12.9645 4.12461 12.9645C4.2953 12.9658 4.46266 12.9167 4.60613 12.823C4.7496 12.7294 4.86292 12.5954 4.93217 12.4374H5.80122H5.80091ZM6.19227 13.6962V8.92273H7.03337V13.6966L6.19227 13.6962ZM8.29906 12.2298C8.35808 12.7308 8.71247 13.0129 9.15973 13.0129C9.51444 13.0129 9.78715 12.8446 9.94741 12.5742H10.8084C10.6087 13.2918 9.97288 13.7503 9.13737 13.7503C8.12761 13.7503 7.42162 13.0327 7.42162 12.0131C7.42162 10.9936 8.16985 10.2558 9.15694 10.2558C10.1527 10.2558 10.873 10.9993 10.873 12.0131C10.873 12.087 10.8674 12.1609 10.8534 12.2295L8.29906 12.2298ZM9.97568 11.6999C9.91667 11.2612 9.56227 10.9964 9.14855 10.9964C8.73484 10.9964 8.39473 11.2527 8.30745 11.6999H9.97568ZM13.8771 13.6962V13.2575C13.6296 13.5626 13.264 13.7503 12.8223 13.7503C11.9082 13.7503 11.2134 13.0069 11.2134 12.0047C11.2134 11.0106 11.9334 10.253 12.8422 10.253C13.2696 10.253 13.6296 10.441 13.8771 10.7398V10.3127H14.6987V13.6934H13.8771V13.6962ZM13.8687 12.0043C13.8687 11.4376 13.4609 11.036 12.9602 11.036C12.4595 11.036 12.0517 11.4405 12.0517 12.0047C12.0517 12.56 12.4595 12.9729 12.9602 12.9729C13.4609 12.9729 13.8687 12.5742 13.8687 12.0043Z" fill="black"></path>
+            </svg>
+
+            <svg width="36" height="24" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_41_1691)">
+              <path d="M0.222168 3.1114C0.222168 1.475 1.54873 0.148438 3.18513 0.148438H32.8148C34.4512 0.148438 35.7777 1.475 35.7777 3.1114V20.8892C35.7777 22.5256 34.4512 23.8521 32.8148 23.8521H3.18513C1.54873 23.8521 0.222168 22.5256 0.222168 20.8892V3.1114Z" fill="white"></path>
+              <path d="M22.1176 7.85174C22.1176 9.6868 20.4241 11.8517 17.8618 11.8517H15.3937L15.2725 12.6162L14.6967 16.2962H11.6294L13.4747 4.44434H18.4442C20.1176 4.44434 21.4342 5.37701 21.9191 6.67314C22.059 7.04999 22.1263 7.44988 22.1176 7.85174Z" fill="#002991"></path>
+              <path d="M23.8855 11.2599C23.7218 12.2547 23.2095 13.1586 22.4401 13.8101C21.6708 14.4615 20.6948 14.8179 19.6867 14.8155H17.9728L17.2594 19.2599H14.2085L14.6967 16.297L15.2729 12.617L15.3937 11.8525H17.8618C20.4208 11.8525 22.1176 9.6876 22.1176 7.85254C23.3769 8.50242 24.111 9.81567 23.8855 11.2599Z" fill="#60CDFF"></path>
+              <path d="M22.1175 7.85167C21.5894 7.57546 20.9491 7.40723 20.2522 7.40723H16.0908L15.3936 11.8517H17.8617C20.4207 11.8517 22.1175 9.68673 22.1175 7.85167Z" fill="#008CFF"></path>
+              </g>
+              <rect x="0.5" y="0.5" width="34.5556" height="22.7037" rx="2.5" stroke="#EDEDED"></rect>
+              <defs>
+              <clipPath id="clip0_41_1691">
+              <rect width="35.5556" height="23.7037" rx="3" fill="white"></rect>
+              </clipPath>
+              </defs>
+            </svg>
+
+            <svg width="38" height="24" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path opacity="0.07" d="M35 0H3C1.3 0 0 1.3 0 3V21C0 22.7 1.4 24 3 24H35C36.7 24 38 22.7 38 21V3C38 1.3 36.6 0 35 0Z" fill="black"></path>
+              <path d="M35 1C36.1 1 37 1.9 37 3V21C37 22.1 36.1 23 35 23H3C1.9 23 1 22.1 1 21V3C1 1.9 1.9 1 3 1H35Z" fill="white"></path>
+              <path d="M18.0932 11.9757V15.1757H17.0752V7.27574H19.7662C20.0886 7.27028 20.409 7.32861 20.7088 7.44737C21.0086 7.56613 21.282 7.74297 21.5132 7.96774C21.7322 8.17214 21.9088 8.41769 22.0329 8.69038C22.157 8.96306 22.2261 9.25753 22.2363 9.55694C22.2466 9.85636 22.1977 10.1549 22.0925 10.4354C21.9872 10.7159 21.8278 10.9729 21.6232 11.1917L21.5132 11.3077C21.0432 11.7547 20.4152 11.9977 19.7662 11.9817L18.0932 11.9757ZM18.0932 8.24374V11.0317H19.7912C20.1682 11.0437 20.5322 10.8967 20.7962 10.6277C20.985 10.4309 21.1118 10.1829 21.1608 9.91458C21.2098 9.64624 21.1788 9.36943 21.0717 9.11857C20.9646 8.86771 20.7861 8.65387 20.5585 8.50366C20.3308 8.35345 20.064 8.2735 19.7912 8.27374L18.0932 8.24374ZM24.5772 9.59174C25.2272 9.56174 25.8632 9.77974 26.3552 10.2047C26.8002 10.6347 27.0372 11.2347 27.0052 11.8537V15.1877H26.0362V14.4217H25.9872C25.8134 14.709 25.5677 14.946 25.2743 15.1093C24.9809 15.2726 24.6499 15.3565 24.3142 15.3527C23.7661 15.3705 23.2316 15.1801 22.8182 14.8197C22.6223 14.66 22.4654 14.4577 22.3592 14.2284C22.253 13.999 22.2003 13.7485 22.2052 13.4957C22.1937 13.2403 22.2433 12.9859 22.3499 12.7535C22.4565 12.5211 22.6171 12.3176 22.8182 12.1597C23.3116 11.8049 23.9088 11.6238 24.5162 11.6447C25.0332 11.6247 25.5462 11.7377 26.0062 11.9757V11.7677C26.0096 11.5958 25.9738 11.4253 25.9015 11.2692C25.8293 11.1131 25.7225 10.9755 25.5892 10.8667C25.3215 10.6234 24.9709 10.4917 24.6092 10.4987C24.3465 10.4963 24.0875 10.5608 23.8568 10.6863C23.626 10.8117 23.431 10.994 23.2902 11.2157L22.3952 10.6517C22.6382 10.3035 22.9663 10.0233 23.3483 9.83779C23.7302 9.65225 24.1533 9.56754 24.5772 9.59174ZM23.2902 13.5197C23.2878 13.6493 23.3173 13.7774 23.376 13.8928C23.4348 14.0083 23.5211 14.1075 23.6272 14.1817C23.8502 14.3577 24.1272 14.4507 24.4122 14.4447C24.8412 14.4437 25.2522 14.2747 25.5582 13.9727C25.8632 13.6867 26.0362 13.2877 26.0362 12.8697C25.6512 12.5961 25.1835 12.4639 24.7122 12.4957C24.3463 12.4813 23.9854 12.5844 23.6822 12.7897C23.5621 12.8701 23.4636 12.9786 23.3953 13.1059C23.3269 13.2332 23.2908 13.3753 23.2902 13.5197ZM32.5762 9.76974L29.1862 17.5597H28.1382L29.4192 14.8317L27.1952 9.76974H28.2982L29.9102 13.6547L31.4792 9.76974H32.5762Z" fill="#5F6368"></path>
+              <path d="M13.986 11.2843C13.986 10.9763 13.962 10.6683 13.913 10.3643H9.62305V12.1113H12.074C12.0241 12.3889 11.9187 12.6536 11.7641 12.8895C11.6094 13.1255 11.4087 13.3277 11.174 13.4843V14.6183H12.638C13.0832 14.1875 13.4331 13.6683 13.6653 13.0941C13.8975 12.5198 14.0067 11.9033 13.986 11.2843Z" fill="#4285F4"></path>
+              <path d="M9.62915 15.7209C10.7355 15.7513 11.8118 15.359 12.6391 14.6239L11.1731 13.4839C10.8209 13.7098 10.4218 13.8523 10.0062 13.9008C9.59055 13.9492 9.16936 13.9022 8.77463 13.7633C8.3799 13.6245 8.02204 13.3975 7.72824 13.0995C7.43444 12.8016 7.21245 12.4406 7.07915 12.0439H5.57715V13.2139C5.953 13.967 6.5312 14.6004 7.2469 15.0432C7.96261 15.486 8.78753 15.7207 9.62915 15.7209Z" fill="#34A853"></path>
+              <path d="M7.07893 12.0495C6.88872 11.4868 6.88872 10.8772 7.07893 10.3145V9.14453H5.57693C5.25672 9.77599 5.08984 10.474 5.08984 11.182C5.08984 11.89 5.25672 12.5881 5.57693 13.2195L7.07893 12.0495Z" fill="#FBBC04"></path>
+              <path d="M9.62915 8.44019C10.2762 8.42837 10.9016 8.6728 11.3691 9.12019L12.6691 7.82719C11.8402 7.0492 10.7408 6.62485 9.60415 6.64419C8.76752 6.64838 7.94839 6.88419 7.23758 7.32547C6.52677 7.76674 5.95206 8.39625 5.57715 9.14419L7.07915 10.3152C7.25477 9.77527 7.59524 9.304 8.05266 8.96766C8.51007 8.63132 9.06142 8.44685 9.62915 8.44019Z" fill="#EA4335"></path>
+            </svg>
+
+            <svg width="38" height="24" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path opacity="0.07" d="M35 0H3C1.3 0 0 1.3 0 3V21C0 22.7 1.4 24 3 24H35C36.7 24 38 22.7 38 21V3C38 1.3 36.6 0 35 0Z" fill="black"></path>
+              <path d="M35 1C36.1 1 37 1.9 37 3V21C37 22.1 36.1 23 35 23H3C1.9 23 1 22.1 1 21V3C1 1.9 1.9 1 3 1H35Z" fill="white"></path>
+              <path d="M15 19C18.866 19 22 15.866 22 12C22 8.13401 18.866 5 15 5C11.134 5 8 8.13401 8 12C8 15.866 11.134 19 15 19Z" fill="#EB001B"></path>
+              <path d="M23 19C26.866 19 30 15.866 30 12C30 8.13401 26.866 5 23 5C19.134 5 16 8.13401 16 12C16 15.866 19.134 19 23 19Z" fill="#F79E1B"></path>
+              <path d="M22 11.9998C22 9.5998 20.8 7.4998 19 6.2998C17.2 7.5998 16 9.6998 16 11.9998C16 14.2998 17.2 16.4998 19 17.6998C20.8 16.4998 22 14.3998 22 11.9998Z" fill="#FF5F00"></path>
+            </svg>
+
+            <svg width="38" height="24" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path opacity="0.07" d="M35 0H3C1.3 0 0 1.3 0 3V21C0 22.7 1.4 24 3 24H35C36.7 24 38 22.7 38 21V3C38 1.3 36.6 0 35 0Z" fill="black"></path>
+              <path d="M35 1C36.1 1 37 1.9 37 3V21C37 22.1 36.1 23 35 23H3C1.9 23 1 22.1 1 21V3C1 1.9 1.9 1 3 1H35Z" fill="white"></path>
+              <path d="M15 19C18.866 19 22 15.866 22 12C22 8.13401 18.866 5 15 5C11.134 5 8 8.13401 8 12C8 15.866 11.134 19 15 19Z" fill="#EB001B"></path>
+              <path d="M23 19C26.866 19 30 15.866 30 12C30 8.13401 26.866 5 23 5C19.134 5 16 8.13401 16 12C16 15.866 19.134 19 23 19Z" fill="#00A2E5"></path>
+              <path d="M22 11.9998C22 9.5998 20.8 7.4998 19 6.2998C17.2 7.5998 16 9.6998 16 11.9998C16 14.2998 17.2 16.4998 19 17.6998C20.8 16.4998 22 14.3998 22 11.9998Z" fill="#7375CF"></path>
+            </svg>
+
+            <svg width="38" height="24" viewBox="0 0 38 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path opacity="0.07" d="M35 0H3C1.3 0 0 1.3 0 3V21C0 22.7 1.4 24 3 24H35C36.7 24 38 22.7 38 21V3C38 1.3 36.6 0 35 0Z" fill="black"></path>
+              <path d="M35 1C36.1 1 37 1.9 37 3V21C37 22.1 36.1 23 35 23H3C1.9 23 1 22.1 1 21V3C1 1.9 1.9 1 3 1H35Z" fill="white"></path>
+              <path d="M28.3 10.1H28C27.6 11.1 27.3 11.6 27 13.1H28.9C28.6 11.6 28.6 10.9 28.3 10.1ZM31.2 16H29.5C29.4 16 29.4 16 29.3 15.9L29.1 15L29 14.8H26.6C26.5 14.8 26.4 14.8 26.4 15L26.1 15.9C26.1 16 26 16 26 16H23.9L24.1 15.5L27 8.7C27 8.2 27.3 8 27.8 8H29.3C29.4 8 29.5 8 29.5 8.2L30.9 14.7C31 15.1 31.1 15.4 31.1 15.8C31.2 15.9 31.2 15.9 31.2 16ZM17.8 15.7L18.2 13.9C18.3 13.9 18.4 14 18.4 14C19.1 14.3 19.8 14.5 20.5 14.4C20.7 14.4 21 14.3 21.2 14.2C21.7 14 21.7 13.5 21.3 13.1C21.1 12.9 20.8 12.8 20.5 12.6C20.1 12.4 19.7 12.2 19.4 11.9C18.2 10.9 18.6 9.5 19.3 8.8C19.9 8.4 20.2 8 21 8C22.2 8 23.5 8 24.1 8.2H24.2C24.1 8.8 24 9.3 23.8 9.9C23.3 9.7 22.8 9.5 22.3 9.5C22 9.5 21.7 9.5 21.4 9.6C21.2 9.6 21.1 9.7 21 9.8C20.8 10 20.8 10.3 21 10.5L21.5 10.9C21.9 11.1 22.3 11.3 22.6 11.5C23.1 11.8 23.6 12.3 23.7 12.9C23.9 13.8 23.6 14.6 22.8 15.2C22.3 15.6 22.1 15.8 21.4 15.8C20 15.8 18.9 15.9 18 15.6C17.9 15.8 17.9 15.8 17.8 15.7ZM14.3 16C14.4 15.3 14.4 15.3 14.5 15C15 12.8 15.5 10.5 15.9 8.3C16 8.1 16 8 16.2 8H18C17.8 9.2 17.6 10.1 17.3 11.2C17 12.7 16.7 14.2 16.3 15.7C16.3 15.9 16.2 15.9 16 15.9M5 8.2C5 8.1 5.2 8 5.3 8H8.7C9.2 8 9.6 8.3 9.7 8.8L10.6 13.2C10.6 13.3 10.6 13.3 10.7 13.4C10.7 13.3 10.8 13.3 10.8 13.3L12.9 8.2C12.8 8.1 12.9 8 13 8H15.1C15.1 8.1 15.1 8.1 15 8.2L11.9 15.5C11.8 15.7 11.8 15.8 11.7 15.9C11.6 16 11.4 15.9 11.2 15.9H9.7C9.6 15.9 9.5 15.9 9.5 15.7L7.9 9.5C7.7 9.3 7.4 9 7 8.9C6.4 8.6 5.3 8.4 5.1 8.4L5 8.2Z" fill="#142688"></path>
+            </svg>
+          </div>
+          <hr />
+          <p class="cst-center cst-review-flex">
+            <span>Rated</span>
+            <span class="cst-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="111" height="21" viewBox="0 0 111 21" fill="none">
+                <path d="M10.9375 0.664062L12.9297 6.875H19.1406C19.5312 6.875 19.8828 7.14844 20 7.53906C20.1562 7.89062 20 8.32031 19.6875 8.55469L14.5703 12.5391L16.5625 18.7891C16.7188 19.1797 16.5625 19.6094 16.2109 19.8438C15.8984 20.0781 15.4297 20.0781 15.1172 19.8047L10.0781 15.8984L5 19.8047C4.6875 20.0781 4.21875 20.0781 3.90625 19.8438C3.55469 19.6094 3.39844 19.1797 3.55469 18.7891L5.54688 12.5391L0.429688 8.55469C0.117188 8.32031 0 7.89062 0.117188 7.53906C0.234375 7.14844 0.585938 6.875 1.01562 6.875H7.1875L9.17969 0.664062C9.29688 0.273438 9.64844 0 10.0781 0C10.4688 0 10.8203 0.273438 10.9375 0.664062ZM33.4375 0.664062L35.4297 6.875H41.6406C42.0312 6.875 42.3828 7.14844 42.5 7.53906C42.6562 7.89062 42.5 8.32031 42.1875 8.55469L37.0703 12.5391L39.0625 18.7891C39.2188 19.1797 39.0625 19.6094 38.7109 19.8438C38.3984 20.0781 37.9297 20.0781 37.6172 19.8047L32.5781 15.8984L27.5 19.8047C27.1875 20.0781 26.7188 20.0781 26.4062 19.8438C26.0547 19.6094 25.8984 19.1797 26.0547 18.7891L28.0469 12.5391L22.9297 8.55469C22.6172 8.32031 22.5 7.89062 22.6172 7.53906C22.7344 7.14844 23.0859 6.875 23.5156 6.875H29.6875L31.6797 0.664062C31.7969 0.273438 32.1484 0 32.5781 0C32.9688 0 33.3203 0.273438 33.4375 0.664062ZM55.9375 0.664062L57.9297 6.875H64.1406C64.5312 6.875 64.8828 7.14844 65 7.53906C65.1562 7.89062 65 8.32031 64.6875 8.55469L59.5703 12.5391L61.5625 18.7891C61.7188 19.1797 61.5625 19.6094 61.2109 19.8438C60.8984 20.0781 60.4297 20.0781 60.1172 19.8047L55.0781 15.8984L50 19.8047C49.6875 20.0781 49.2188 20.0781 48.9062 19.8438C48.5547 19.6094 48.3984 19.1797 48.5547 18.7891L50.5469 12.5391L45.4297 8.55469C45.1172 8.32031 45 7.89062 45.1172 7.53906C45.2344 7.14844 45.5859 6.875 46.0156 6.875H52.1875L54.1797 0.664062C54.2969 0.273438 54.6484 0 55.0781 0C55.4688 0 55.8203 0.273438 55.9375 0.664062ZM78.4375 0.664062L80.4297 6.875H86.6406C87.0312 6.875 87.3828 7.14844 87.5 7.53906C87.6562 7.89062 87.5 8.32031 87.1875 8.55469L82.0703 12.5391L84.0625 18.7891C84.2188 19.1797 84.0625 19.6094 83.7109 19.8438C83.3984 20.0781 82.9297 20.0781 82.6172 19.8047L77.5781 15.8984L72.5 19.8047C72.1875 20.0781 71.7188 20.0781 71.4062 19.8438C71.0547 19.6094 70.8984 19.1797 71.0547 18.7891L73.0469 12.5391L67.9297 8.55469C67.6172 8.32031 67.5 7.89062 67.6172 7.53906C67.7344 7.14844 68.0859 6.875 68.5156 6.875H74.6875L76.6797 0.664062C76.7969 0.273438 77.1484 0 77.5781 0C77.9688 0 78.3203 0.273438 78.4375 0.664062ZM91.0156 9.02344L90.4297 8.55469C90.1172 8.32031 90 7.89062 90.1172 7.53906C90.2344 7.14844 90.5859 6.875 91.0156 6.875H91.7188H91.8359H97.1875L98.9062 1.48438V1.44531L98.9844 1.28906L99.1797 0.664062C99.2969 0.273438 99.6484 0 100.078 0C100.469 0 100.82 0.273438 100.938 0.664062L101.172 1.28906L101.211 1.44531V1.48438L102.93 6.875H108.281H108.398H109.141C109.531 6.875 109.883 7.14844 110 7.53906C110.156 7.89062 110 8.32031 109.688 8.55469L109.141 9.02344L109.062 9.0625H109.023L104.57 12.5391L106.328 18.0078L106.367 18.2031L106.562 18.7891C106.719 19.1797 106.562 19.6094 106.211 19.8438C105.898 20.0781 105.43 20.0781 105.117 19.8438L104.609 19.4141L104.453 19.3359V19.2969L100.078 15.8984L95.6641 19.2969L95.5078 19.4141L95 19.8047C94.6875 20.0781 94.2578 20.0781 93.9062 19.8438C93.5547 19.6094 93.4375 19.1797 93.5547 18.7891L93.75 18.1641L93.7891 18.0078L95.5469 12.5391L91.0938 9.0625L91.0156 9.02344ZM100.078 13.125L101.406 14.1797L103.281 15.625L102.5 13.2031L102.031 11.7578L103.242 10.8203L105.469 9.0625H102.93H101.328L100.859 7.53906L100.078 5.07812V13.125Z" fill="#02B67A"/>
+              </svg>
+            </span>
+            <span>Excellent</span>
+          </p>
+        </div>
+        <div class="cst-details">
+          <div class="cst-shipping-details">
+            <div class="cst-logo-box">
+              <img src="{{ section.settings.logo | image_url: width:240, height:32 }}" alt="online door store" width="100%" height="auto" />
+            </div>
+            <div class="cst-list">
+              <p class="">Lorem ipsum dolor sit amet consectetur. Consequat dictum id tellus tellus. Id erat viverra maecenas imperdiet sed aliquam.</p>
+              <p><b>Free Shipping Over £750 andHome Delivery From £45</b></p>
+              <p><b>Low Price Guaranteed - Price Checked</b></p>
+              <p><b>Complete Satisfaction or Your Money Back</b></p>
+            </div>
+          </div>
+          <div class="cst-review-box">
+            <div class="cst-review-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="108" height="20" viewBox="0 0 108 20" fill="none">
+                <rect width="20" height="20" fill="#02B67A"/>
+                <path d="M10 13.6761L13.0417 12.8616L14.3125 17L10 13.6761ZM17 8.32704H11.6458L10 3L8.35417 8.32704H3L7.33334 11.6289L5.6875 16.956L10.0208 13.6541L12.6875 11.6289L17 8.32704Z" fill="white"/>
+                <rect width="20" height="20" transform="translate(22)" fill="#02B67A"/>
+                <path d="M32 13.6761L35.0417 12.8616L36.3125 17L32 13.6761ZM39 8.32704H33.6458L32 3L30.3542 8.32704H25L29.3333 11.6289L27.6875 16.956L32.0208 13.6541L34.6875 11.6289L39 8.32704Z" fill="white"/>
+                <rect width="20" height="20" transform="translate(44)" fill="#02B67A"/>
+                <path d="M54 13.6761L57.0417 12.8616L58.3125 17L54 13.6761ZM61 8.32704H55.6458L54 3L52.3542 8.32704H47L51.3333 11.6289L49.6875 16.956L54.0208 13.6541L56.6875 11.6289L61 8.32704Z" fill="white"/>
+                <rect width="20" height="20" transform="translate(66)" fill="#02B67A"/>
+                <path d="M76 13.6761L79.0417 12.8616L80.3125 17L76 13.6761ZM83 8.32704H77.6458L76 3L74.3542 8.32704H69L73.3333 11.6289L71.6875 16.956L76.0208 13.6541L78.6875 11.6289L83 8.32704Z" fill="white"/>
+                <rect width="20" height="20" transform="translate(88)" fill="url(#paint0_linear_91_4017)"/>
+                <rect width="20" height="20" transform="translate(88)" fill="#02B67A"/>
+                <path d="M98 13.6761L101.042 12.8616L102.313 17L98 13.6761ZM105 8.32704H99.6458L98 3L96.3542 8.32704H91L95.3333 11.6289L93.6875 16.956L98.0208 13.6541L100.687 11.6289L105 8.32704Z" fill="white"/>
+                <defs>
+                <linearGradient id="paint0_linear_91_4017" x1="0" y1="10" x2="20" y2="10" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#02B67A"/>
+                <stop offset="0.5" stop-color="#02B67A"/>
+                <stop offset="0.5001" stop-color="#02B67A" stop-opacity="0"/>
+                <stop offset="0.5002" stop-color="#D9D9D9"/>
+                <stop offset="0.9998" stop-color="#D9D9D9"/>
+                <stop offset="0.9999" stop-color="#219653" stop-opacity="0"/>
+                <stop offset="1" stop-color="#D9D9D9"/>
+                </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <p>I've been really happy overall. So much so that I have gone back to purchase all the ironmongery I needed... then I've even purchased another door!</p>
+            <p><b>Lesley Hasson</b></p>
+          </div>
         </div>
       </div>
-
-      <p class="visually-hidden" id="cart-live-region-text" aria-live="polite" role="status"></p>
-      <p
-        class="visually-hidden"
-        id="shopping-cart-line-item-status"
-        aria-live="polite"
-        aria-hidden="true"
-        role="status"
-      >
-        {{ 'accessibility.loading' | t }}
-      </p>
-    </form>
+    </div>
   </div>
-</cart-items>
+</section>
+
+<script>
+ setInterval(function() {
+  fetch('/cart.js')
+    .then(r => r.json())
+    .then(cart => {
+      const el = document.getElementById('cart-item-count');
+      if (el && el.textContent != cart.item_count) {
+        el.textContent = cart.item_count;
+      }
+    });
+}, 1000);
+</script>
 
 {% schema %}
 {
@@ -490,6 +957,11 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 36
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
     }
   ]
 }

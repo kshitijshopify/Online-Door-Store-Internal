@@ -1,0 +1,146 @@
+{% style %}
+  #template-26011141144942__feature_collections_6fncd6{
+    background:#f5f5f5;
+    /* max-width: 1464px;
+    margin: 0px auto;
+    padding-inline: 0px; */
+  }
+  #logo-marquee-{{ section.id }} {
+    width: 100%;
+    background-color: {{ section.settings.bg_color }};
+    padding-block: {{ section.settings.padding_y | append: "px" }};
+    overflow: hidden;
+    position: relative;
+  }
+
+  #logo-marquee-{{ section.id }} .swiper {
+    width: 100%;
+  }
+
+  #logo-marquee-{{ section.id }} .swiper-wrapper {
+    display: flex;
+    align-items: center;
+  }
+
+  #logo-marquee-{{ section.id }} .logo-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 96px;
+    width: fit-content;
+  }
+
+  #logo-marquee-{{ section.id }} .logo-item img {
+    height: 96px;
+    width: 178px;
+    object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+{% endstyle %}
+
+<section id="logo-marquee-{{ section.id }}" class="logo-marquee-section">
+  <div class="swiper logo-marquee-swiper-{{ section.id }}">
+    <div class="swiper-wrapper">
+      {% for block in section.blocks %}
+        {% if block.settings.image != blank %}
+          <div class="swiper-slide logo-item">
+            <img
+                src="{{ block.settings.image | image_url: width: 600 }}"
+                srcset="
+                    {{ block.settings.image | image_url: width: 600 }} 600w,
+                    {{ block.settings.image | image_url: width: 1000 }} 1000w,
+                    {{ block.settings.image | image_url: width: 1600 }} 1600w
+                "
+                sizes="(max-width: 600px) 100vw, 600px"
+                alt="{{ block.settings.image.alt | escape }}"
+                loading="lazy"
+                height="96"
+                width="auto"
+                />
+
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const swiperEl = document.querySelector(
+        "#logo-marquee-{{ section.id }} .swiper"
+      );
+
+      if (swiperEl) {
+        new Swiper(swiperEl, {
+          slidesPerView: "auto",
+          spaceBetween: {{ section.settings.blocks_gap }},
+          centerInsufficientSlides: true,
+          allowTouchMove: true, // user can swipe manually
+          grabCursor: true,     // shows grab cursor on hover
+          speed: 600,           // normal transition speed for manual swipe
+          freeMode: {
+            enabled: true,     // optional: disable free scroll (true = momentum flick)
+          },
+          mousewheel: {
+            enabled: true,
+            forceToAxis: true, // scroll only horizontally
+            sensitivity: 1,
+          },
+        });
+      }
+    });
+  </script>
+</section>
+
+{% schema %}
+{
+  "name": "Logo Marquee (Swiper)",
+  "settings": [
+    {
+      "type": "color",
+      "label": "Background Color",
+      "id": "bg_color",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "range",
+      "label": "Padding Y",
+      "id": "padding_y",
+      "min": 0,
+      "max": 100,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "label": "Gap Between Logos",
+      "id": "blocks_gap",
+      "min": 0,
+      "max": 100,
+      "unit": "px",
+      "default": 32
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo image"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 20,
+  "presets": [
+    {
+      "name": "Brands",
+      "category": "Image"
+    }
+  ]
+}
+{% endschema %}

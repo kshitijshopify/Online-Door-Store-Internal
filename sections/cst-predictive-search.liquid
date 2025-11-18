@@ -1,0 +1,50 @@
+{% comment %}
+This section returns SSR HTML for predictive search.
+It will be fetched using ?q=term&section_id=cst-predictive-search
+{% endcomment %}
+
+<div class="cst-search-ssr-wrapper">
+  {% if predictive_search.performed %}
+
+    {% if predictive_search.resources.products.size > 0 %}
+      <div class="cst-search-group">
+        <h4 class="cst-search-title">Products</h4>
+
+        {% for product in predictive_search.resources.products limit: 5 %}
+          <a href="{{ product.url }}" class="cst-search-item">
+            <img src="{{ product.featured_image.src | image_url: width: 120 }}" alt="{{ product.title }}" width="100%" height="auto">
+            <span>{{ product.title }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% if predictive_search.resources.collections.size > 0 %}
+      <div class="cst-search-group">
+        <h4 class="cst-search-title">Collections</h4>
+
+        {% for collection in predictive_search.resources.collections limit: 5 %}
+          <a href="{{ collection.url }}" class="cst-search-item">
+            <span>{{ collection.title }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {%- assign total_count = predictive_search.resources.products_count
+      | plus: predictive_search.resources.collections_count
+      | plus: predictive_search.resources.pages_count
+      | plus: predictive_search.resources.articles_count -%}
+
+    {% if total_count > 5 %}
+      <a class="cst-search-view-all" href="{{ routes.search_url }}?q={{ predictive_search.terms }}">
+        View all results
+      </a>
+    {% endif %}
+
+  {% else %}
+    <div class="cst-search-no-results">Start typing to search…</div>
+  {% endif %}
+</div>
+
+
