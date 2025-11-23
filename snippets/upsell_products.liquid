@@ -1,217 +1,217 @@
 {% assign upsell_products = product.metafields.custom.you_may_also_need.value %}
 {% if upsell_products != blank %}
-  <style>
-    .nx-upsell__heading {
-      font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      color: #212133;
-    }
-    .nx-upsell__swiper {
-      position: relative;
-      padding-right: 1px;
-    }
-    .nx-upsell-card {
-      position: relative;
-      border: 1px solid #D5D5E5;
-      border-radius: 2px;
-      padding: 8px;
-      background-color: #ffffff;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-    .nx-upsell-card.is-selected {
-      border-color: #30309F;
-    }
-    .nx-upsell-card__check {
-      display: block !important;
-    }
-    .nx-upsell-card__check {
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      width: 14px;
-      height: 14px;
-      border-radius: 3px;
-      background-color: #F1F1F9;
-    }
-    .nx-upsell-card__check svg {
-      display: none;
-    }
-    .nx-upsell-card.is-selected .nx-upsell-card__check svg {
-      display: block;
-    }
-    .nx-upsell-card__image {
-      display: block;
-      margin-bottom: 12px;
-    }
-    .nx-upsell-card__image img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-    .nx-upsell-card__body {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      flex: 1 1 auto;
-    }
-    .nx-upsell-card__vendor {
-      font-size: 13px;
-      text-transform: none;
-      letter-spacing: normal;
-      color: #30309F;
-      line-height: 1.38;
-      margin-top: 6px;
-    }
-    .nx-upsell-card__title {
-      font-size: 13px;
-      font-weight: 700;
-      color: #212133;
-      text-decoration: none;
-      line-height: 1.38;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      text-overflow: ellipsis;
-    }
-    .nx-upsell-card__price {
-      font-size: 13px;
-      color: #30309F;
-      margin-top: 4px;
-      font-weight: 700;
-    }
-    .nx-upsell-card__title:hover {
-      text-decoration: underline;
-    }
-   
-    .nx-upsell-card__footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-top: -6px;
-    }
-    .nx-upsell-card__more {
-      font-size: 13px;
-      text-decoration: underline;
-      color: #212133;
-      line-height: 1.38;
-    }
-    .nx-upsell-card__btn {
+  <div id="nx-upsell-{{ section.id }}-{{ block.id }}" class="nx-upsell" {{ block.shopify_attributes }}>
+    <style>
+      .nx-upsell__heading {
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 12px;
+        color: #212133;
+      }
+      .nx-upsell__swiper {
+        position: relative;
+        padding-right: 1px;
+      }
+      .nx-upsell-card {
+        position: relative;
+        border: 1px solid #D5D5E5;
+        border-radius: 2px;
+        padding: 8px;
+        background-color: #ffffff;
         display: flex;
+        flex-direction: column;
+        height: 100%;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+      .nx-upsell-card.is-selected {
+        border-color: #30309F;
+      }
+      .nx-upsell-card__check {
+        display: block !important;
+      }
+      .nx-upsell-card__check {
+        position: absolute;
+        top: 8px;
+        left: 8px;
+        width: 14px;
+        height: 14px;
+        border-radius: 3px;
+        background-color: #F1F1F9;
+      }
+      .nx-upsell-card__check svg {
+        display: none;
+      }
+      .nx-upsell-card.is-selected .nx-upsell-card__check svg {
+        display: block;
+      }
+      .nx-upsell-card__image {
+        display: block;
+        margin-bottom: 12px;
+      }
+      .nx-upsell-card__image img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .nx-upsell-card__body {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        flex: 1 1 auto;
+      }
+      .nx-upsell-card__vendor {
+        font-size: 13px;
+        text-transform: none;
+        letter-spacing: normal;
+        color: #30309F;
+        line-height: 1.38;
+        margin-top: 6px;
+      }
+      .nx-upsell-card__title {
+        font-size: 13px;
+        font-weight: 700;
+        color: #212133;
+        text-decoration: none;
+        line-height: 1.38;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
+      }
+      .nx-upsell-card__price {
+        font-size: 13px;
+        color: #30309F;
+        margin-top: 4px;
+        font-weight: 700;
+      }
+      .nx-upsell-card__title:hover {
+        text-decoration: underline;
+      }
+    
+      .nx-upsell-card__footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-top: -6px;
+      }
+      .nx-upsell-card__more {
+        font-size: 13px;
+        text-decoration: underline;
+        color: #212133;
+        line-height: 1.38;
+      }
+      .nx-upsell-card__btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          padding: 0;
+          background: none;
+          border: none;
+      }
+      .nx-upsell-card__btn-icon {
+        font-size: 20px;
+        line-height: 1;
+      }
+      .nx-upsell-card__btn-icon--minus {
+        display: none;
+      }
+      .nx-upsell-card.is-selected .nx-upsell-card__btn-icon--plus {
+        display: none;
+      }
+      .nx-upsell-card.is-selected .nx-upsell-card__btn-icon--minus {
+        display: inline-block;
+      }
+      
+      .nx-upsell__pagination {
+        text-align: center;
+        width: fit-content !important;
+      }
+      .nx-upsell__nav--prev,
+      .nx-upsell__nav--next,
+      .nx-upsell__pagination {
+        display: inline-flex;
         align-items: center;
         justify-content: center;
-        cursor: pointer;
-        padding: 0;
-        background: none;
-        border: none;
-    }
-    .nx-upsell-card__btn-icon {
-      font-size: 20px;
-      line-height: 1;
-    }
-    .nx-upsell-card__btn-icon--minus {
-      display: none;
-    }
-    .nx-upsell-card.is-selected .nx-upsell-card__btn-icon--plus {
-      display: none;
-    }
-    .nx-upsell-card.is-selected .nx-upsell-card__btn-icon--minus {
-      display: inline-block;
-    }
-    
-    .nx-upsell__pagination {
-      text-align: center;
-      width: fit-content !important;
-    }
-    .nx-upsell__nav--prev,
-    .nx-upsell__nav--next,
-    .nx-upsell__pagination {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    #nx-upsell-{{ section.id }}-{{ block.id }} .swiper-pagination-bullet {
-      width: 12px;
-      height: 12px;
-      opacity: 1;
-      margin: 0 6px;
-      background: transparent;
-      border: 1px solid #212133;
-    }
-    #nx-upsell-{{ section.id }}-{{ block.id }} .swiper-pagination-bullet-active {
-      background-color: #191a2f;
-    }
-    .nx-upsell__nav--prev {
-      margin-right: 8px;
-      transform: scale(-1);
-    }
-    .nx-upsell__nav:empty {
-      display: inline-flex;
-      margin: 0;
-    }
-    .navigation_arrows {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-top: 16px;
-      gap: 26px;
-    }
-    .nx-upsell__swiper .swiper-slide {
-      width: 33.33%;
-      margin-right: 8px;
-    }
-    .nx-upsell__nav.swiper-button-disabled {
-      opacity: .5;
-      cursor: auto;
-    }
-    .nx-upsell__nav {
-      margin: 0;
-      cursor: pointer;
-    }
-    .nx-upsell__swiper .swiper-button-disabled.swiper-button-lock {
-      display: none;
-    }
-    .nx-upsell-card__loader {
-      position: absolute;
-      inset: 0;
-      background: rgba(255, 255, 255, 0.6);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 2;
-    }
-
-    .nx-upsell-card__loader::after {
-      content: "";
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      border: 2px solid #c8c8d9;
-      border-top-color: #30309F;
-      animation: nx-upsell-spin 0.6s linear infinite;
-    }
-
-    .nx-upsell-card.is-loading .nx-upsell-card__loader {
-      display: flex;
-    }
-
-    .nx-upsell-card.is-loading {
-      pointer-events: none;
-    }
-
-    @keyframes nx-upsell-spin {
-      to {
-        transform: rotate(360deg);
       }
-    }
+      #nx-upsell-{{ section.id }}-{{ block.id }} .swiper-pagination-bullet {
+        width: 12px;
+        height: 12px;
+        opacity: 1;
+        margin: 0 6px;
+        background: transparent;
+        border: 1px solid #212133;
+      }
+      #nx-upsell-{{ section.id }}-{{ block.id }} .swiper-pagination-bullet-active {
+        background-color: #191a2f;
+      }
+      .nx-upsell__nav--prev {
+        margin-right: 8px;
+        transform: scale(-1);
+      }
+      .nx-upsell__nav:empty {
+        display: inline-flex;
+        margin: 0;
+      }
+      .navigation_arrows {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 16px;
+        gap: 26px;
+      }
+      .nx-upsell__swiper .swiper-slide {
+        width: 33.33%;
+        margin-right: 8px;
+      }
+      .nx-upsell__nav.swiper-button-disabled {
+        opacity: .5;
+        cursor: auto;
+      }
+      .nx-upsell__nav {
+        margin: 0;
+        cursor: pointer;
+      }
+      .nx-upsell__swiper .swiper-button-disabled.swiper-button-lock {
+        display: none;
+      }
+      .nx-upsell-card__loader {
+        position: absolute;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.6);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+      }
 
-  </style>
-  <div id="nx-upsell-{{ section.id }}-{{ block.id }}" class="nx-upsell" {{ block.shopify_attributes }}>
+      .nx-upsell-card__loader::after {
+        content: "";
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        border: 2px solid #c8c8d9;
+        border-top-color: #30309F;
+        animation: nx-upsell-spin 0.6s linear infinite;
+      }
+
+      .nx-upsell-card.is-loading .nx-upsell-card__loader {
+        display: flex;
+      }
+
+      .nx-upsell-card.is-loading {
+        pointer-events: none;
+      }
+
+      @keyframes nx-upsell-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+    </style>
     {% if block.settings.heading != blank %}
       <h3 class="nx-upsell__heading">{{ block.settings.heading }}</h3>
     {% endif %}
@@ -286,136 +286,135 @@
         </div>
       </div>
     </div>
-  </div>
+    
+    <script>
+      (function () {
+        var root = document.getElementById('nx-upsell-{{ section.id }}-{{ block.id }}');
+        if (!root) return;
 
-
-  <script>
-    (function () {
-      var root = document.getElementById('nx-upsell-{{ section.id }}-{{ block.id }}');
-      if (!root) return;
-
-      function initSwiper() {
-        var swiperEl = root.querySelector('.nx-upsell__swiper');
-        if (swiperEl && typeof Swiper !== 'undefined') {
-          new Swiper(swiperEl, {
-            slidesPerView: 3,
-            spaceBetween: 8,
-            pagination: {
-              el: root.querySelector('.nx-upsell__pagination'),
-              clickable: true
-            },
-            navigation: {
-              nextEl: root.querySelector('.nx-upsell__nav--next'),
-              prevEl: root.querySelector('.nx-upsell__nav--prev')
-            },
-            breakpoints: {
-              0: {
-                slidesPerView: 2.2,
-                spaceBetween: 8,
+        function initSwiper() {
+          var swiperEl = root.querySelector('.nx-upsell__swiper');
+          if (swiperEl && typeof Swiper !== 'undefined') {
+            new Swiper(swiperEl, {
+              slidesPerView: 3,
+              spaceBetween: 8,
+              pagination: {
+                el: root.querySelector('.nx-upsell__pagination'),
+                clickable: true
               },
-              850: {
-                slidesPerView: 3,
-                spaceBetween: 8,
-              }
-            } 
-          });
+              navigation: {
+                nextEl: root.querySelector('.nx-upsell__nav--next'),
+                prevEl: root.querySelector('.nx-upsell__nav--prev')
+              },
+              breakpoints: {
+                0: {
+                  slidesPerView: 2.2,
+                  spaceBetween: 8,
+                },
+                850: {
+                  slidesPerView: 3,
+                  spaceBetween: 8,
+                }
+              } 
+            });
+          }
         }
-      }
 
-      if (typeof Swiper === 'undefined') {
-        var swiperScript = document.querySelector('#nx-swiper-js');
-        if (swiperScript) {
-          swiperScript.addEventListener('load', initSwiper);
+        if (typeof Swiper === 'undefined') {
+          var swiperScript = document.querySelector('#nx-swiper-js');
+          if (swiperScript) {
+            swiperScript.addEventListener('load', initSwiper);
+          } else {
+            window.addEventListener('load', initSwiper);
+          }
         } else {
-          window.addEventListener('load', initSwiper);
+          initSwiper();
         }
-      } else {
-        initSwiper();
-      }
 
-      function updateCartCount() {
-        fetch('/')
-          .then(response => response.text())
-          .then(html => {
-            var temp = document.createElement('div');
-            temp.innerHTML = html;
+        function updateCartCount() {
+          fetch('/')
+            .then(response => response.text())
+            .then(html => {
+              var temp = document.createElement('div');
+              temp.innerHTML = html;
 
-            var newBubble = temp.querySelector('#cart-icon-bubble');
-            var oldBubble = document.querySelector('#cart-icon-bubble');
+              var newBubble = temp.querySelector('#cart-icon-bubble');
+              var oldBubble = document.querySelector('#cart-icon-bubble');
 
-            if (newBubble && oldBubble) {
-              oldBubble.innerHTML = newBubble.innerHTML;
+              if (newBubble && oldBubble) {
+                oldBubble.innerHTML = newBubble.innerHTML;
+              }
+            });
+        }
+
+
+        function fetchCartAndSync() {
+          return fetch('/cart.js')
+            .then(r => r.json())
+            .then(cart => {
+              applyCartState(cart);
+              updateCartCount(); 
+            });
+        }
+
+        function applyCartState(cart) {
+          var byVariant = {};
+          cart.items.forEach(function (item) {
+            byVariant[item.variant_id] = item.quantity;
+          });
+          root.querySelectorAll('.nx-upsell-card').forEach(function (card) {
+            var variantId = parseInt(card.getAttribute('data-variant-id'), 10);
+            var hasItem = byVariant[variantId] && byVariant[variantId] > 0;
+            if (hasItem) {
+              card.classList.add('is-selected');
+            } else {
+              card.classList.remove('is-selected');
             }
           });
-      }
-
-
-      function fetchCartAndSync() {
-        return fetch('/cart.js')
-          .then(r => r.json())
-          .then(cart => {
-            applyCartState(cart);
-            updateCartCount(); 
-          });
-      }
-
-      function applyCartState(cart) {
-        var byVariant = {};
-        cart.items.forEach(function (item) {
-          byVariant[item.variant_id] = item.quantity;
-        });
-        root.querySelectorAll('.nx-upsell-card').forEach(function (card) {
-          var variantId = parseInt(card.getAttribute('data-variant-id'), 10);
-          var hasItem = byVariant[variantId] && byVariant[variantId] > 0;
-          if (hasItem) {
-            card.classList.add('is-selected');
-          } else {
-            card.classList.remove('is-selected');
-          }
-        });
-      }
-
-      fetchCartAndSync();
-
-      root.addEventListener('click', function (event) {
-        var btn = event.target.closest('.nx-upsell-card__btn');
-        if (!btn) return;
-        var card = btn.closest('.nx-upsell-card');
-        if (!card) return;
-        var variantId = btn.getAttribute('data-variant-id');
-        if (!variantId) return;
-        var isSelected = card.classList.contains('is-selected');
-
-        card.classList.add('is-loading');
-        btn.disabled = true;
-
-        var url;
-        var body = new URLSearchParams();
-        if (!isSelected) {
-          url = '/cart/add.js';
-          body.append('id', variantId);
-          body.append('quantity', '1');
-        } else {
-          url = '/cart/update.js';
-          body.append('updates[' + variantId + ']', '0');
         }
-        fetch(url, {
-          method: 'POST',
-          headers: {
-            Accept: 'application/json',
-            'X-Requested-With': 'XMLHttpRequest'
-          },
-          body: body
-        })
-          .then(function () {
-            return fetchCartAndSync();
-          })
-          .finally(function () {
-            btn.disabled = false;
-            card.classList.remove('is-loading');
-          });
-      });
 
-    })();
-  </script>
+        fetchCartAndSync();
+
+        root.addEventListener('click', function (event) {
+          var btn = event.target.closest('.nx-upsell-card__btn');
+          if (!btn) return;
+          var card = btn.closest('.nx-upsell-card');
+          if (!card) return;
+          var variantId = btn.getAttribute('data-variant-id');
+          if (!variantId) return;
+          var isSelected = card.classList.contains('is-selected');
+
+          card.classList.add('is-loading');
+          btn.disabled = true;
+
+          var url;
+          var body = new URLSearchParams();
+          if (!isSelected) {
+            url = '/cart/add.js';
+            body.append('id', variantId);
+            body.append('quantity', '1');
+          } else {
+            url = '/cart/update.js';
+            body.append('updates[' + variantId + ']', '0');
+          }
+          fetch(url, {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: body
+          })
+            .then(function () {
+              return fetchCartAndSync();
+            })
+            .finally(function () {
+              btn.disabled = false;
+              card.classList.remove('is-loading');
+            });
+        });
+
+      })();
+    </script>
+  </div>
 {% endif %}
