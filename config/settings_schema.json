@@ -152,10 +152,10 @@
       {
         "type": "range",
         "id": "page_width",
-        "min": 1000,
-        "max": 1600,
-        "step": 10,
-        "default": 1200,
+        "min": 1200,
+        "max": 2400,
+        "step": 20,
+        "default": 1920,
         "unit": "px",
         "label": "t:settings_schema.layout.settings.page_width.label"
       },
@@ -1396,12 +1396,6 @@
         "id": "currency_code_enabled",
         "label": "t:settings_schema.currency_format.settings.currency_code_enabled.label",
         "default": true
-      },
-      {
-        "type": "text",
-        "id": "vat_text",
-        "label": "VAT text",
-        "default": "Inc. VAT"
       }
     ]
   },

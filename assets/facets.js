@@ -12,6 +12,9 @@ class FacetFiltersForm extends HTMLElement {
 
     const facetWrapper = this.querySelector('#FacetsWrapperDesktop');
     if (facetWrapper) facetWrapper.addEventListener('keyup', onKeyUpEscape);
+
+
+
   }
 
   static setListeners() {
@@ -96,8 +99,12 @@ class FacetFiltersForm extends HTMLElement {
     const count = new DOMParser().parseFromString(html, 'text/html').getElementById('ProductCount').innerHTML;
     const container = document.getElementById('ProductCount');
     const containerDesktop = document.getElementById('ProductCountDesktop');
+
     container.innerHTML = count;
     container.classList.remove('loading');
+
+    FacetFiltersForm.loadMore();
+
     if (containerDesktop) {
       containerDesktop.innerHTML = count;
       containerDesktop.classList.remove('loading');
@@ -271,7 +278,7 @@ class FacetFiltersForm extends HTMLElement {
 
       sortFilterForms.forEach((form) => {
         if (!isMobile) {
-          if (form.id === 'FacetSortForm' || form.id === 'FacetFiltersForm' || form.id === 'FacetSortDrawerForm') {
+          if (form.joinid === 'FacetSortForm' || form.id === 'FacetFiltersForm' || form.id === 'FacetSortDrawerForm') {
             forms.push(this.createSearchParams(form));
           }
         } else if (form.id === 'FacetFiltersFormMobile') {
@@ -290,6 +297,65 @@ class FacetFiltersForm extends HTMLElement {
         ? ''
         : event.currentTarget.href.slice(event.currentTarget.href.indexOf('?') + 1);
     FacetFiltersForm.renderPage(url);
+  }
+
+  static loadMore(){
+    
+    const loadMoreButton = document.querySelector('.load-more-button');
+    const productGrid = document.getElementById('product-grid');
+    const loadingSpinner = document.querySelector('.loading-spinner');
+    const viewedCountElement = document.querySelector('.viewed-count');
+
+    if (loadMoreButton) {
+      loadMoreButton.addEventListener('click', function () {
+        const nextUrl = this.getAttribute('data-next-url');
+        const totalProducts = parseInt(this.getAttribute('data-total-products'));
+        
+        if (!nextUrl) return;
+
+        // Show loading spinner and hide button
+        this.style.display = 'none';
+        loadingSpinner.style.display = 'block';
+
+        // Fetch next page
+        fetch(nextUrl)
+          .then((response) => response.text())
+          .then((html) => {
+            // Create temporary container to parse HTML
+            const tempContainer = document.createElement('div');
+            tempContainer.innerHTML = html;
+            // Extract products from the new page
+            const newProductGrid = tempContainer.querySelector('#product-grid');
+            const newProducts = newProductGrid ? newProductGrid.innerHTML : '';
+            const LoadMoreContainer = document.querySelector('#load-more-container');
+            // Append new products to existing grid
+            if (newProducts) {
+              productGrid.innerHTML += newProducts;
+            }
+            if (LoadMoreContainer) {
+              LoadMoreContainer.innerHTML  = tempContainer.querySelector('#load-more-container').innerHTML;
+            }
+
+            const total = document.querySelector('#product-grid li').length;
+            // Update load more button or remove it if no more pages
+            const currentViewed = document.querySelectorAll('#product-grid .grid__item').length;
+            const percent = (currentViewed / total) * 100;
+            document.querySelector(".cst-progress-value").style.width = `${percent}%`;
+        
+            // Update viewed count
+            viewedCountElement.textContent = Math.min(currentViewed, totalProducts);
+            // Hide loading spinner
+            loadingSpinner.style.display = 'none';
+
+            FacetFiltersForm.loadMore();
+          })
+          .catch((error) => {
+            console.error('Error loading more products:', error);
+
+            loadingSpinner.style.display = 'none';
+          });
+      });
+    }
   }
 }
 

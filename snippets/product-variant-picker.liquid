@@ -10,7 +10,6 @@
 {% endcomment %}
 {%- unless product.has_only_default_variant -%}
   <variant-selects
-    class="wrap_in_div"
     id="variant-selects-{{ section.id }}"
     data-section="{{ section.id }}"
     {{ block.shopify_attributes }}
@@ -56,11 +55,7 @@
       {%- else -%}
         <div class="product-form__input product-form__input--dropdown">
           <label class="form__label" for="Option-{{ section.id }}-{{ forloop.index0 }}">
-            {% if option.name contains 'size' %}
-              Choose your {{ option.name }}: <span class="custom_sze_variant">{{ product.selected_variant.title }}</span>
-            {% else %}
-              {{ option.name }}
-            {% endif %}
+            {{ option.name }}
           </label>
           <div class="select">
             {%- if picker_type == 'swatch_dropdown' -%}
@@ -85,10 +80,7 @@
               %}
             </select>
             <span class="svg-wrapper">
-              {% comment %} {{- 'icon-caret.svg' | inline_asset_content -}} {% endcomment %}
-              <svg width="11" height="7" viewBox="0 0 11 7" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M4.375 5.71875L0.375 1.71875C0.09375 1.4375 0 1 0.15625 0.625C0.3125 0.25 0.6875 0 1.09375 0H9.09375C9.5 0 9.84375 0.25 10 0.625C10.1562 1 10.0625 1.4375 9.78125 1.71875L5.78125 5.71875C5.40625 6.125 4.75 6.125 4.375 5.71875Z" fill="#212133"/>
-              </svg>
+              {{- 'icon-caret.svg' | inline_asset_content -}}
             </span>
           </div>
         </div>
