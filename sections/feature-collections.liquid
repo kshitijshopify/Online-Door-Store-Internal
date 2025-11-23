@@ -1,0 +1,526 @@
+
+{% assign section_id = section.id | handle %}
+
+{% style %}
+  #{{ section_id }} .cst-container {
+    display: flex;
+    flex-direction: column;
+    gap: 56px;
+    padding-inline: 56px;
+    padding-block: 96px;
+    background-color: {{ section.settings.bg_color }};
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+
+  /* Title style */
+
+  #{{ section_id }} .cst-title {
+    display: block;
+    width: 100%;
+    font-size: 32px;
+    line-height: 36px;
+    font-weight: 500;
+    text-transform: {{ section.settings.title_case }};
+    color: {{ section.settings.title_color }};
+    text-align: {{ section.settings.title_alignment }};
+    box-sizing: border-box;
+    -webkit-text-stroke: 1.6px;
+  }
+  @media(max-width: 768px) {
+    #{{ section_id }} .cst-title {
+      font-size: 24px;
+      line-height: 28px;
+    }
+  }
+
+  /* navigation block style */
+
+  #{{ section_id }} .cst-navigation-container {
+    display: flex;
+    width: 100%;
+    justify-content: {{ section.settings.nav_alignment }};
+    box-sizing: border-box;
+  }
+  #{{ section_id }} .cst-navigations {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+  #{{ section_id }} .cst-link-btn {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-inline: 32px;
+    height: 56px;
+    text-wrap: nowrap;
+    white-space: nowrap;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.4s;
+    box-sizing: border-box;
+    -webkit-text-stroke: 0.3px;
+  }
+  #{{ section_id }} .cst-link-btn-outline,
+  #{{ section_id }} .cst-link-btn-fill:hover {
+    color: #212133;
+    background: transparent;
+    border: 1px solid #212133;
+  }
+  #{{ section_id }} .cst-link-btn-fill,
+  #{{ section_id }} .cst-link-btn-outline:hover {
+    color: #fff;
+    background-color: {{ section.settings.nav_color }};
+    border: 1px solid {{ section.settings.nav_color }};
+  }
+  #{{ section_id }} .cst-slider-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+    color: {{ section.settings.nav_color }};
+    opacity: 1;
+    transition: all 0.4s;
+    box-sizing: border-box;
+  }
+  #{{ section_id }} .cst-slider-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: {{ section.settings.nav_color }};
+  }
+  #{{ section_id }} .cst-slider-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+  #{{ section_id }} .cst-navigations:has(.cst-slider-prev-btn:disabled):has(.cst-slider-next-btn:disabled) .cst-slider-btn {
+    display: none;
+  }
+  @media(max-width: 425px) {
+    #{{ section_id }} .cst-navigations {
+      width: 100%;
+    }
+    #{{ section_id }} .cst-link-btn {
+      width: 100%;
+    }
+    #{{ section_id }} .cst-slider-btn {
+      display: none;
+    }
+  }
+
+  /* Slider styles */
+
+  #{{ section_id }} .cst-slider-container {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    {% if section.settings.card_type == "small" %}
+      max-width: 964px;
+      margin-inline: auto;
+    {% endif %}
+  }
+  #{{ section_id }} .cst-slider-container .swiper {
+    width: 100%;
+    {% if section.settings.card_type == "big" %}
+      overflow: visible;
+    {% endif %}
+  }
+  #{{ section_id }} .cst-slider-container .swiper .swiper-slide {
+    width: fit-content;
+  }
+
+  /* big card type */
+  #{{ section_id }} .cst-slider-{{ section_id }} .cst-card-big {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 24px;
+    padding: 24px;
+    width: 335px;
+    height: 450px;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+  #{{ section_id }} .cst-slider-{{ section_id }} .cst-card-big::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, .3));
+    z-index: 1;
+    pointer-events: none;
+  }
+  #{{ section_id }} .cst-slider-{{ section_id }} .cst-card-big .cst-img-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    position: absolute;
+    inset: 0;
+  }
+  #{{ section_id }} .cst-slider-{{ section_id }} .cst-card-big .cst-card-img {
+    display: flex;
+    object-fit: {{section.settings.card_img_object_fit}};
+    box-sizing: border-box;
+  }
+  #{{ section_id }} .cst-slider-{{ section_id }} .cst-card-big .cst-card-info {
+    z-index: 2;
+    box-sizing: border-box;
+  }
+  #{{ section_id }} .cst-slider-{{ section_id }} .cst-card-big .cst-card-link {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 56px;
+    padding-inline: 32px;
+    background-color: #FFFFFF1A;
+    color: #fff;
+    border: 1px solid #fff;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 18px;
+    text-transform: uppercase;
+    letter-spacing: 5%;
+    transition: all 0.4s;
+    box-sizing: border-box;
+  }
+  #{{ section_id }} .cst-slider-{{ section_id }} .cst-card-big .cst-card-link span {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+
+  /* small card type */
+  #{{ section_id }} .cst-slider-{{ section_id }} .cst-card-small {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 96px;
+    justify-content: flex-start;
+  }
+  #{{ section_id }} .cst-slider-{{ section_id }} .cst-card-big .cst-img-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+  }
+  #{{ section_id }} .cst-slider-{{ section_id }} .cst-card-small .cst-card-img {
+    display: block;
+    width: 100%;
+    border-radius: 2px;
+    aspect-ratio: 1/1;
+    object-fit: {{section.settings.card_img_object_fit}};
+  }
+  #{{ section_id }} .cst-slider-{{ section_id }} .cst-card-small .cst-card-link {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    color: #212133;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0%;
+  }
+  #{{ section_id }} .cst-slider-{{ section_id }} .cst-card-small .cst-card-link span {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    text-align: center;
+  }
+
+  @media(max-width: 768px) {
+    #{{ section_id }} .cst-container {
+      padding-inline: 16px;
+      padding-block: 56px;
+      gap: 40px;
+    }
+    
+    {% if section.settings.card_type == "small" %}
+      #{{ section_id }} .cst-slider-container .swiper {
+        overflow: visible;
+      }
+    {% endif %}
+
+    #{{ section_id }} .cst-slider-{{ section_id }} .cst-card-big {
+      width: 280px;
+      height: 375px;
+    }
+  }
+
+{% endstyle %}
+
+<section id="{{ section_id }}" class="cst-section">
+  <div class="cst-container">
+    {% comment %} Title {% endcomment %}
+    {% if section.settings.title_text != blank %}
+      <div class="cst-title">{{ section.settings.title_text }}</div>
+    {% endif %}
+    {% comment %} Slider {% endcomment %}
+    {% if section.blocks.size > 0 %}
+      <div class="cst-slider-container">
+        <div class="swiper cst-slider-{{ section_id }}">
+          <div class="swiper-wrapper cst-slider-wrapper">
+            {% for block in section.blocks %}
+              {% if block.type == "card" %}
+                {% assign collection = block.settings.collection %}
+                {% assign image = block.settings.img | default:collection.featured_image %}
+                {% if collection != empty %}
+                  <div class="swiper-slide cst-slide">
+                    <div class="cst-card-{{ section.settings.card_type }}">
+                      <a href="{{ collection.url }}" class="cst-img-link">
+                        <img
+                          src="{{ image | image_url: width: 635, height: 750 }}"
+                          alt="{{ image.alt | escape }}"
+                          loading="lazy"
+                          decoding="async"
+                          width="100%"
+                          height="100%"
+                          class="cst-card-img"
+                        />
+                      </a>
+                      <div class="cst-card-info">
+                        <a href="{{ collection.url }}" class="cst-card-link">
+                          <span>{{ collection.title }}</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    {% comment %} Slider Navigation {% endcomment %}
+    <div class="cst-navigation-container">
+      <div class="cst-navigations">
+        {% if section.blocks.size > 0 %}
+          <button class="cst-slider-btn cst-slider-prev-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 16" fill="currentColor">
+              <path d="M0.28125 7.03125L7.03125 0.28125C7.3125 0 7.82812 0 8.10938 0.28125C8.39062 0.5625 8.39062 1.07812 8.10938 1.35938L2.625 6.79688H23.3438C23.7188 6.79688 24.0938 7.17188 24.0938 7.54688C24.0938 7.96875 23.7188 8.29688 23.3438 8.29688H2.625L8.10938 13.7812C8.39062 14.0625 8.39062 14.5781 8.10938 14.8594C7.82812 15.1406 7.3125 15.1406 7.03125 14.8594L0.28125 8.10938C0 7.82812 0 7.3125 0.28125 7.03125Z" fill="currentColor"/>
+            </svg>
+          </button>
+        {% endif %}
+        {% if section.settings.nav_btn_label != blank %}
+          <a href="{{ section.settings.nav_btn_link | default:"#" }}" class="cst-link-btn cst-link-btn-{{ section.settings.nav_btn_type }}">
+            {{ section.settings.nav_btn_label }}
+          </a>
+        {% endif %}
+        {% if section.blocks.size > 0 %}
+          <button class="cst-slider-btn cst-slider-next-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 16" fill="currentColor">
+              <path d="M23.7656 8.10938L17.0156 14.8594C16.7344 15.1406 16.2188 15.1406 15.9375 14.8594C15.6562 14.5781 15.6562 14.0625 15.9375 13.7812L21.4219 8.29688H0.75C0.328125 8.29688 0 7.96875 0 7.54688C0 7.17188 0.328125 6.79688 0.75 6.79688H21.4219L15.9375 1.35938C15.6562 1.07812 15.6562 0.5625 15.9375 0.28125C16.2188 0 16.7344 0 17.0156 0.28125L23.7656 7.03125C24.0469 7.3125 24.0469 7.82812 23.7656 8.10938Z" fill="currentColor"/>
+            </svg>
+          </button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const swiperEl = document.querySelector("#{{ section_id }} .swiper");
+
+      if (swiperEl) {
+        new Swiper(swiperEl, {
+          slidesPerView: "auto",
+          spaceBetween: {{ section.settings.slider_gap }},
+          centerInsufficientSlides: true,
+          navigation: {
+            nextEl: "#{{ section_id }} .cst-slider-next-btn",
+            prevEl: "#{{ section_id }} .cst-slider-prev-btn",
+          },
+          breakpoints: {
+            0: {
+              spaceBetween: {{ section.settings.slider_gap_mobile }},
+            },
+            768: {
+              spaceBetween: {{ section.settings.slider_gap }},
+            },
+          },
+        });
+      }
+    });
+  </script>
+
+</section>
+
+{% schema %}
+{
+  "name": "CST Collections Slider",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Color Settings"
+    },
+    {
+      "type": "color",
+      "label": "Background Color",
+      "id": "bg_color",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "header",
+      "content": "Title Settings"
+    },
+    {
+      "type": "text",
+      "label": "Text",
+      "id": "title_text"
+    },
+    {
+      "type": "select",
+      "label": "Text Case",
+      "id": "title_case",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "capitalize", "label": "Capitalize" },
+        { "value": "uppercase", "label": "Uppercase" },
+        { "value": "lowercase", "label": "Lowercase" }
+      ],
+      "default": "uppercase"
+    },
+    {
+      "type": "color",
+      "label": "Color",
+      "id": "title_color",
+      "default": "#30309F"
+    },
+    {
+      "type": "text_alignment",
+      "label": "Text alignment",
+      "id": "title_alignment",
+      "default": "center"
+    },
+    {
+      "type": "header",
+      "content": "Slider Settings"
+    },
+    {
+      "type": "select",
+      "id": "card_type",
+      "label": "Card type",
+      "options": [
+        { "value": "big", "label": "Big" },
+        { "value": "small", "label": "Small" }
+      ],
+      "default": "big"
+    },
+    {
+      "type": "select",
+      "id": "card_img_object_fit",
+      "label": "Image object-fit",
+      "options": [
+        { "value": "none", "label": "None" },
+        { "value": "cover", "label": "Cover" },
+        { "value": "contain", "label": "Contain" },
+        { "value": "fill", "label": "Fill" },
+        { "value": "scale-down", "label": "Scale down" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "range",
+      "id": "slider_gap",
+      "label": "Gap - desktop",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "slider_gap_mobile",
+      "label": "Gap - mobile",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Navigation Settings"
+    },
+    {
+      "type": "select",
+      "id": "nav_alignment",
+      "label": "alignment",
+      "options": [
+        { "value": "left", "label": "left" },
+        { "value": "center", "label": "center" },
+        { "value": "right", "label": "right" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "color",
+      "label": "Color",
+      "id": "nav_color",
+      "default": "#30309F"
+    },
+    {
+      "type": "text",
+      "label": "Button Label",
+      "id": "nav_btn_label",
+    },
+    {
+      "type": "url",
+      "label": "Button Link",
+      "id": "nav_btn_link"
+    },
+    {
+      "type": "select",
+      "id": "nav_btn_type",
+      "label": "Button Type",
+      "options": [
+        { "value": "fill", "label": "Fill" },
+        { "value": "outline", "label": "Outline" }
+      ],
+      "default": "fill"
+    },
+  ],
+  "blocks": [
+    {
+      "type": "card",
+      "name": "Card",
+      "settings": [
+        {
+          "type": "collection",
+          "label": "Collection",
+          "id": "collection"
+        },
+        {
+          "type":"image_picker",
+          "label": "Image",
+          "id": "img",
+          "info": "if you not added this image so by default collection image show."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection Slider"
+    }
+  ]
+}
+{% endschema %}

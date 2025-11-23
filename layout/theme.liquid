@@ -302,7 +302,7 @@
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
+    >
     <!-- Swiper JS -->
     <script
       src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"
@@ -384,5 +384,196 @@
     {%- if settings.cart_type == 'drawer' -%}
       <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     {%- endif -%}
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // Get both VAT toggles (desktop and mobile)
+        const vatToggles = document.querySelectorAll('#vatToggle, #vatToggleMobile');
+
+        if (vatToggles.length === 0) return;
+
+        // Function to extract numeric value from price string
+        function extractNumericPrice(priceString) {
+          // Remove currency symbols, commas, and any non-numeric characters except decimal point
+          const numericString = priceString.replace(/[^\d.,]/g, '');
+          // Replace comma with dot for decimal parsing
+          const cleanString = numericString.replace(',', '.');
+          return parseFloat(cleanString);
+        }
+
+        // Function to get currency symbol from price string
+        function getCurrencySymbol(priceString) {
+          const match = priceString.match(/[^\d.,\s]+/);
+          return match ? match[0] : '';
+        }
+
+        // Function to format price with currency symbol
+        function formatPrice(price, isVAT) {
+          const currencySymbol = getCurrencySymbol(price);
+          const numericPrice = extractNumericPrice(price);
+
+          if (isNaN(numericPrice)) {
+            console.warn('Could not parse price:', price);
+            return price; // Return original if parsing fails
+          }
+
+          const vatMultiplier = isVAT ? 1.2 : 1;
+          const finalPrice = numericPrice * vatMultiplier;
+
+          // Preserve decimal places from original price
+          const decimalPlaces = (price.split('.')[1] || '').length;
+
+          // Format the final price
+          const formattedPrice = finalPrice.toFixed(decimalPlaces || 2);
+
+          return currencySymbol + formattedPrice;
+        }
+
+        // Function to update prices based on VAT toggle state
+        function updatePrices(isVATIncluded) {
+          console.log('Updating prices, VAT included:', isVATIncluded);
+
+          // Update all price elements - including the new nx-upsell-card__price
+          const priceSelectors = [
+            '.product-card__price-main',
+            '.cst-price',
+            '.cart-item__price-wrapper .price',
+            '.price--end',
+            '.nx-upsell-card__price', // Added this selector
+          ];
+
+          priceSelectors.forEach((selector) => {
+            document.querySelectorAll(selector).forEach((priceElement) => {
+              // Skip if element doesn't contain price text
+              if (!priceElement.textContent.trim()) return;
+
+              const originalPrice = priceElement.getAttribute('data-original-price') || priceElement.textContent.trim();
+
+              // Store original price if not already stored
+              if (!priceElement.hasAttribute('data-original-price')) {
+                priceElement.setAttribute('data-original-price', originalPrice);
+              }
+
+              // Update price
+              const newPrice = formatPrice(originalPrice, isVATIncluded);
+              priceElement.textContent = newPrice;
+            });
+          });
+
+          // Update VAT text labels
+          const vatSelectors = ['.product-card__price-inc', '.cst-price-inc', '.cart-item__price-info span'];
+
+          vatSelectors.forEach((selector) => {
+            document.querySelectorAll(selector).forEach((vatElement) => {
+              if (vatElement.textContent.includes('VAT')) {
+                vatElement.textContent = isVATIncluded ? ' Inc. VAT' : ' Exc. VAT';
+              }
+            });
+          });
+
+          // Update toggle text states for all VAT text elements
+          const vatTexts = document.querySelectorAll('[data-vat-text]');
+          vatTexts.forEach((text) => {
+            if (text.getAttribute('data-vat-text') === 'inc') {
+              text.classList.toggle('active', isVATIncluded);
+              text.classList.toggle('inactive', !isVATIncluded);
+            } else if (text.getAttribute('data-vat-text') === 'exc') {
+              text.classList.toggle('active', !isVATIncluded);
+              text.classList.toggle('inactive', isVATIncluded);
+            }
+          });
+
+          // Update mobile toggle text
+          const mobileVatText = document.querySelector('.cst-text-vat');
+          if (mobileVatText) {
+            mobileVatText.textContent = isVATIncluded ? 'Inc. VAT' : 'Exc. VAT';
+          }
+        }
+
+        // Function to sync all toggles to the same state
+        function syncToggles(isVATIncluded) {
+          vatToggles.forEach((toggle) => {
+            toggle.checked = !isVATIncluded; // Note: checked means Exc. VAT
+          });
+        }
+
+        // Initialize prices on page load
+        function initializePrices() {
+          const savedPreference = localStorage.getItem('vatPreference');
+          const isVATIncluded = savedPreference ? savedPreference === 'inc' : true;
+
+          console.log('Initializing prices, VAT included:', isVATIncluded);
+
+          // Sync all toggles
+          syncToggles(isVATIncluded);
+
+          // Update prices
+          updatePrices(isVATIncluded);
+        }
+
+        // Event listener for all toggles
+        vatToggles.forEach((toggle) => {
+          toggle.addEventListener('change', function () {
+            const isVATIncluded = !this.checked;
+            console.log('Toggle changed, VAT included:', isVATIncluded);
+
+            // Sync all toggles
+            syncToggles(isVATIncluded);
+
+            // Update prices
+            updatePrices(isVATIncluded);
+
+            // Store preference in localStorage
+            localStorage.setItem('vatPreference', isVATIncluded ? 'inc' : 'exc');
+          });
+        });
+
+        // Initialize on page load
+        initializePrices();
+
+        // Handle dynamic content (for AJAX loading)
+        const observer = new MutationObserver(function (mutations) {
+          let shouldUpdate = false;
+
+          mutations.forEach(function (mutation) {
+            if (mutation.type === 'childList') {
+              mutation.addedNodes.forEach(function (node) {
+                if (node.nodeType === 1) {
+                  // Check if new price elements were added - including upsell cards
+                  if (
+                    node.classList &&
+                    (node.classList.contains('product-card__price-container') ||
+                      node.classList.contains('cst-price-container') ||
+                      node.classList.contains('cart-item__totals') ||
+                      node.classList.contains('nx-upsell-card__price') || // Added this
+                      node.querySelector('.product-card__price-main') ||
+                      node.querySelector('.cst-price') ||
+                      node.querySelector('.cart-item__price-wrapper') ||
+                      node.querySelector('.nx-upsell-card__price')) // Added this
+                  ) {
+                    shouldUpdate = true;
+                  }
+                }
+              });
+            }
+          });
+
+          if (shouldUpdate) {
+            console.log('Dynamic content detected, updating prices...');
+            setTimeout(() => {
+              const isVATIncluded = !vatToggles[0].checked;
+              updatePrices(isVATIncluded);
+            }, 100);
+          }
+        });
+
+        // Start observing
+        observer.observe(document.body, {
+          childList: true,
+          subtree: true,
+        });
+        
+      });
+    </script>
   </body>
 </html>

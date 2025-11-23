@@ -1,0 +1,403 @@
+{% assign section_id = section.id | handle %}
+
+{% style %}
+        .professional-accordion-section {
+            background: {{section.settings.bg_color}};
+            padding: 96px 228px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        @media (max-width: 1600px) {
+            .professional-accordion-section {
+                padding: 96px 48px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .professional-accordion-section {
+                padding: 64px 32px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .professional-accordion-section {
+                padding: 48px 16px;
+            }
+        }
+
+        /* Header */
+        .section-header {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .section-title {
+    font-size: 32px;
+    line-height: 36px;
+    color: #30309F;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin: 0;
+    -webkit-text-stroke: 1.2px;
+    letter-spacing: 1px;
+        }
+
+        @media (max-width: 480px) {
+            .professional-accordion-section .section-title {
+                font-size: 24px;
+                line-height: 28px;
+            }
+        }
+
+        /* Team images overlap */
+        .team-images-container {
+            display: flex;
+        }
+
+        .team-images-container img {
+           width: 64px;
+    height: 64px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            margin-left: -20px;
+            transition: transform 0.2s ease;
+        }
+
+        .team-images-container img:hover {
+            transform: translateY(-2px);
+            z-index: 1;
+        }
+
+        .team-images-container img:first-child {
+            margin-left: 0;
+        }
+
+        /* Section body layout */
+        .section-body {
+            margin-top: 56px;
+            /* display: grid;
+            grid-template-columns: 1fr 1fr; */
+            display: flex;
+            gap: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .section-body {
+                /* grid-template-columns: 1fr; */
+                flex-direction: column;
+                gap: 0;
+                margin-top: 40px;
+            }
+        }
+
+        /* Columns */
+        .column {
+            flex: 1;
+            background: #ffffff;
+            padding: 56px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        @media(max-width: 1024px) {
+            .column {
+                padding: 32px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .column-1 {
+                padding: 24px 16px 0 16px;
+                border-radius: 8px 8px 0 0;
+            }
+            .column-2 {
+                padding: 0 16px 24px 16px;
+                border-radius: 0 0 8px 8px;
+            }
+        }
+
+        /* Accordion */
+        .accordion {
+            /* border-bottom: 1px solid #E5E5E5; */
+            transition: border-color 0.2s ease;
+        }
+
+        .accordion:last-child {
+            /* border-bottom: none; */
+        }
+
+        .accordion:hover {
+            /* border-color: #222426; */
+        }
+
+        .accordion-header {
+    min-height: 56px;
+    width: 100%;
+    padding: 16px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 700;
+    color: #222426;
+    gap: 32px;
+    transition: color 0.2s ease;
+    border: none;
+    outline: none;
+    background: transparent;
+    border-bottom: 1px solid #222426;
+        }
+        .accordion-header .accordion-title {
+            text-align: left;
+        }
+
+        .accordion-header:hover {
+            color: #30309F;
+        }
+
+        .accordion-header:focus {
+            outline: none;
+        }
+
+        @media (max-width: 768px) {
+            .accordion-header {
+                gap: 24px;
+            }
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            padding: 0;
+            color: #222426;
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        /* Content spacing */
+        .accordion.open .accordion-content {
+            /* padding: 24px 0; */
+        }
+
+        @media (max-width: 768px) {
+            .accordion.open .accordion-content {
+                /* padding: 16px 0; */
+            }
+        }
+
+        .accordion-icon {
+    transition: transform 0.3s ease;
+    flex-shrink: 0;
+    display: flex;
+    width: 18px;
+    height: 18px;
+    justify-content: center;
+    align-items: center;
+        }
+
+        .accordion.open .accordion-icon .icon-plus,
+        .accordion .accordion-icon .icon-minus {
+            display: none;
+        }
+        .accordion.open .accordion-icon .icon-minus,
+        .accordion .accordion-icon .icon-plus {
+            display: flex;
+        }
+{% endstyle %}
+
+{% assign member_blocks  = section.blocks | where:'type','image' %}
+{% assign accordion_blocks = section.blocks | where:'type','accordion' %}
+
+    <section class="professional-accordion-section" aria-labelledby="section-title">
+        {% if section.settings.section_title != blank or member_blocks.size > 0  %}
+            <div class="section-header">
+                {% if section.settings.section_title != blank %}
+                    <h2 id="section-title" class="section-title">{{ section.settings.section_title }}</h2>
+                {% endif %}
+    
+                {% if member_blocks and member_blocks.size > 0 %}
+                    <div class="team-images-container" aria-label="Team members">
+                        {% for block in member_blocks %}
+                            <img src="{{ block.settings.member_image | img_url:'64x64' }}" alt="{{ block.settings.alt_text | default: "member image" }}" width="64px" height="64px" />
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        {% if accordion_blocks and accordion_blocks.size > 0 %}
+            <div class="section-body">
+                {% capture col_1 %}{% endcapture %}
+                {% capture col_2 %}{% endcapture %}
+                {% for block in accordion_blocks %}
+                    {% capture accordion %}
+                        <div class="accordion" data-accordion>
+                            <button class="accordion-header" aria-expanded="false" aria-controls="content-{{ forloop.index }}">
+                                <div class="accordion-title">{{ block.settings.accordion_title }}</div>
+                                <div class="accordion-icon">
+                                    <div class="icon-plus">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" fill="none">
+                                            <path d="M9.0625 0.9375V7.1875H15.3125C15.8203 7.1875 16.25 7.61719 16.25 8.125C16.25 8.67188 15.8203 9.0625 15.3125 9.0625H9.0625V15.3125C9.0625 15.8594 8.63281 16.25 8.125 16.25C7.57812 16.25 7.1875 15.8594 7.1875 15.3125V9.0625H0.9375C0.390625 9.0625 0 8.67188 0 8.125C0 7.61719 0.390625 7.1875 0.9375 7.1875H7.1875V0.9375C7.1875 0.429688 7.57812 0 8.125 0C8.63281 0 9.0625 0.429688 9.0625 0.9375Z" fill="#222426"/>
+                                        </svg>
+                                    </div>
+                                    <div class="icon-minus">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="17" height="2" viewBox="0 0 17 2" fill="none">
+                                            <path d="M16.25 0.9375C16.1979 1.51042 15.8854 1.82292 15.3125 1.875H0.9375C0.364583 1.82292 0.0520833 1.51042 0 0.9375C0.0520833 0.364583 0.364583 0.0520833 0.9375 0H15.3125C15.8854 0.0520833 16.1979 0.364583 16.25 0.9375Z" fill="#222426"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </button>
+                            <div id="content-{{ forloop.index }}" class="accordion-content" role="region">
+                                <div class="content-inner">{{ block.settings.accordion_content }}</div>
+                            </div>
+                        </div>
+                    {% endcapture %}
+                    {% if block.settings.accordion_column == 'col1' %}
+                        {% capture col_1 %}
+                            {{ col_1 | append: accordion }}
+                        {% endcapture %}
+                    {% else %}
+                        {% capture col_2 %}
+                            {{ col_2 | append: accordion }}
+                        {% endcapture %}
+                    {% endif %}
+                {% endfor %}
+
+                {% if col_1 != blank %}
+                    <div class="column column-1">{{ col_1 }}</div>
+                {% endif %}
+                {% if col_2 != blank %}
+                    <div class="column column-2">{{ col_2 }}</div>
+                {% endif %}
+            </div>
+        {% endif %}
+
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const accordions = document.querySelectorAll('[data-accordion]');
+            
+            accordions.forEach(accordion => {
+                const header = accordion.querySelector('.accordion-header');
+                const content = accordion.querySelector('.accordion-content');
+                
+                header.addEventListener('click', function() {
+                    const isOpen = accordion.classList.contains('open');
+                    
+                    // Close all accordions
+                    accordions.forEach(acc => {
+                        acc.classList.remove('open');
+                        const accContent = acc.querySelector('.accordion-content');
+                        accContent.style.maxHeight = null;
+                        acc.querySelector('.accordion-header').setAttribute('aria-expanded', 'false');
+                    });
+                    
+                    // If the clicked accordion wasn't open, open it
+                    if (!isOpen) {
+                        accordion.classList.add('open');
+                        content.style.maxHeight = content.scrollHeight + 'px';
+                        header.setAttribute('aria-expanded', 'true');
+                    }
+                });
+                
+                // Keyboard accessibility
+                header.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        header.click();
+                    }
+                });
+            });
+            
+            // Handle window resize to adjust max-height if needed
+            window.addEventListener('resize', function() {
+                const openAccordion = document.querySelector('.accordion.open');
+                if (openAccordion) {
+                    const content = openAccordion.querySelector('.accordion-content');
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                }
+            });
+        });
+    </script>
+
+{% schema %}
+{
+    "name": "Accordions List",
+    "settings": [
+        {
+            "type": "text",
+            "id": "section_title",
+            "label": "Section Title",
+        },
+        {
+            "type": "color",
+            "id": "bg_color",
+            "label": "Background color",
+            "default": "#F1F1F9"
+        }
+    ],
+    "blocks": [
+        {
+  "type": "image",
+  "name": "Member Image",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "member_image",
+      "label": "Select image"
+    },
+    {
+      "type": "text",
+      "id": "alt_text",
+      "label": "member name"
+    }
+  ]
+},
+        {
+        "type": "accordion",
+        "name": "Accordion item",
+        "settings": [
+            {
+            "type": "text",
+            "id": "accordion_title",
+            "label": "Accordion title",
+            "default": "Accordion Title"
+            },
+            {
+            "type": "richtext",
+            "id": "accordion_content",
+            "label": "Accordion content"
+            },
+            {
+            "type": "select",
+            "id": "accordion_column",
+            "label": "Column position",
+            "default": "col1",
+            "options": [
+                {
+                "value": "col1",
+                "label": "Column 1"
+                },
+                {
+                "value": "col2",
+                "label": "Column 2"
+                }
+            ]
+            }
+        ]
+        }
+    ],
+    "presets": [
+        {
+            "name": "Accordions List"
+        }
+    ]
+}
+{% endschema %}

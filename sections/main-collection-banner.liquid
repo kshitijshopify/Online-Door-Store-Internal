@@ -1,76 +1,259 @@
-{% comment %}theme-check-disable ImgLazyLoading{% endcomment %}
-{{ 'component-collection-hero.css' | asset_url | stylesheet_tag }}
+{% assign id = section.id %}
+{% style %}
+      #{{ id }}{
+        width:100%;
+        height:auto;
+        background:#fff ;
+      }
+      #{{ id }} .collection-banner-wrapper {
+        width:100%;
+        max-width:1672px;
+        padding-inline:20px;
+        margin-inline:auto;
+      }
+      #{{ id }} .collection-banner-wrapper .grid-boxs{
+        display:grid;
+        grid-template-columns: minmax(300px, 868px) minmax(200px, 500px);
+        justify-content:space-between;
 
-{%- style -%}
-  @media screen and (max-width: 749px) {
-    .collection-hero--with-image .collection-hero__inner {
-      padding-bottom: calc({{ settings.media_shadow_vertical_offset | at_least: 0 }}px + 2rem);
-    }
+      }
+      #{{ id }} .back-link,
+      #{{ id }} .back-link a,
+      #{{ id }} .back-link span{
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 14px;
+          line-height: 20px;
+          letter-spacing: 0;
+          vertical-align: middle;
+          margin-bottom: 10px; /* paragraph spacing */
+          padding-top:40px;
+          color:#212133;
+        }
+        #{{ id }} .back-link span{
+          text-decoration:underline;
+        }
+      #{{ id }} .collection-title h1{
+
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 600;
+        font-style: normal;
+        font-size: 32px;
+        line-height: 36px;
+        letter-spacing: 5%;
+        text-transform: uppercase;
+        vertical-align: middle;
+        color:#30309F;
+        margin-block:48px;
+      }
+
+      #{{ id }} .collection-dec {
+         font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 14px;
+        line-height: 20px;
+        letter-spacing: 0;
+        vertical-align: middle;
+        color:#222426;
+        margin-bottom: 10px; /* paragraph spacing */
+      }
+      #{{ id }} .collection-dec *  {
+          font-size: 14px !important;
+
+      }
+      #{{ id }} .collection-dec p{
+        margin:0 !important;
+      }
+      #{{ id }} .collection-dec h2{
+        margin-top:0 !important;
+      }
+      /* New styles for expandable description */
+      #{{ id }} .collection-dec-wrapper {
+        position: relative;
+      }
+
+      #{{ id }} .collection-dec.collapsed {
+        max-height: 60px;
+        overflow: hidden;
+      }
+
+      #{{ id }} .collection-dec.expanded {
+        max-height: none;
+      }
+
+      #{{ id }} .see-more-btn {
+        background: none;
+        border: none;
+        color: #222426;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        text-decoration: underline;
+        margin-top: 5px;
+        display: inline-block;
+        padding:0;
+      }
+
+      #{{ id }} .see-more-btn:hover {
+        color: #212133;
+      }
+
+     #{{ id }} .tags-box {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;     /* allow horizontal scrolling */
+    overflow-y: hidden;
+    -ms-overflow-style: none;  /* IE/Edge */
+    scrollbar-width: none;     /* Firefox */
+    white-space: nowrap;
+    margin-top:48px;
   }
-{%- endstyle -%}
 
-<div class="collection-hero{% if section.settings.show_collection_image and collection.image %} collection-hero--with-image{% endif %} color-{{ section.settings.color_scheme }} gradient">
-  <div class="collection-hero__inner page-width {% if settings.animations_reveal_on_scroll %} scroll-trigger animate--fade-in{% endif %}">
-    <div class="collection-hero__text-wrapper">
-      <h1 class="collection-hero__title">
-        <span class="visually-hidden">{{ 'sections.collection_template.title' | t }}: </span>
-        {{- collection.title | escape -}}
-      </h1>
+  /* Chrome / Edge / Safari */
+  #{{ id }} .tags-box::-webkit-scrollbar {
+    display: none;
+  }
 
-      {%- if section.settings.show_collection_description -%}
-        <div class="collection-hero__description rte">{{ collection.description }}</div>
-      {%- endif -%}
-    </div>
+  #{{ id }} .tags-box button{
+    padding:15.5px 16px;
+    background:#EBEBFF;
+    border:none;
 
-    {%- if section.settings.show_collection_image and collection.image -%}
-      <div class="collection-hero__image-container media gradient">
-        <img
-          srcset="
-            {%- if collection.image.width >= 165 -%}{{ collection.image | image_url: width: 165 }} 165w,{%- endif -%}
-            {%- if collection.image.width >= 360 -%}{{ collection.image | image_url: width: 360 }} 360w,{%- endif -%}
-            {%- if collection.image.width >= 535 -%}{{ collection.image | image_url: width: 535 }} 535w,{%- endif -%}
-            {%- if collection.image.width >= 750 -%}{{ collection.image | image_url: width: 750 }} 750w,{%- endif -%}
-            {%- if collection.image.width >= 1070 -%}{{ collection.image | image_url: width: 1070 }} 1070w,{%- endif -%}
-            {%- if collection.image.width >= 1500 -%}{{ collection.image | image_url: width: 1500 }} 1500w,{%- endif -%}
-            {{ collection.image | image_url }} {{ collection.image.width }}w
-          "
-          src="{{ collection.image | image_url: width: 750 }}"
-          sizes="(min-width: {{ settings.page_width }}px) {{ settings.page_width | minus: 100 | divided_by: 2 }}px, (min-width: 750px) calc(50vw - 130px), calc(50vw - 55px)"
-          alt="{{ collection.image.alt | escape }}"
-          width="{{ collection.image.width }}"
-          height="{{ collection.image.height }}"
-        >
+
+  }
+
+
+
+      @media screen and (max-width: 750px){
+        .rating{
+          display:none;
+        }
+        #{{ id }} .collection-banner-wrapper .grid-boxs{
+        grid-template-columns: 1fr;
+        }
+
+      }
+
+
+      
+{% endstyle %}
+<section id="{{ id }}">
+  <div class="collection-banner-wrapper">
+    <div class="grid-boxs">
+      <div class="contetent-side">
+        <div class="back-link">
+          <a href="{{ routes.root_url }}">Home</a> |
+          <span>{{ collection.handle }}</span>
+        </div>
+        <div class="collection-title">
+          <h1>{{ collection.title }}</h1>
+        </div>
+        <div class="collection-dec-wrapper">
+          <div class="collection-dec collapsed" id="collection-description-{{ id }}">
+            {{ collection.description }}
+          </div>
+          <button class="see-more-btn" id="see-more-btn-{{ id }}">Read More</button>
+        </div>
       </div>
-    {%- endif -%}
-  </div>
+      <div class="rating">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when '@app' %}
+              {% render block %}
+            {% when 'rating' %}
+              <div class="liquid">
+                {{ block.settings.liquid }}
+              </div>
+            {% else %}
+
+          {% endcase %}
+        {% endfor %}
+      </div>
+    </div>
+    <div class="tags-box">
+  {% for tag in collection.all_tags %}
+
+    {% assign has_number = false %}
+
+    {% if tag contains '0' or
+          tag contains '1' or
+          tag contains '2' or
+          tag contains '3' or
+          tag contains '4' or
+          tag contains '5' or
+          tag contains '6' or
+          tag contains '7' or
+          tag contains '8' or
+          tag contains '9' %}
+      {% assign has_number = true %}
+    {% endif %}
+
+    {% unless has_number %}
+      <button>{{ tag }}</button>
+    {% endunless %}
+
+  {% endfor %}
 </div>
+
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const description = document.getElementById('collection-description-{{ id }}');
+    const seeMoreBtn = document.getElementById('see-more-btn-{{ id }}');
+
+    // Check if description content is long enough to need truncation
+    if (description.scrollHeight > 82) {
+      // Show "See More" button only if content is long
+      seeMoreBtn.style.display = 'inline-block';
+
+      seeMoreBtn.addEventListener('click', function () {
+        if (description.classList.contains('collapsed')) {
+          description.classList.remove('collapsed');
+          description.classList.add('expanded');
+          seeMoreBtn.textContent = 'See Less';
+        } else {
+          description.classList.remove('expanded');
+          description.classList.add('collapsed');
+          seeMoreBtn.textContent = 'See More';
+        }
+      });
+    } else {
+      // Hide button if content is short
+      seeMoreBtn.style.display = 'none';
+      description.classList.remove('collapsed');
+    }
+  });
+</script>
 
 {% schema %}
 {
   "name": "t:sections.main-collection-banner.name",
   "class": "section",
-  "settings": [
+  "settings": [],
+  "blocks": [
     {
-      "type": "paragraph",
-      "content": "t:sections.main-collection-banner.settings.paragraph.content"
+      "type": "@app"
     },
     {
-      "type": "checkbox",
-      "id": "show_collection_description",
-      "default": true,
-      "label": "t:sections.main-collection-banner.settings.show_collection_description.label"
-    },
+      "type": "rating",
+      "name": "rating",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "liquid",
+          "label": "Star Rating"
+        }
+      ]
+    }
+  ],
+  "presets": [
     {
-      "type": "checkbox",
-      "id": "show_collection_image",
-      "default": false,
-      "label": "t:sections.main-collection-banner.settings.show_collection_image.label"
-    },
-    {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "t:sections.all.colors.label",
-      "default": "scheme-1"
+      "name": "Collection Banner"
     }
   ]
 }

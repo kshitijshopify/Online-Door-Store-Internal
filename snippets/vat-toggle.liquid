@@ -1,0 +1,175 @@
+{% comment %}
+  VAT Toggle Snippet
+  Usage: {% render 'vat-toggle' %}
+{% endcomment %}
+
+{% style %}
+  /* VAT Toggle Styles */
+  .cst-vat-container-1 {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+    font-family: inherit;
+  }
+
+  .cst-vat-text-1 {
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: ##FFFFFF;
+    text-align: center;
+    min-width: 40px;
+  }
+
+  .cst-vat-toggler-1 {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 26px;
+    flex-shrink: 0;
+  }
+
+  .cst-vat-toggler-1 input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .cst-slider-1 {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #30309F;
+    border-radius: 34px;
+    transition: 0.4s ease;
+    border: 2px solid #FFF;
+  }
+
+  .cst-slider-1::before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 2px;
+    top: 2px;
+    background-color: #FFF;
+    border-radius: 50%;
+    transition: 0.4s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  .cst-vat-toggler-1 input:checked + .cst-slider-1::before {
+    transform: translateX(26px);
+    background-color: #30309F;
+  }
+
+  .cst-vat-toggler-1 input:checked + .cst-slider-1 {
+    background-color: #FFF;
+    /* border-color: #30309F; */
+  }
+
+  /* Mobile specific adjustments */
+  /* @media (max-width: 768px) {
+    .cst-vat-container-1 {
+      gap: 8px;
+    }
+    
+    .cst-vat-text-1 {
+      font-size: 11px;
+      min-width: 35px;
+    }
+    
+    .cst-vat-toggler-1 {
+      width: 44px;
+      height: 22px;
+    }
+    
+    .cst-slider-1::before {
+      height: 14px;
+      width: 14px;
+      left: 2px;
+      top: 2px;
+    }
+    
+    .cst-vat-toggler-1 input:checked + .cst-slider-1::before {
+      transform: translateX(22px);
+    }
+  } */
+{% endstyle %}
+
+<div class="cst-vat-container-1" data-vat-toggle>
+  <span class="cst-vat-text-1 active" data-vat-text="inc">Inc. VAT</span>
+  
+  <label class="cst-vat-toggler-1">
+    <input type="checkbox" id="vatToggle">
+    <span class="cst-slider-1"></span>
+  </label>
+  
+  <span class="cst-vat-text-1 inactive" data-vat-text="exc">Exc. VAT</span>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const vatContainer = document.querySelector('[data-vat-toggle]');
+    if (!vatContainer) return;
+
+    const toggleInput = vatContainer.querySelector('#vatToggle');
+    const incText = vatContainer.querySelector('[data-vat-text="inc"]');
+    const excText = vatContainer.querySelector('[data-vat-text="exc"]');
+
+    // Initialize from localStorage if available
+    const savedVatState = localStorage.getItem('vatToggleState');
+    if (savedVatState === 'excluded') {
+      toggleInput.checked = true;
+      updateTextStates(true);
+    } else {
+      updateTextStates(false);
+    }
+
+    function updateTextStates(isExc) {
+      if (isExc) {
+        incText.classList.remove('active');
+        incText.classList.add('inactive');
+        excText.classList.remove('inactive');
+        excText.classList.add('active');
+      } else {
+        incText.classList.remove('inactive');
+        incText.classList.add('active');
+        excText.classList.remove('active');
+        excText.classList.add('inactive');
+      }
+    }
+
+    toggleInput.addEventListener("change", function() {
+      const isExc = this.checked;
+      updateTextStates(isExc);
+
+      if (isExc) {
+        localStorage.setItem('vatToggleState', 'excluded');
+      } else {
+        localStorage.setItem('vatToggleState', 'included');
+      }
+
+      // Dispatch custom event for other components to listen to
+      document.dispatchEvent(new CustomEvent('vatStateChanged', {
+        detail: { vatIncluded: !isExc }
+      }));
+    });
+
+    // Also make the text labels clickable
+    incText.addEventListener('click', function() {
+      toggleInput.checked = false;
+      toggleInput.dispatchEvent(new Event('change'));
+    });
+
+    excText.addEventListener('click', function() {
+      toggleInput.checked = true;
+      toggleInput.dispatchEvent(new Event('change'));
+    });
+  });
+</script>

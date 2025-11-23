@@ -1,0 +1,553 @@
+{% assign section_id = section.id | handle %}
+<style>
+  #{{ section_id }}.doors-gallery {
+    width: 100%;
+    padding-block:96px;
+  }
+
+  #{{ section_id }} .doors-gallery-wrapper {
+    text-align: center;
+    max-width:100%;
+    margin:0 auto;
+    overflow: hidden;
+  }
+
+  #{{ section_id }}.doors-gallery h3 {
+    font-size: 32px;
+    font-weight: 500;
+    color: #30309F;
+    line-height: 36px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 56px;
+    -webkit-text-stroke: 1.6px;
+  }
+
+  #{{ section_id }} .swiper {
+    max-width: 80%;
+    overflow: visible;
+    width: 100%;
+  }
+
+  #{{ section_id }} .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width:96.6% !important;
+  }
+  #{{ section_id }} .swiper-wrapper{
+    gap:1px;
+  }
+
+  #{{ section_id }} .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 1px;
+  }
+
+  #{{ section_id }} .gallery-grid .image-wrapper {
+    width:100%;
+    height:100%;
+    aspect-ratio: 1 / 1;
+  }
+  #{{ section_id }} .gallery-grid .image-wrapper.large {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+  #{{ section_id }} .gallery-grid img {
+    width: 100%;
+    height:100%;
+    max-width: 99%;
+    max-height:99%;
+    object-fit: cover;
+  }
+  #{{ section_id }} .gallery-grid .image-wrapper.large img{
+    max-width: 100%;
+    max-height:100%;
+  }
+
+  #{{ section_id }} .cst-navigation-container {
+    display: flex;
+    width: 100%;
+    justify-content: {{ section.settings.nav_alignment }};
+    box-sizing: border-box;
+  }
+
+  #{{ section_id }} .cst-navigations {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    margin-top:56px;
+  }
+
+  #{{ section_id }} .cst-link-btn {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-inline: 32px;
+    height: 56px;
+    text-wrap: nowrap;
+    white-space: nowrap;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.4s;
+    box-sizing: border-box;
+    -webkit-text-stroke: 0.4px;
+  }
+
+  #{{ section_id }} .cst-link-btn-outline,
+  #{{ section_id }} .cst-link-btn-fill:hover {
+    color: #212133;
+    background: transparent;
+    border: 1px solid #212133;
+  }
+
+  #{{ section_id }} .cst-link-btn-fill,
+  #{{ section_id }} .cst-link-btn-outline:hover {
+    color: #fff;
+    background-color: {{ section.settings.nav_color }};
+    border: 1px solid {{ section.settings.nav_color }};
+  }
+
+  #{{ section_id }} .cst-slider-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+    color: {{ section.settings.nav_color }};
+    opacity: 1;
+    transition: all 0.4s;
+    box-sizing: border-box;
+  }
+
+  #{{ section_id }} .cst-slider-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: {{ section.settings.nav_color }};
+  }
+
+  #{{ section_id }} .cst-slider-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+
+  #{{ section_id }} .cst-navigations:has(.cst-slider-prev-btn:disabled):has(.cst-slider-next-btn:disabled) .cst-slider-btn {
+    display: none;
+  }
+
+
+  @media (max-width: 768px) {
+    #{{ section_id }} .gallery-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap:8px;
+    }
+    #{{ section_id }} .swiper {
+      max-width: 100%;
+    }
+    #{{ section_id }} .swiper-slide {
+      width:100% !important;
+    }
+    #{{ section_id }}.doors-gallery {
+      padding-block:56px;
+      padding-inline:16px;
+    }
+    #{{ section_id }} .gallery-grid .image-wrapper.large {
+      grid-column: span 3;
+    }
+    #{{ section_id }} .cst-navigations .cst-slider-btn {
+      display: none;
+    }
+  }
+
+  {% comment %} Navigation and Pagination Style {% endcomment %}
+
+  #{{ section_id }} .cst-nav-pagi-container {
+    display: none;
+    justify-content: center;
+    align-items: center;
+  }
+  #{{ section_id }} .cst-nav-pagi-container:has(.cst-slider-prev-btn:disabled):has(.cst-slider-next-btn:disabled) {
+    display: none;
+  }
+  #{{ section_id }} .cst-navigator  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-top: 40px;
+  }
+  #{{ section_id }} .cst-slider-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+    color: #212133;
+    opacity: 1;
+    transition: all 0.4s;
+    box-sizing: border-box;
+  }
+  #{{ section_id }} .cst-slider-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: #212133;
+  }
+  #{{ section_id }} .cst-slider-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+  }
+  #{{ section_id }} .cst-navigator:has(.cst-slider-prev-btn:disabled):has(.cst-slider-next-btn:disabled) .cst-slider-btn {
+    display: none;
+  }
+  #{{ section_id }} .cst-swiper-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  #{{ section_id }} .cst-swiper-pagination .swiper-pagination-bullet {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    opacity: 1;
+    border: 1px solid #212133;
+    background-color: transparent;
+  }
+  #{{ section_id }} .cst-swiper-pagination .swiper-pagination-bullet-active {
+    background-color: #212133;
+  }
+  @media (max-width: 768px) {
+   #{{ section_id }} .cst-nav-pagi-container{
+      display:flex;
+    }
+    #{{ section_id }} .cst-slider-next-btn-def,
+    #{{ section_id }} .cst-slider-prev-btn-def{
+      display:none;
+    }
+    
+  }
+</style>
+
+<section class="doors-gallery" id="{{ section_id }}">
+  <div class="doors-gallery-wrapper">
+    <h3>{{ section.settings.section_title }}</h3>
+
+    <div class="swiper doorsSwiper">
+      <div class="swiper-wrapper">
+        {% for block in section.blocks %}
+          <div class="swiper-slide" {{ block.shopify_attributes }}>
+            <div class="gallery-grid">
+              {% if block.settings.image_1 %}
+                <div class="image-wrapper large" style="">
+                  <img
+                    src="{{ block.settings.image_1 | img_url: '800x800' }}"
+                    alt="{{ block.settings.image_1.alt | escape }}"
+                    width="auto"
+                    height="auto"
+                    loading="lazy"
+                  >
+                </div>
+              {% endif %}
+
+              {% if block.settings.image_2 %}
+                <div class="image-wrapper">
+                  <img
+                    src="{{ block.settings.image_2 | img_url: '800x800' }}"
+                    alt="{{ block.settings.image_2.alt | escape }}"
+                    loading="lazy"
+                    width="auto"
+                    height="auto"
+                  >
+                </div>
+              {% endif %}
+
+              {% if block.settings.image_3 %}
+                <div class="image-wrapper">
+                  <img
+                    src="{{ block.settings.image_3 | img_url: '400x400' }}"
+                    alt="{{ block.settings.image_3.alt | escape }}"
+                    loading="lazy"
+                    width="auto"
+                    height="auto"
+                  >
+                </div>
+              {% endif %}
+
+              {% if block.settings.image_4 %}
+                <div class="image-wrapper">
+                  <img
+                    src="{{ block.settings.image_4 | img_url: '400x400' }}"
+                    alt="{{ block.settings.image_4.alt | escape }}"
+                    loading="lazy"
+                    width="auto"
+                    height="auto"
+                  >
+                </div>
+              {% endif %}
+
+              {% if block.settings.image_5 %}
+                <div class="image-wrapper">
+                  <img
+                    src="{{ block.settings.image_5 | img_url: '400x400' }}"
+                    alt="{{ block.settings.image_5.alt | escape }}"
+                    loading="lazy"
+                    width="auto"
+                    height="auto"
+                  >
+                </div>
+              {% endif %}
+
+              {% if block.settings.image_6 %}
+                <div class="image-wrapper">
+                  <img
+                    src="{{ block.settings.image_6 | img_url: '400x400' }}"
+                    alt="{{ block.settings.image_6.alt | escape }}"
+                    loading="lazy"
+                    width="auto"
+                    height="auto"
+                  >
+                </div>
+              {% endif %}
+
+              {% if block.settings.image_7 %}
+                <div class="image-wrapper">
+                  <img
+                    src="{{ block.settings.image_7 | img_url: '400x400' }}"
+                    alt="{{ block.settings.image_7.alt | escape }}"
+                    loading="lazy"
+                    width="auto"
+                    height="auto"
+                  >
+                </div>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% comment %} Navigation & Pagination {% endcomment %}
+    <div class="cst-nav-pagi-container">
+      <div class="cst-navigator">
+        {% if section.blocks.size > 1 %}
+          <button class="cst-slider-btn cst-slider-prev-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 16" fill="currentColor">
+              <path d="M0.28125 7.03125L7.03125 0.28125C7.3125 0 7.82812 0 8.10938 0.28125C8.39062 0.5625 8.39062 1.07812 8.10938 1.35938L2.625 6.79688H23.3438C23.7188 6.79688 24.0938 7.17188 24.0938 7.54688C24.0938 7.96875 23.7188 8.29688 23.3438 8.29688H2.625L8.10938 13.7812C8.39062 14.0625 8.39062 14.5781 8.10938 14.8594C7.82812 15.1406 7.3125 15.1406 7.03125 14.8594L0.28125 8.10938C0 7.82812 0 7.3125 0.28125 7.03125Z" fill="currentColor"/>
+            </svg>
+          </button>
+        {% endif %}
+        <div class="cst-swiper-pagination"></div>
+        {% if section.blocks.size > 1 %}
+          <button class="cst-slider-btn cst-slider-next-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 16" fill="currentColor">
+              <path d="M23.7656 8.10938L17.0156 14.8594C16.7344 15.1406 16.2188 15.1406 15.9375 14.8594C15.6562 14.5781 15.6562 14.0625 15.9375 13.7812L21.4219 8.29688H0.75C0.328125 8.29688 0 7.96875 0 7.54688C0 7.17188 0.328125 6.79688 0.75 6.79688H21.4219L15.9375 1.35938C15.6562 1.07812 15.6562 0.5625 15.9375 0.28125C16.2188 0 16.7344 0 17.0156 0.28125L23.7656 7.03125C24.0469 7.3125 24.0469 7.82812 23.7656 8.10938Z" fill="currentColor"/>
+            </svg>
+          </button>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="cst-navigation-container">
+      <div class="cst-navigations">
+        {% if section.blocks.size > 1 %}
+          <button class="cst-slider-btn cst-slider-prev-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 16" fill="currentColor">
+              <path d="M0.28125 7.03125L7.03125 0.28125C7.3125 0 7.82812 0 8.10938 0.28125C8.39062 0.5625 8.39062 1.07812 8.10938 1.35938L2.625 6.79688H23.3438C23.7188 6.79688 24.0938 7.17188 24.0938 7.54688C24.0938 7.96875 23.7188 8.29688 23.3438 8.29688H2.625L8.10938 13.7812C8.39062 14.0625 8.39062 14.5781 8.10938 14.8594C7.82812 15.1406 7.3125 15.1406 7.03125 14.8594L0.28125 8.10938C0 7.82812 0 7.3125 0.28125 7.03125Z" fill="currentColor"/>
+            </svg>
+          </button>
+        {% endif %}
+
+        {% if section.settings.button_label != blank %}
+          <a
+            href="{{ section.settings.button_link }}"
+            class="cst-link-btn cst-link-btn-outline"
+          >
+            {{ section.settings.button_label }}
+          </a>
+        {% endif %}
+
+        {% if section.blocks.size > 1 %}
+          <button class="cst-slider-btn cst-slider-next-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 16" fill="currentColor">
+              <path d="M23.7656 8.10938L17.0156 14.8594C16.7344 15.1406 16.2188 15.1406 15.9375 14.8594C15.6562 14.5781 15.6562 14.0625 15.9375 13.7812L21.4219 8.29688H0.75C0.328125 8.29688 0 7.96875 0 7.54688C0 7.17188 0.328125 6.79688 0.75 6.79688H21.4219L15.9375 1.35938C15.6562 1.07812 15.6562 0.5625 15.9375 0.28125C16.2188 0 16.7344 0 17.0156 0.28125L23.7656 7.03125C24.0469 7.3125 24.0469 7.82812 23.7656 8.10938Z" fill="currentColor"/>
+            </svg>
+          </button>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var swiper = new Swiper('#{{ section_id }} .doorsSwiper', {
+      loop: false,
+      pagination: {
+        el: '#{{ section_id }} .cst-swiper-pagination',
+        clickable: true,
+      },
+      spaceBetween: 0,
+
+      // temporary navigation (will be updated dynamically)
+      navigation: {
+        nextEl: '#{{ section_id }} .cst-slider-next-btn',
+        prevEl: '#{{ section_id }} .cst-slider-prev-btn',
+      },
+
+      on: {
+        init: function () {
+          updateNavigation(this);
+        },
+        resize: function () {
+          updateNavigation(this);
+        },
+      },
+    });
+
+    function updateNavigation(swiper) {
+      if (window.innerWidth <= 768) {
+        // Mobile navigation
+        swiper.params.navigation.nextEl = '#{{ section_id }} .cst-slider-next-btn';
+        swiper.params.navigation.prevEl = '#{{ section_id }} .cst-slider-prev-btn';
+      } else {
+        // Desktop navigation
+        swiper.params.navigation.nextEl = '#{{ section_id }} .cst-slider-next-btn-def';
+        swiper.params.navigation.prevEl = '#{{ section_id }} .cst-slider-prev-btn-def';
+      }
+      swiper.navigation.init();
+      swiper.navigation.update();
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Doors Gallery (2 Rows)",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "OUR DOORS IN REAL PLACES"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "find the perfect door"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "color",
+      "id": "nav_color",
+      "label": "Navigation Color",
+      "default": "#3a2a84"
+    },
+    {
+      "type": "select",
+      "id": "nav_alignment",
+      "label": "Navigation Alignment",
+      "options": [
+        {
+          "value": "flex-start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "flex-end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Main Image (Large)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_3",
+          "label": "Image 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_4",
+          "label": "Image 4"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_5",
+          "label": "Image 5"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_6",
+          "label": "Image 6"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_7",
+          "label": "Image 7"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Doors Gallery (2 Rows)",
+      "category": "Image Gallery",
+      "blocks": [
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        },
+        {
+          "type": "slide"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

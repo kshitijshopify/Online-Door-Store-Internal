@@ -2,7 +2,7 @@ class CartRemoveButton extends HTMLElement {
   constructor() {
     super();
 
-    this.addEventListener('click', (event) => {
+    this.querySelector('a, button')?.addEventListener('click', (event) => {
       event.preventDefault();
       const cartItems = this.closest('cart-items') || this.closest('cart-drawer-items');
       cartItems.updateQuantity(this.dataset.index, 0, event);
@@ -93,6 +93,7 @@ class CartItems extends HTMLElement {
         .then((response) => response.text())
         .then((responseText) => {
           const html = new DOMParser().parseFromString(responseText, 'text/html');
+          
           const selectors = ['cart-drawer-items', '.cart-drawer__footer'];
           for (const selector of selectors) {
             const targetElement = document.querySelector(selector);
@@ -111,6 +112,7 @@ class CartItems extends HTMLElement {
         .then((responseText) => {
           const html = new DOMParser().parseFromString(responseText, 'text/html');
           const sourceQty = html.querySelector('cart-items');
+         
           this.innerHTML = sourceQty.innerHTML;
         })
         .catch((e) => {
@@ -123,7 +125,7 @@ class CartItems extends HTMLElement {
     return [
       {
         id: 'main-cart-items',
-        section: document.getElementById('main-cart-items').dataset.id,
+        section: document.getElementById('main-cart-items')?.dataset?.id,
         selector: '.js-contents',
       },
       {
@@ -138,7 +140,7 @@ class CartItems extends HTMLElement {
       },
       {
         id: 'main-cart-footer',
-        section: document.getElementById('main-cart-footer').dataset.id,
+        section: document.getElementById('main-cart-footer')?.dataset?.id,
         selector: '.js-contents',
       },
     ];
@@ -173,6 +175,8 @@ class CartItems extends HTMLElement {
             return;
           }
 
+          
+          
           this.classList.toggle('is-empty', parsedState.item_count === 0);
           const cartDrawerWrapper = document.querySelector('cart-drawer');
           const cartFooter = document.getElementById('main-cart-footer');
@@ -181,12 +185,22 @@ class CartItems extends HTMLElement {
           if (cartDrawerWrapper) cartDrawerWrapper.classList.toggle('is-empty', parsedState.item_count === 0);
 
           this.getSectionsToRender().forEach((section) => {
-            const elementToReplace =
-              document.getElementById(section.id).querySelector(section.selector) || document.getElementById(section.id);
-            elementToReplace.innerHTML = this.getSectionInnerHTML(
-              parsedState.sections[section.section],
-              section.selector
-            );
+            // KT updates - start
+            const elementsToChange = document.querySelectorAll(`#${section.id}`);
+            elementsToChange.forEach((el) => {
+              const elementToReplace = el.querySelector(`${section.selector}`) || el;
+              elementToReplace.innerHTML = this.getSectionInnerHTML(
+                parsedState.sections[section.section],
+                section.selector
+              );
+            });
+            // KT updates - end
+
+            // const elementToReplace = document.getElementById(section.id).querySelector(section.selector) || document.getElementById(section.id);
+            // elementToReplace.innerHTML = this.getSectionInnerHTML(
+            //   parsedState.sections[section.section],
+            //   section.selector
+            // );
           });
           const updatedValue = parsedState.items[line - 1] ? parsedState.items[line - 1].quantity : undefined;
           let message = '';
@@ -244,6 +258,9 @@ class CartItems extends HTMLElement {
 
   getSectionInnerHTML(html, selector) {
     return new DOMParser().parseFromString(html, 'text/html').querySelector(selector).innerHTML;
+
+  
+
   }
 
   enableLoading(line) {
